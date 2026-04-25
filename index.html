@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07070d; --bg-2: #0d0d18;
+  --panel: #11111c; --panel-2: #181826;
+  --border: #232336; --border-hi: #353550;
+  --text: #ebebf5; --muted: #6a6a85;
+  --accent: #22d3ee; --accent-2: #a78bfa;
+  --green: #34d399; --red: #f87171; --warn: #fbbf24;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg); color: var(--text); font-family: var(--sans);
+  min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+body {
+  background-image:
+    radial-gradient(circle at 15% -10%, rgba(34, 211, 238, 0.08), transparent 50%),
+    radial-gradient(circle at 85% 100%, rgba(167, 139, 250, 0.08), transparent 50%);
+  background-attachment: fixed;
+  padding: 24px 20px 60px;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.logo { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-weight: 700; color: #07070d; font-size: 18px; box-shadow: 0 0 24px rgba(34, 211, 238, 0.3); }
+.brand h1 { font-family: var(--mono); font-size: 18px; font-weight: 600; letter-spacing: -0.5px; }
+.brand h1 .accent { color: var(--accent); }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+button, .btn {
+  background: var(--panel); color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 18px; border-radius: 8px; cursor: pointer;
+  font-size: 13px; font-weight: 500; font-family: var(--sans);
+  transition: all 0.15s ease;
+  display: inline-flex; align-items: center; gap: 8px; letter-spacing: 0.3px;
+}
+button:hover, .btn:hover { border-color: var(--border-hi); background: var(--panel-2); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; color: #07070d; font-weight: 700; }
+.btn-primary:hover { filter: brightness(1.1); box-shadow: 0 4px 20px rgba(34, 211, 238, 0.3); }
+.btn-ghost { background: transparent; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+
+.total-card {
+  background: linear-gradient(135deg, var(--panel) 0%, var(--bg-2) 100%);
+  border: 1px solid var(--border); border-radius: 18px;
+  padding: 32px; margin-bottom: 24px;
+  position: relative; overflow: hidden;
+}
+.total-card::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(34, 211, 238, 0.12), transparent 60%); pointer-events: none; }
+.total-card::after { content: ''; position: absolute; bottom: -50%; left: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(167, 139, 250, 0.1), transparent 60%); pointer-events: none; }
+.total-label { color: var(--muted); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; position: relative; z-index: 1; }
+.total-amount { font-family: var(--mono); font-size: 52px; font-weight: 700; letter-spacing: -2px; margin-bottom: 12px; position: relative; z-index: 1; font-variant-numeric: tabular-nums; }
+.total-change { font-family: var(--mono); font-size: 15px; font-weight: 500; position: relative; z-index: 1; }
+.total-change.up { color: var(--green); }
+.total-change.down { color: var(--red); }
+.total-change .delta-aud { color: var(--muted); margin-left: 6px; font-size: 13px; }
+.total-meta { position: absolute; top: 24px; right: 24px; font-family: var(--mono); font-size: 11px; color: var(--muted); z-index: 1; text-align: right; }
+.total-pnl-row { margin-top: 14px; display: flex; gap: 24px; flex-wrap: wrap; position: relative; z-index: 1; font-family: var(--mono); font-size: 12px; }
+.total-pnl-item { color: var(--muted); }
+.total-pnl-item .v { font-weight: 700; margin-left: 6px; font-size: 14px; }
+
+.section { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 22px; margin-bottom: 20px; }
+.section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+.section h2 { font-family: var(--mono); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; display: flex; align-items: center; gap: 10px; }
+.section h2::before { content: ''; display: inline-block; width: 4px; height: 14px; background: var(--accent); border-radius: 2px; }
+.section h2.ai::before { background: var(--accent-2); }
+.section-count { font-family: var(--mono); font-size: 11px; color: var(--muted); background: var(--bg); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); }
+
+.wallet-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.wallet-card { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 8px; transition: border-color 0.15s; }
+.wallet-card:hover { border-color: var(--border-hi); }
+.wallet-card .label-row { display: flex; justify-content: space-between; align-items: center; }
+.wallet-card .wallet-label { font-weight: 600; font-size: 14px; }
+.chain-badge { font-family: var(--mono); font-size: 10px; padding: 3px 8px; background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 4px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.chain-badge.btc { background: rgba(251, 146, 60, 0.1); border-color: rgba(251, 146, 60, 0.3); color: #fb923c; }
+.chain-badge.kas { background: rgba(112, 199, 186, 0.1); border-color: rgba(112, 199, 186, 0.3); color: #70c7ba; }
+.chain-badge.mexc { background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.3); color: var(--warn); }
+.wallet-card .address { font-family: var(--mono); font-size: 11px; color: var(--muted); word-break: break-all; }
+.wallet-card .address a { color: inherit; text-decoration: none; }
+.wallet-card .address a:hover { color: var(--accent); }
+.wallet-card .wallet-value { font-family: var(--mono); font-size: 16px; font-weight: 600; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.wallet-card .wallet-error { font-family: var(--mono); font-size: 11px; color: var(--red); margin-top: 4px; }
+.remove-btn { background: transparent; border: 1px solid transparent; color: var(--muted); font-size: 11px; padding: 4px 10px; align-self: flex-end; margin-top: -2px; }
+.remove-btn:hover { color: var(--red); border-color: var(--red); background: rgba(248, 113, 113, 0.05); }
+
+.table-wrapper { overflow-x: auto; margin: -22px -22px -22px -22px; padding: 0 22px; }
+table { width: 100%; border-collapse: collapse; min-width: 720px; }
+th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+th { color: var(--muted); font-family: var(--mono); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+td { font-family: var(--sans); }
+tbody tr { transition: background 0.1s; }
+tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+tbody tr:last-child td { border-bottom: none; }
+td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.coin-cell { display: flex; align-items: center; gap: 12px; }
+.coin-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; background: var(--bg-2); border: 1px solid var(--border); flex-shrink: 0; }
+.coin-icon.avax { background: rgba(232, 65, 66, 0.15); color: #e84142; border-color: rgba(232, 65, 66, 0.3); }
+.coin-icon.btc { background: rgba(247, 147, 26, 0.15); color: #f7931a; border-color: rgba(247, 147, 26, 0.3); }
+.coin-icon.kas { background: rgba(112, 199, 186, 0.15); color: #70c7ba; border-color: rgba(112, 199, 186, 0.3); }
+.coin-icon.usdt, .coin-icon.usdc { background: rgba(38, 161, 123, 0.15); color: #26a17b; border-color: rgba(38, 161, 123, 0.3); }
+.coin-name { font-weight: 600; font-size: 14px; }
+.coin-fullname { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.up { color: var(--green); }
+.down { color: var(--red); }
+.muted-cell { color: var(--muted); }
+
+.alloc-bar { display: inline-flex; align-items: center; gap: 8px; justify-content: flex-end; }
+.alloc-bar-track { width: 50px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.alloc-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 2px; }
+
+.tx-list { display: flex; flex-direction: column; gap: 6px; max-height: 480px; overflow-y: auto; padding-right: 4px; }
+.tx-list::-webkit-scrollbar { width: 6px; }
+.tx-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.tx-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; transition: border-color 0.1s; }
+.tx-item:hover { border-color: var(--border-hi); }
+.tx-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.tx-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex-shrink: 0; }
+.tx-icon.in { background: rgba(52, 211, 153, 0.12); color: var(--green); }
+.tx-icon.out { background: rgba(248, 113, 113, 0.12); color: var(--red); }
+.tx-icon.buy { background: rgba(34, 211, 238, 0.12); color: var(--accent); }
+.tx-icon.sell { background: rgba(167, 139, 250, 0.12); color: var(--accent-2); }
+.tx-title { font-weight: 600; font-size: 14px; }
+.tx-meta { font-size: 11px; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
+.tx-meta a { color: var(--accent-2); text-decoration: none; }
+.tx-meta a:hover { color: var(--accent); }
+.tx-amount { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.tx-amount-val { font-weight: 600; font-size: 14px; }
+.tx-amount-sym { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+.tab-row { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.tab { padding: 6px 12px; border-radius: 6px; cursor: pointer; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid var(--border); background: var(--panel-2); color: var(--muted); transition: all 0.15s; }
+.tab:hover { color: var(--text); }
+.tab.active { background: var(--accent); color: #07070d; border-color: var(--accent); font-weight: 700; }
+
+/* AI Analyst panel */
+.ai-section { background: linear-gradient(135deg, var(--panel) 0%, rgba(167, 139, 250, 0.04) 100%); border-color: rgba(167, 139, 250, 0.2); }
+.ai-controls { display: flex; gap: 8px; flex-wrap: wrap; }
+.chat-list { display: flex; flex-direction: column; gap: 14px; max-height: 600px; overflow-y: auto; padding: 6px 0; }
+.chat-list::-webkit-scrollbar { width: 6px; }
+.chat-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.chat-empty { text-align: center; padding: 32px 20px; color: var(--muted); font-family: var(--mono); font-size: 13px; line-height: 1.7; }
+.chat-empty strong { color: var(--accent-2); }
+.chat-msg { padding: 14px 16px; border-radius: 12px; font-size: 14px; line-height: 1.65; max-width: 92%; }
+.chat-msg.user { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--bg); align-self: flex-end; font-weight: 500; }
+.chat-msg.user p { margin: 0; }
+.chat-msg.ai { background: var(--panel-2); border: 1px solid var(--border); color: var(--text); align-self: flex-start; }
+.chat-msg.ai p { margin: 0 0 10px 0; }
+.chat-msg.ai p:last-child { margin-bottom: 0; }
+.chat-msg.ai ul, .chat-msg.ai ol { margin: 8px 0 8px 22px; padding: 0; }
+.chat-msg.ai li { margin: 4px 0; }
+.chat-msg.ai strong { color: var(--accent); font-weight: 700; }
+.chat-msg.ai em { color: var(--accent-2); font-style: italic; }
+.chat-msg.ai code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-family: var(--mono); font-size: 12px; color: var(--accent); }
+.chat-msg.ai h3, .chat-msg.ai h4 { margin: 12px 0 6px; color: var(--accent); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+.chat-msg.ai h3:first-child, .chat-msg.ai h4:first-child { margin-top: 0; }
+.chat-thinking { color: var(--muted); font-family: var(--mono); font-size: 12px; padding: 12px 14px; }
+
+.chat-input-row { display: flex; gap: 8px; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
+.chat-input { flex: 1; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; font-family: var(--sans); }
+.chat-input:focus { outline: none; border-color: var(--accent-2); }
+.chat-input::placeholder { color: var(--muted); }
+
+.suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.suggestion { padding: 6px 12px; border-radius: 16px; cursor: pointer; font-size: 12px; border: 1px solid var(--border); background: var(--panel-2); color: var(--muted); font-family: var(--mono); transition: all 0.15s; }
+.suggestion:hover { color: var(--accent); border-color: var(--accent); background: rgba(34, 211, 238, 0.05); }
+
+.ai-disabled { padding: 24px; text-align: center; color: var(--muted); font-family: var(--mono); font-size: 13px; line-height: 1.7; }
+.ai-disabled code { background: var(--bg); padding: 2px 6px; border-radius: 4px; color: var(--accent); }
+
+/* Modal */
+.modal { display: none; position: fixed; inset: 0; background: rgba(7, 7, 13, 0.8); backdrop-filter: blur(8px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+.modal.active { display: flex; }
+.modal-content { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: 100%; max-width: 480px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); max-height: 90vh; overflow-y: auto; }
+.modal h3 { font-family: var(--mono); font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 22px; color: var(--accent); }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.field input, .field select { width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px; font-family: var(--mono); transition: border-color 0.15s; }
+.field input::placeholder { color: var(--muted); }
+.field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
+.field-help { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.field-help code { background: var(--bg); padding: 2px 6px; border-radius: 3px; font-family: var(--mono); }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+.status { padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; font-size: 13px; font-family: var(--mono); display: none; align-items: center; gap: 10px; }
+.status.show { display: flex; }
+.status.info { background: rgba(167, 139, 250, 0.08); border: 1px solid rgba(167, 139, 250, 0.2); color: var(--accent-2); }
+.status.error { background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.2); color: var(--red); }
+.status.success { background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); color: var(--green); }
+
+.empty { text-align: center; color: var(--muted); padding: 32px 20px; font-size: 14px; font-family: var(--mono); }
+.empty-cta { margin-top: 12px; }
+
+.spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.live-dot { display: inline-block; width: 6px; height: 6px; background: var(--green); border-radius: 50%; margin-right: 6px; animation: pulse 2s ease-in-out infinite; }
+
+@media (max-width: 700px) {
+  body { padding: 16px 14px 40px; }
+  .total-card { padding: 22px; }
+  .total-amount { font-size: 36px; letter-spacing: -1px; }
+  .total-meta { position: static; margin-top: 14px; text-align: left; }
+  th, td { padding: 10px 8px; font-size: 13px; }
+  .coin-fullname { display: none; }
+  .alloc-bar-track { display: none; }
+  .section { padding: 18px 16px; }
+  .table-wrapper { margin: -18px -16px; padding: 0 16px; }
+  .chat-msg { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="brand">
+      <div class="logo">P</div>
+      <h1>portfolio<span class="accent">.hub</span></h1>
+    </div>
+    <div class="actions">
+      <button id="refreshBtn"><span id="refreshIcon">↻</span> Refresh</button>
+      <button id="addWalletBtn" class="btn-primary">+ Add Source</button>
+    </div>
+  </header>
+
+  <div class="status" id="status"></div>
+
+  <div class="total-card">
+    <div class="total-meta" id="totalMeta"></div>
+    <div class="total-label">Total Portfolio Value</div>
+    <div class="total-amount" id="totalValue">A$0.00</div>
+    <div class="total-change" id="totalChange">—</div>
+    <div class="total-pnl-row" id="totalPnlRow"></div>
+  </div>
+
+  <section class="section">
+    <div class="section-head"><h2>Sources <span class="section-count" id="walletCount">0</span></h2></div>
+    <div id="walletList" class="wallet-list"></div>
+    <div id="walletEmpty" class="empty" style="display:none">
+      No sources tracked yet.<br>
+      <button class="btn-primary btn-sm empty-cta" onclick="document.getElementById('addWalletBtn').click()">+ Add your first source</button>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Holdings <span class="section-count" id="holdingCount">0</span></h2></div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr>
+          <th>Asset</th>
+          <th class="num">Balance</th>
+          <th class="num">Avg Cost</th>
+          <th class="num">Price</th>
+          <th class="num">P&L</th>
+          <th class="num">24h</th>
+          <th class="num">Value</th>
+          <th class="num">Alloc</th>
+        </tr></thead>
+        <tbody id="holdingsBody"></tbody>
+      </table>
+    </div>
+    <div id="holdingsEmpty" class="empty" style="display:none">Add a source to see your holdings.</div>
+  </section>
+
+  <section class="section ai-section">
+    <div class="section-head">
+      <h2 class="ai">AI Analyst</h2>
+      <div class="ai-controls">
+        <button id="briefBtn" class="btn btn-sm">⚡ Quick Brief</button>
+        <button id="clearChatBtn" class="btn btn-ghost btn-sm">Clear</button>
+      </div>
+    </div>
+    <div id="aiContent">
+      <div id="chatList" class="chat-list">
+        <div class="chat-empty" id="chatEmpty">
+          <strong>Your portfolio analyst.</strong><br>
+          Ask anything about your holdings, trades, or risk. Click <strong>Quick Brief</strong> for an instant rundown.<br><br>
+          Powered by Gemini + Groq (free) — analytical only, never gives buy/sell signals.
+        </div>
+      </div>
+      <div class="suggestions" id="suggestions">
+        <div class="suggestion" data-prompt="Give me a quick brief on my portfolio.">⚡ Quick brief</div>
+        <div class="suggestion" data-prompt="What's my biggest concentration risk right now?">⚖️ Concentration risk</div>
+        <div class="suggestion" data-prompt="How am I doing on each position? Show me cost basis vs current.">📊 P&L breakdown</div>
+        <div class="suggestion" data-prompt="Anything weird or concerning in my trade pattern?">🔍 Trade pattern check</div>
+        <div class="suggestion" data-prompt="If I wanted to de-risk, what should I be thinking about?">🛡️ De-risk checklist</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Ask the analyst — e.g. should I worry about my AVAX exposure?" autocomplete="off">
+        <button id="sendChatBtn" class="btn-primary">Send</button>
+      </div>
+    </div>
+    <div id="aiDisabled" class="ai-disabled" style="display:none">
+      AI Analyst needs a Worker URL.<br><br>
+      Add an MEXC source first (the Worker URL is reused for AI calls).<br>
+      Make sure your Worker has <code>GEMINI_API_KEY</code> and/or <code>GROQ_API_KEY</code> secrets set.<br><br>
+      Both are free, no credit card needed.
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Recent Activity <span class="section-count" id="txCount">0</span></h2></div>
+    <div class="tab-row">
+      <div class="tab active" data-filter="all">All</div>
+      <div class="tab" data-filter="onchain">On-chain</div>
+      <div class="tab" data-filter="trades">Trades</div>
+    </div>
+    <div id="txList" class="tx-list"></div>
+    <div id="txEmpty" class="empty" style="display:none">Activity will appear here after refresh.</div>
+  </section>
+</div>
+
+<div class="modal" id="addWalletModal">
+  <div class="modal-content">
+    <h3>+ Add Source</h3>
+    <div class="field">
+      <label>Type</label>
+      <select id="chainSelect">
+        <option value="avax">Avalanche C-Chain (AVAX + tokens)</option>
+        <option value="btc">Bitcoin (BTC)</option>
+        <option value="kas">Kaspa (KAS)</option>
+        <option value="mexc">MEXC Exchange (via Worker)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label id="addressLabel">Public Address</label>
+      <input type="text" id="addressInput" placeholder="0x..." autocomplete="off" spellcheck="false">
+      <div class="field-help" id="addressHelp"></div>
+    </div>
+    <div class="field">
+      <label>Label</label>
+      <input type="text" id="labelInput" placeholder="Core Main / Ledger BTC / MEXC Spot" autocomplete="off">
+    </div>
+    <div class="modal-actions">
+      <button id="cancelBtn" class="btn-ghost">Cancel</button>
+      <button id="saveWalletBtn" class="btn-primary">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// PORTFOLIO HUB v3 — On-chain + MEXC + AI Analyst
+// ============================================================
+
+const STORAGE_KEY = 'portfolioHub_v1';
+const CHAT_KEY = 'portfolioHub_chat_v1';
+
+const CHAINS = {
+  avax: {
+    name: 'Avalanche C-Chain', nativeSymbol: 'AVAX', coingeckoId: 'avalanche-2', type: 'chain',
+    validate: (a) => /^0x[a-fA-F0-9]{40}$/.test(a),
+    explorerUrl: (a) => `https://snowtrace.io/address/${a}`,
+    txUrl: (h) => `https://snowtrace.io/tx/${h}`,
+    addressLabel: 'Public Address', addressPlaceholder: '0x...',
+    addressHelp: 'Your Avalanche C-Chain wallet address (Core / MetaMask / Ledger).'
+  },
+  btc: {
+    name: 'Bitcoin', nativeSymbol: 'BTC', coingeckoId: 'bitcoin', type: 'chain',
+    validate: (a) => /^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,87}$/.test(a),
+    explorerUrl: (a) => `https://mempool.space/address/${a}`,
+    txUrl: (h) => `https://mempool.space/tx/${h}`,
+    addressLabel: 'Public Address', addressPlaceholder: 'bc1... or 1... or 3...',
+    addressHelp: 'Your Bitcoin address. For HD wallets (Ledger), add each receive address used.'
+  },
+  kas: {
+    name: 'Kaspa', nativeSymbol: 'KAS', coingeckoId: 'kaspa', type: 'chain',
+    validate: (a) => /^kaspa:[a-z0-9]{50,90}$/i.test(a),
+    explorerUrl: (a) => `https://explorer.kaspa.org/addresses/${a}`,
+    txUrl: (h) => `https://explorer.kaspa.org/txs/${h}`,
+    addressLabel: 'Public Address', addressPlaceholder: 'kaspa:...',
+    addressHelp: 'Your Kaspa address (starts with kaspa:).'
+  },
+  mexc: {
+    name: 'MEXC', nativeSymbol: 'MEXC', coingeckoId: null, type: 'exchange',
+    validate: (a) => /^https:\/\/.+/.test(a),
+    explorerUrl: () => 'https://www.mexc.com/u/orders/spot',
+    txUrl: () => 'https://www.mexc.com/u/orders/spot',
+    addressLabel: 'Cloudflare Worker URL', addressPlaceholder: 'https://your-worker.workers.dev',
+    addressHelp: 'Paste your deployed Bridge Worker URL. Test with <code>your-url/health</code> first. Same Worker is reused for AI Analyst.'
+  }
+};
+
+const MEXC_TO_CG = {
+  BTC: 'bitcoin', ETH: 'ethereum', USDT: 'tether', USDC: 'usd-coin', BUSD: 'binance-usd',
+  AVAX: 'avalanche-2', KAS: 'kaspa', SOL: 'solana', BNB: 'binancecoin',
+  DOGE: 'dogecoin', XRP: 'ripple', ADA: 'cardano', DOT: 'polkadot', LINK: 'chainlink',
+  SHIB: 'shiba-inu', LTC: 'litecoin', TRX: 'tron', ATOM: 'cosmos', NEAR: 'near',
+  ARB: 'arbitrum', OP: 'optimism', SUI: 'sui', APT: 'aptos', TON: 'the-open-network',
+  PEPE: 'pepe', FLOKI: 'floki', WIF: 'dogwifcoin', BONK: 'bonk',
+  RUNE: 'thorchain', INJ: 'injective-protocol', TIA: 'celestia', SEI: 'sei-network',
+  JUP: 'jupiter-exchange-solana', MATIC: 'matic-network', POL: 'matic-network',
+  XLM: 'stellar', BCH: 'bitcoin-cash', ETC: 'ethereum-classic', FIL: 'filecoin',
+  ICP: 'internet-computer', UNI: 'uniswap', AAVE: 'aave', RNDR: 'render-token',
+  RENDER: 'render-token', FET: 'fetch-ai', TAO: 'bittensor',
+  HBAR: 'hedera-hashgraph', VET: 'vechain', GRT: 'the-graph', SAND: 'the-sandbox',
+  MANA: 'decentraland', AXS: 'axie-infinity', GALA: 'gala', IMX: 'immutable-x',
+  STX: 'blockstack', ALGO: 'algorand', FTM: 'fantom',
+  CHZ: 'chiliz', ENJ: 'enjincoin', ZEC: 'zcash',
+  CRV: 'curve-dao-token', SNX: 'havven', COMP: 'compound-governance-token',
+  YFI: 'yearn-finance', MKR: 'maker', '1INCH': '1inch',
+  CELO: 'celo', FLOW: 'flow', PYTH: 'pyth-network',
+  ONDO: 'ondo-finance', WLD: 'worldcoin-wld', PENDLE: 'pendle', ENA: 'ethena',
+  DAI: 'dai', LDO: 'lido-dao', STRK: 'starknet', POPCAT: 'popcat',
+  BLAZE: 'blaze', GUNZ: 'gunz'
+};
+
+const STABLECOINS = new Set(['USDT', 'USDC', 'BUSD', 'DAI', 'TUSD', 'USDP', 'FDUSD']);
+
+let state = loadState();
+let chatHistory = loadChatHistory();
+let activityFilter = 'all';
+
+function loadState() {
+  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); }
+  catch (e) { console.warn('load failed', e); }
+  return { wallets: [], snapshot: null, lastRefresh: null };
+}
+function saveState() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {} }
+function loadChatHistory() {
+  try { const raw = localStorage.getItem(CHAT_KEY); if (raw) return JSON.parse(raw); }
+  catch (e) {}
+  return [];
+}
+function saveChatHistory() { try { localStorage.setItem(CHAT_KEY, JSON.stringify(chatHistory)); } catch (e) {} }
+
+function getWorkerUrl() {
+  const mexc = state.wallets.find(w => w.chain === 'mexc');
+  return mexc ? mexc.address.replace(/\/$/, '') : null;
+}
+
+// ============================================================
+// PRICES
+// ============================================================
+
+async function fetchPrices(coingeckoIds, avaxContracts = []) {
+  const result = {};
+  const ids = [...new Set(coingeckoIds.filter(Boolean))];
+  for (let i = 0; i < ids.length; i += 100) {
+    const chunk = ids.slice(i, i + 100).join(',');
+    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${chunk}&vs_currencies=aud&include_24hr_change=true`;
+    try {
+      const r = await fetch(url);
+      if (r.ok) {
+        const data = await r.json();
+        for (const [id, info] of Object.entries(data)) result[id] = { price: info.aud, change24h: info.aud_24h_change };
+      }
+    } catch (e) {}
+  }
+  if (avaxContracts.length) {
+    const list = [...new Set(avaxContracts.map(c => c.toLowerCase()))].join(',');
+    const url = `https://api.coingecko.com/api/v3/simple/token_price/avalanche?contract_addresses=${list}&vs_currencies=aud&include_24hr_change=true`;
+    try {
+      const r = await fetch(url);
+      if (r.ok) {
+        const data = await r.json();
+        for (const [c, info] of Object.entries(data)) result['avax_token:' + c] = { price: info.aud, change24h: info.aud_24h_change };
+      }
+    } catch (e) {}
+  }
+  return result;
+}
+
+// ============================================================
+// AVALANCHE
+// ============================================================
+
+const ROUTESCAN = 'https://api.routescan.io/v2/network/mainnet/evm/43114/etherscan/api';
+
+async function fetchAvax(address) {
+  const result = { native: 0, tokens: [], txs: [] };
+  try {
+    const r = await fetch(`${ROUTESCAN}?module=account&action=balance&address=${address}&tag=latest`);
+    const data = await r.json();
+    result.native = Number(data.result || 0) / 1e18;
+  } catch (e) {}
+  const tokenSet = {};
+  try {
+    const r = await fetch(`${ROUTESCAN}?module=account&action=tokentx&address=${address}&page=1&offset=200&sort=desc`);
+    const data = await r.json();
+    if (Array.isArray(data.result)) {
+      for (const tx of data.result) {
+        const c = tx.contractAddress.toLowerCase();
+        if (!tokenSet[c]) tokenSet[c] = { contract: c, symbol: tx.tokenSymbol || 'TOKEN', name: tx.tokenName || '', decimals: Number(tx.tokenDecimal) || 18 };
+        const isIn = tx.to.toLowerCase() === address.toLowerCase();
+        const decimals = Number(tx.tokenDecimal) || 18;
+        result.txs.push({ hash: tx.hash, symbol: tx.tokenSymbol || 'TOKEN', amount: Number(tx.value) / Math.pow(10, decimals), direction: isIn ? 'in' : 'out', timestamp: Number(tx.timeStamp) * 1000, chain: 'avax', kind: 'transfer' });
+      }
+    }
+  } catch (e) {}
+  for (const t of Object.values(tokenSet)) {
+    try {
+      const r = await fetch(`${ROUTESCAN}?module=account&action=tokenbalance&contractaddress=${t.contract}&address=${address}&tag=latest`);
+      const data = await r.json();
+      const bal = Number(data.result || 0) / Math.pow(10, t.decimals);
+      if (bal > 0.000001) result.tokens.push({ ...t, balance: bal });
+    } catch (e) {}
+  }
+  try {
+    const r = await fetch(`${ROUTESCAN}?module=account&action=txlist&address=${address}&page=1&offset=50&sort=desc`);
+    const data = await r.json();
+    if (Array.isArray(data.result)) {
+      for (const tx of data.result) {
+        const value = Number(tx.value) / 1e18;
+        if (value === 0) continue;
+        const isIn = tx.to.toLowerCase() === address.toLowerCase();
+        result.txs.push({ hash: tx.hash, symbol: 'AVAX', amount: value, direction: isIn ? 'in' : 'out', timestamp: Number(tx.timeStamp) * 1000, chain: 'avax', kind: 'transfer' });
+      }
+    }
+  } catch (e) {}
+  return result;
+}
+
+// ============================================================
+// BITCOIN
+// ============================================================
+
+async function fetchBtc(address) {
+  const result = { native: 0, tokens: [], txs: [] };
+  try {
+    const r = await fetch(`https://blockstream.info/api/address/${address}`);
+    const info = await r.json();
+    const funded = info.chain_stats.funded_txo_sum + info.mempool_stats.funded_txo_sum;
+    const spent = info.chain_stats.spent_txo_sum + info.mempool_stats.spent_txo_sum;
+    result.native = (funded - spent) / 1e8;
+  } catch (e) {}
+  try {
+    const r = await fetch(`https://blockstream.info/api/address/${address}/txs`);
+    const txs = await r.json();
+    if (Array.isArray(txs)) {
+      for (const tx of txs.slice(0, 50)) {
+        let inflow = 0, outflow = 0;
+        for (const v of tx.vout || []) if (v.scriptpubkey_address === address) inflow += v.value;
+        for (const i of tx.vin || []) if (i.prevout && i.prevout.scriptpubkey_address === address) outflow += i.prevout.value;
+        const net = (inflow - outflow) / 1e8;
+        if (net === 0) continue;
+        result.txs.push({ hash: tx.txid, symbol: 'BTC', amount: Math.abs(net), direction: net > 0 ? 'in' : 'out', timestamp: ((tx.status && tx.status.block_time) || Math.floor(Date.now() / 1000)) * 1000, chain: 'btc', kind: 'transfer' });
+      }
+    }
+  } catch (e) {}
+  return result;
+}
+
+// ============================================================
+// KASPA
+// ============================================================
+
+async function fetchKas(address) {
+  const result = { native: 0, tokens: [], txs: [] };
+  try {
+    const r = await fetch(`https://api.kaspa.org/addresses/${encodeURIComponent(address)}/balance`);
+    const data = await r.json();
+    result.native = Number(data.balance || 0) / 1e8;
+  } catch (e) {}
+  try {
+    const r = await fetch(`https://api.kaspa.org/addresses/${encodeURIComponent(address)}/full-transactions-page?limit=50&resolve_previous_outpoints=light`);
+    const txs = await r.json();
+    if (Array.isArray(txs)) {
+      for (const tx of txs) {
+        let inflow = 0, outflow = 0;
+        for (const out of (tx.outputs || [])) if (out.script_public_key_address === address) inflow += Number(out.amount) || 0;
+        for (const inp of (tx.inputs || [])) if (inp.previous_outpoint_address === address) outflow += Number(inp.previous_outpoint_amount) || 0;
+        const net = (inflow - outflow) / 1e8;
+        if (net === 0) continue;
+        result.txs.push({ hash: tx.transaction_id, symbol: 'KAS', amount: Math.abs(net), direction: net > 0 ? 'in' : 'out', timestamp: Number(tx.block_time) || Date.now(), chain: 'kas', kind: 'transfer' });
+      }
+    }
+  } catch (e) {}
+  return result;
+}
+
+// ============================================================
+// MEXC
+// ============================================================
+
+async function fetchMexc(workerUrl) {
+  const result = { native: 0, tokens: [], txs: [] };
+  const base = workerUrl.replace(/\/$/, '');
+  let balances = [];
+  try {
+    const r = await fetch(`${base}/balances`);
+    const data = await r.json();
+    if (data.error) throw new Error(data.error);
+    balances = data.balances || [];
+  } catch (e) { result.error = `Worker call failed: ${e.message}`; return result; }
+
+  for (const b of balances) {
+    const total = Number(b.free) + Number(b.locked);
+    if (total <= 0) continue;
+    const cgId = MEXC_TO_CG[b.asset.toUpperCase()] || null;
+    result.tokens.push({ symbol: b.asset, balance: total, coingeckoId: cgId, source: 'mexc' });
+  }
+
+  const tradeable = result.tokens.filter(t => !STABLECOINS.has(t.symbol)).slice(0, 8);
+  for (const t of tradeable) {
+    const symbol = `${t.symbol}USDT`;
+    try {
+      const r = await fetch(`${base}/trades?symbol=${symbol}&limit=100`);
+      const data = await r.json();
+      if (data.error || !Array.isArray(data.trades)) continue;
+      for (const tr of data.trades) {
+        result.txs.push({
+          hash: String(tr.id), symbol: t.symbol, quoteSymbol: 'USDT',
+          amount: Number(tr.qty), quoteAmount: Number(tr.quoteQty), price: Number(tr.price),
+          direction: tr.isBuyer ? 'buy' : 'sell',
+          timestamp: Number(tr.time),
+          chain: 'mexc', kind: 'trade', symbolPair: symbol
+        });
+      }
+    } catch (e) {}
+  }
+  return result;
+}
+
+const FETCHERS = { avax: fetchAvax, btc: fetchBtc, kas: fetchKas, mexc: fetchMexc };
+
+// ============================================================
+// COST BASIS (FIFO from MEXC trades)
+// ============================================================
+
+function calcCostBasis(trades) {
+  // trades for one asset (in USDT pricing)
+  const sorted = trades.slice().sort((a, b) => a.timestamp - b.timestamp);
+  const buys = []; // FIFO: { qty, priceUsdt }
+  let realizedPnlUsdt = 0;
+  let totalBoughtQty = 0, totalBoughtCost = 0;
+  let totalSoldQty = 0, totalSoldProceeds = 0;
+  let firstBuyTime = null;
+  for (const t of sorted) {
+    if (t.direction === 'buy') {
+      buys.push({ qty: t.amount, priceUsdt: t.price });
+      totalBoughtQty += t.amount;
+      totalBoughtCost += t.amount * t.price;
+      if (!firstBuyTime) firstBuyTime = t.timestamp;
+    } else {
+      let remaining = t.amount;
+      totalSoldQty += t.amount;
+      totalSoldProceeds += t.amount * t.price;
+      while (remaining > 0.000001 && buys.length > 0) {
+        const oldest = buys[0];
+        const consumed = Math.min(remaining, oldest.qty);
+        realizedPnlUsdt += consumed * (t.price - oldest.priceUsdt);
+        oldest.qty -= consumed;
+        remaining -= consumed;
+        if (oldest.qty <= 0.000001) buys.shift();
+      }
+    }
+  }
+  const remainingQty = buys.reduce((s, b) => s + b.qty, 0);
+  const remainingCostUsdt = buys.reduce((s, b) => s + b.qty * b.priceUsdt, 0);
+  const avgCostUsdt = remainingQty > 0 ? remainingCostUsdt / remainingQty : 0;
+  return { avgCostUsdt, remainingQty, realizedPnlUsdt, totalBoughtQty, totalSoldQty, firstBuyTime };
+}
+
+// ============================================================
+// REFRESH
+// ============================================================
+
+let isRefreshing = false;
+
+async function refreshAll() {
+  if (isRefreshing) return;
+  if (!state.wallets.length) { showStatus('Add a source to start tracking.', 'info'); return; }
+  isRefreshing = true;
+  document.getElementById('refreshIcon').innerHTML = '<span class="spinner"></span>';
+  showStatus('<span class="spinner"></span> Fetching wallet & exchange data...', 'info');
+
+  const walletData = {};
+  for (const w of state.wallets) {
+    try { walletData[w.id] = await FETCHERS[w.chain](w.address); }
+    catch (e) { walletData[w.id] = { native: 0, tokens: [], txs: [], error: e.message }; }
+  }
+
+  const cgIds = new Set();
+  const avaxContracts = new Set();
+  for (const w of state.wallets) {
+    const chain = CHAINS[w.chain];
+    if (chain.coingeckoId) cgIds.add(chain.coingeckoId);
+    for (const t of walletData[w.id].tokens) {
+      if (t.contract) avaxContracts.add(t.contract);
+      if (t.coingeckoId) cgIds.add(t.coingeckoId);
+    }
+  }
+  // Always fetch USDT for AUD conversion of cost basis
+  cgIds.add('tether');
+
+  showStatus('<span class="spinner"></span> Fetching live AUD prices...', 'info');
+  const prices = await fetchPrices([...cgIds], [...avaxContracts]);
+  const usdtAud = prices.tether?.price || 1.5; // fallback approx
+
+  // Holdings aggregation
+  const holdings = {};
+  for (const w of state.wallets) {
+    const d = walletData[w.id];
+    const chain = CHAINS[w.chain];
+    if (chain.type === 'chain' && d.native > 0) {
+      const key = chain.nativeSymbol;
+      if (!holdings[key]) holdings[key] = { symbol: chain.nativeSymbol, name: chain.name, balance: 0, price: prices[chain.coingeckoId]?.price || 0, change24h: prices[chain.coingeckoId]?.change24h || 0, isNative: true, chain: w.chain };
+      holdings[key].balance += d.native;
+    }
+    for (const t of d.tokens) {
+      const key = t.symbol;
+      let priceInfo;
+      if (t.contract) priceInfo = prices['avax_token:' + t.contract];
+      else if (t.coingeckoId) priceInfo = prices[t.coingeckoId];
+      if (!holdings[key]) holdings[key] = { symbol: t.symbol, name: t.name || t.symbol, balance: 0, price: priceInfo?.price || 0, change24h: priceInfo?.change24h || 0, contract: t.contract, coingeckoId: t.coingeckoId, chain: t.source || w.chain };
+      else if (!holdings[key].price && priceInfo?.price) { holdings[key].price = priceInfo.price; holdings[key].change24h = priceInfo.change24h; }
+      holdings[key].balance += t.balance;
+    }
+  }
+
+  // Cost basis: aggregate ALL MEXC trades by symbol, then FIFO each
+  const tradesBySymbol = {};
+  for (const w of state.wallets) {
+    for (const tx of walletData[w.id].txs) {
+      if (tx.kind !== 'trade') continue;
+      if (!tradesBySymbol[tx.symbol]) tradesBySymbol[tx.symbol] = [];
+      tradesBySymbol[tx.symbol].push(tx);
+    }
+  }
+  let totalRealizedPnlAud = 0;
+  for (const [sym, trades] of Object.entries(tradesBySymbol)) {
+    const cb = calcCostBasis(trades);
+    if (holdings[sym]) {
+      holdings[sym].avgCostUsdt = cb.avgCostUsdt;
+      holdings[sym].avgCost = cb.avgCostUsdt * usdtAud; // AUD
+      holdings[sym].costBasisQty = cb.remainingQty;
+      holdings[sym].realizedPnlAud = cb.realizedPnlUsdt * usdtAud;
+      holdings[sym].firstBuyTime = cb.firstBuyTime;
+      // Unrealized P&L: for the qty we have cost basis on
+      const trackQty = Math.min(holdings[sym].balance, cb.remainingQty);
+      if (cb.avgCostUsdt > 0 && holdings[sym].price > 0) {
+        const unrealAud = trackQty * (holdings[sym].price - holdings[sym].avgCost);
+        holdings[sym].unrealizedPnlAud = unrealAud;
+        holdings[sym].unrealizedPnlPct = ((holdings[sym].price - holdings[sym].avgCost) / holdings[sym].avgCost) * 100;
+      }
+    }
+    totalRealizedPnlAud += cb.realizedPnlUsdt * usdtAud;
+  }
+
+  // Activity feed
+  const allTxs = [];
+  for (const w of state.wallets) for (const tx of walletData[w.id].txs) allTxs.push({ ...tx, walletLabel: w.label });
+  allTxs.sort((a, b) => b.timestamp - a.timestamp);
+
+  // Total unrealized P&L (sum across positions where we have cost basis)
+  let totalUnrealizedPnlAud = 0;
+  for (const h of Object.values(holdings)) if (h.unrealizedPnlAud != null) totalUnrealizedPnlAud += h.unrealizedPnlAud;
+
+  state.snapshot = {
+    walletData, holdings, txs: allTxs.slice(0, 100), prices,
+    totalRealizedPnlAud, totalUnrealizedPnlAud, usdtAud,
+    lastRefresh: Date.now()
+  };
+  state.lastRefresh = Date.now();
+  saveState();
+
+  document.getElementById('refreshIcon').textContent = '↻';
+  isRefreshing = false;
+  const errors = state.wallets.filter(w => walletData[w.id].error).map(w => `${w.label}: ${walletData[w.id].error}`);
+  if (errors.length) showStatus('⚠ Some sources failed: ' + errors.join(' | '), 'error');
+  else { showStatus(`✓ Updated ${new Date().toLocaleTimeString('en-AU')}`, 'success'); setTimeout(hideStatus, 3000); }
+  render();
+}
+
+// ============================================================
+// FORMATTERS
+// ============================================================
+
+function fmtAUD(v, dp = 2) {
+  if (v == null || isNaN(v)) return '—';
+  if (Math.abs(v) >= 1000000) return 'A$' + (v / 1000000).toFixed(2) + 'M';
+  return 'A$' + Number(v).toLocaleString('en-AU', { minimumFractionDigits: dp, maximumFractionDigits: dp });
+}
+function fmtAUDSigned(v) {
+  if (v == null || isNaN(v)) return '—';
+  return (v >= 0 ? '+' : '−') + fmtAUD(Math.abs(v));
+}
+function fmtNum(v, dp = 4) {
+  if (v == null || isNaN(v)) return '—';
+  if (v >= 1000) return Number(v).toLocaleString('en-AU', { maximumFractionDigits: 2 });
+  return Number(v).toLocaleString('en-AU', { maximumFractionDigits: dp });
+}
+function fmtPct(v) { if (v == null || isNaN(v)) return '—'; return (v >= 0 ? '+' : '') + v.toFixed(2) + '%'; }
+function fmtPrice(v) {
+  if (v == null || isNaN(v) || v === 0) return '—';
+  if (v < 0.0001) return 'A$' + v.toExponential(2);
+  if (v < 0.01) return 'A$' + v.toFixed(6);
+  if (v < 1) return 'A$' + v.toFixed(4);
+  return fmtAUD(v);
+}
+function shortAddr(a) { if (!a) return ''; if (a.length <= 24) return a; return a.slice(0, 12) + '…' + a.slice(-8); }
+function timeAgo(ts) {
+  const s = (Date.now() - ts) / 1000;
+  if (s < 60) return Math.floor(s) + 's ago';
+  if (s < 3600) return Math.floor(s / 60) + 'm ago';
+  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  if (s < 86400 * 7) return Math.floor(s / 86400) + 'd ago';
+  return new Date(ts).toLocaleDateString('en-AU');
+}
+function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+// Tiny markdown renderer for AI responses
+function renderMd(text) {
+  let html = escapeHtml(text);
+  // Code spans
+  html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+  // Bold
+  html = html.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+  // Italic
+  html = html.replace(/(^|[\s(])\*([^*\n]+)\*([\s).,!?]|$)/g, '$1<em>$2</em>$3');
+  // Headers
+  html = html.replace(/^####\s+(.+)$/gm, '<h4>$1</h4>');
+  html = html.replace(/^###\s+(.+)$/gm, '<h4>$1</h4>');
+  html = html.replace(/^##\s+(.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^#\s+(.+)$/gm, '<h3>$1</h3>');
+  // Lists
+  const lines = html.split('\n');
+  let out = [];
+  let inList = false;
+  for (const line of lines) {
+    const m = line.match(/^[\s]*[-*•]\s+(.+)$/) || line.match(/^[\s]*\d+\.\s+(.+)$/);
+    if (m) {
+      if (!inList) { out.push('<ul>'); inList = true; }
+      out.push(`<li>${m[1]}</li>`);
+    } else {
+      if (inList) { out.push('</ul>'); inList = false; }
+      out.push(line);
+    }
+  }
+  if (inList) out.push('</ul>');
+  // Paragraphs
+  return out.join('\n').split(/\n\n+/).map(p => {
+    p = p.trim();
+    if (!p) return '';
+    if (p.startsWith('<')) return p;
+    return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+  }).join('');
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+
+function render() { renderTotal(); renderWallets(); renderHoldings(); renderTxs(); renderAi(); }
+
+function renderTotal() {
+  const totalEl = document.getElementById('totalValue');
+  const changeEl = document.getElementById('totalChange');
+  const metaEl = document.getElementById('totalMeta');
+  const pnlRow = document.getElementById('totalPnlRow');
+
+  if (!state.snapshot) {
+    totalEl.textContent = 'A$0.00';
+    changeEl.textContent = state.wallets.length ? 'Click ↻ Refresh to load' : '—';
+    changeEl.className = 'total-change';
+    metaEl.textContent = '';
+    pnlRow.innerHTML = '';
+    return;
+  }
+  const list = Object.values(state.snapshot.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) }));
+  const total = list.reduce((s, h) => s + h.value, 0);
+  let weighted24 = 0;
+  for (const h of list) if (total > 0 && h.change24h != null && !isNaN(h.change24h)) weighted24 += (h.value / total) * h.change24h;
+  totalEl.textContent = fmtAUD(total);
+  changeEl.className = 'total-change ' + (weighted24 >= 0 ? 'up' : 'down');
+  const change24Value = total * weighted24 / 100;
+  const arrow = weighted24 >= 0 ? '▲' : '▼';
+  changeEl.innerHTML = `${arrow} ${fmtPct(weighted24)} <span class="delta-aud">(${change24Value >= 0 ? '+' : '−'}${fmtAUD(Math.abs(change24Value))} 24h)</span>`;
+  metaEl.innerHTML = `<span class="live-dot"></span>Updated ${timeAgo(state.snapshot.lastRefresh)}`;
+  // P&L row
+  const realized = state.snapshot.totalRealizedPnlAud || 0;
+  const unrealized = state.snapshot.totalUnrealizedPnlAud || 0;
+  pnlRow.innerHTML = `
+    <span class="total-pnl-item">Realized P&L <span class="v ${realized >= 0 ? 'up' : 'down'}">${fmtAUDSigned(realized)}</span></span>
+    <span class="total-pnl-item">Unrealized P&L <span class="v ${unrealized >= 0 ? 'up' : 'down'}">${fmtAUDSigned(unrealized)}</span></span>
+  `;
+}
+
+function renderWallets() {
+  const wrap = document.getElementById('walletList');
+  const empty = document.getElementById('walletEmpty');
+  document.getElementById('walletCount').textContent = state.wallets.length;
+  if (!state.wallets.length) { wrap.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  wrap.innerHTML = state.wallets.map(w => {
+    const data = state.snapshot?.walletData?.[w.id];
+    const chain = CHAINS[w.chain];
+    let value = 0;
+    if (data) {
+      if (chain.type === 'chain') value = data.native * (state.snapshot.prices?.[chain.coingeckoId]?.price || 0);
+      for (const t of data.tokens) {
+        let p = 0;
+        if (t.contract) p = state.snapshot.prices?.['avax_token:' + t.contract]?.price || 0;
+        else if (t.coingeckoId) p = state.snapshot.prices?.[t.coingeckoId]?.price || 0;
+        value += t.balance * p;
+      }
+    }
+    const errorHtml = data?.error ? `<div class="wallet-error">⚠ ${escapeHtml(data.error)}</div>` : '';
+    let addressDisplay;
+    try { addressDisplay = chain.type === 'exchange' ? new URL(w.address).host : shortAddr(w.address); }
+    catch { addressDisplay = shortAddr(w.address); }
+    return `
+      <div class="wallet-card">
+        <div class="label-row"><span class="wallet-label">${escapeHtml(w.label)}</span><span class="chain-badge ${w.chain}">${chain.nativeSymbol}</span></div>
+        <div class="address"><a href="${chain.explorerUrl(w.address)}" target="_blank" rel="noopener">${escapeHtml(addressDisplay)}</a></div>
+        <div class="wallet-value">${data && !data.error ? fmtAUD(value) : '—'}</div>
+        ${errorHtml}
+        <button class="remove-btn" onclick="removeWallet('${w.id}')">Remove</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderHoldings() {
+  const body = document.getElementById('holdingsBody');
+  const empty = document.getElementById('holdingsEmpty');
+  const count = document.getElementById('holdingCount');
+  if (!state.snapshot || !Object.keys(state.snapshot.holdings).length) {
+    body.innerHTML = ''; count.textContent = '0';
+    empty.style.display = state.wallets.length ? 'block' : 'none';
+    if (state.wallets.length && !state.snapshot) empty.textContent = 'Click ↻ Refresh to load holdings.';
+    return;
+  }
+  empty.style.display = 'none';
+  const list = Object.values(state.snapshot.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) })).sort((a, b) => b.value - a.value);
+  const total = list.reduce((s, h) => s + h.value, 0);
+  count.textContent = list.length;
+  body.innerHTML = list.map(h => {
+    const allocation = total > 0 ? (h.value / total * 100) : 0;
+    const change24Class = h.change24h > 0 ? 'up' : h.change24h < 0 ? 'down' : '';
+    const pnlPct = h.unrealizedPnlPct;
+    const pnlAud = h.unrealizedPnlAud;
+    const pnlClass = pnlPct == null ? 'muted-cell' : pnlPct > 0 ? 'up' : pnlPct < 0 ? 'down' : '';
+    const pnlDisplay = pnlPct == null ? '—' : `${fmtPct(pnlPct)}<br><span style="font-size:11px;opacity:0.7">${fmtAUDSigned(pnlAud)}</span>`;
+    return `
+      <tr>
+        <td>
+          <div class="coin-cell">
+            <div class="coin-icon ${h.symbol.toLowerCase()}">${escapeHtml(h.symbol.slice(0, 4))}</div>
+            <div>
+              <div class="coin-name">${escapeHtml(h.symbol)}</div>
+              ${h.name && h.name !== h.symbol ? `<div class="coin-fullname">${escapeHtml(h.name)}</div>` : ''}
+            </div>
+          </div>
+        </td>
+        <td class="num">${fmtNum(h.balance)}</td>
+        <td class="num ${h.avgCost ? '' : 'muted-cell'}">${h.avgCost ? fmtPrice(h.avgCost) : '—'}</td>
+        <td class="num">${fmtPrice(h.price)}</td>
+        <td class="num ${pnlClass}">${pnlDisplay}</td>
+        <td class="num ${change24Class}">${fmtPct(h.change24h)}</td>
+        <td class="num">${fmtAUD(h.value)}</td>
+        <td class="num">
+          <div class="alloc-bar">
+            <div class="alloc-bar-track"><div class="alloc-bar-fill" style="width:${allocation.toFixed(1)}%"></div></div>
+            <span>${allocation.toFixed(1)}%</span>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function renderTxs() {
+  const list = document.getElementById('txList');
+  const empty = document.getElementById('txEmpty');
+  const count = document.getElementById('txCount');
+  if (!state.snapshot?.txs?.length) {
+    list.innerHTML = ''; count.textContent = '0';
+    empty.style.display = 'block'; empty.textContent = 'Activity will appear here after refresh.';
+    return;
+  }
+  let filtered = state.snapshot.txs;
+  if (activityFilter === 'onchain') filtered = filtered.filter(t => t.kind === 'transfer');
+  else if (activityFilter === 'trades') filtered = filtered.filter(t => t.kind === 'trade');
+  count.textContent = filtered.length;
+  if (!filtered.length) { list.innerHTML = ''; empty.style.display = 'block'; empty.textContent = 'No items match this filter.'; return; }
+  empty.style.display = 'none';
+  list.innerHTML = filtered.map(tx => {
+    const chain = CHAINS[tx.chain];
+    if (tx.kind === 'trade') {
+      const sign = tx.direction === 'buy' ? '+' : '−';
+      const arrow = tx.direction === 'buy' ? '↘' : '↗';
+      const verb = tx.direction === 'buy' ? 'Bought' : 'Sold';
+      return `
+        <div class="tx-item">
+          <div class="tx-left">
+            <div class="tx-icon ${tx.direction}">${arrow}</div>
+            <div>
+              <div class="tx-title">${verb} ${escapeHtml(tx.symbol)}</div>
+              <div class="tx-meta">${escapeHtml(tx.walletLabel)} · ${escapeHtml(tx.symbolPair)} @ ${fmtNum(tx.price, 6)} USDT · ${timeAgo(tx.timestamp)}</div>
+            </div>
+          </div>
+          <div class="tx-amount"><div class="tx-amount-val ${tx.direction === 'buy' ? 'up' : 'down'}">${sign}${fmtNum(tx.amount, 6)}</div><div class="tx-amount-sym">${escapeHtml(tx.symbol)}</div></div>
+        </div>
+      `;
+    } else {
+      const sign = tx.direction === 'in' ? '+' : '−';
+      const arrow = tx.direction === 'in' ? '↓' : '↑';
+      return `
+        <div class="tx-item">
+          <div class="tx-left">
+            <div class="tx-icon ${tx.direction}">${arrow}</div>
+            <div>
+              <div class="tx-title">${tx.direction === 'in' ? 'Received' : 'Sent'} ${escapeHtml(tx.symbol)}</div>
+              <div class="tx-meta">${escapeHtml(tx.walletLabel)} · ${timeAgo(tx.timestamp)} · <a href="${chain.txUrl(tx.hash)}" target="_blank" rel="noopener">view tx</a></div>
+            </div>
+          </div>
+          <div class="tx-amount"><div class="tx-amount-val ${tx.direction === 'in' ? 'up' : 'down'}">${sign}${fmtNum(tx.amount, 6)}</div><div class="tx-amount-sym">${escapeHtml(tx.symbol)}</div></div>
+        </div>
+      `;
+    }
+  }).join('');
+}
+
+function renderAi() {
+  const workerUrl = getWorkerUrl();
+  document.getElementById('aiContent').style.display = workerUrl ? '' : 'none';
+  document.getElementById('aiDisabled').style.display = workerUrl ? 'none' : 'block';
+  renderChat();
+}
+
+function renderChat() {
+  const list = document.getElementById('chatList');
+  const empty = document.getElementById('chatEmpty');
+  if (!chatHistory.length) { empty.style.display = 'block'; list.innerHTML = ''; list.appendChild(empty); return; }
+  empty.style.display = 'none';
+  list.innerHTML = chatHistory.map(m => {
+    if (m.role === 'user') return `<div class="chat-msg user"><p>${escapeHtml(m.content)}</p></div>`;
+    return `<div class="chat-msg ai">${renderMd(m.content)}</div>`;
+  }).join('');
+  list.scrollTop = list.scrollHeight;
+}
+
+function appendChat(role, content) {
+  chatHistory.push({ role, content });
+  // Keep last 30 messages
+  if (chatHistory.length > 30) chatHistory = chatHistory.slice(-30);
+  saveChatHistory();
+  renderChat();
+}
+
+// ============================================================
+// AI ANALYST
+// ============================================================
+
+function buildPortfolioContext() {
+  if (!state.snapshot) return null;
+  const sources = state.wallets.map(w => CHAINS[w.chain].name + (w.label ? ` (${w.label})` : ''));
+  const list = Object.values(state.snapshot.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) })).sort((a, b) => b.value - a.value);
+  const totalAud = list.reduce((s, h) => s + h.value, 0);
+  const holdings = list.map(h => ({
+    symbol: h.symbol,
+    balance: Number(h.balance.toFixed(8)),
+    price: h.price,
+    change24h: h.change24h,
+    value: h.value,
+    allocation: totalAud > 0 ? (h.value / totalAud * 100) : 0,
+    avgCost: h.avgCost,
+    unrealizedPnlPct: h.unrealizedPnlPct,
+    unrealizedPnlAud: h.unrealizedPnlAud
+  }));
+  const recentTrades = state.snapshot.txs.filter(t => t.kind === 'trade').slice(0, 30);
+  const recentTransfers = state.snapshot.txs.filter(t => t.kind === 'transfer').slice(0, 15);
+  return {
+    totalAud,
+    sources,
+    holdings,
+    recentTrades,
+    recentTransfers,
+    realizedPnlAud: state.snapshot.totalRealizedPnlAud
+  };
+}
+
+let isChatting = false;
+
+async function sendToAi(message, isQuickBrief = false) {
+  const workerUrl = getWorkerUrl();
+  if (!workerUrl) { alert('Add a MEXC source first to enable AI Analyst.'); return; }
+  if (isChatting) return;
+  if (!state.snapshot) { alert('Refresh your portfolio first so the analyst has data to work with.'); return; }
+
+  isChatting = true;
+  const briefBtn = document.getElementById('briefBtn');
+  const sendBtn = document.getElementById('sendChatBtn');
+  briefBtn.disabled = true; sendBtn.disabled = true;
+
+  // Show user message + thinking placeholder
+  appendChat('user', message);
+  chatHistory.push({ role: 'assistant', content: '<span class="chat-thinking"><span class="spinner"></span> analysing...</span>' });
+  renderChat();
+
+  const portfolio = buildPortfolioContext();
+  const endpoint = isQuickBrief ? '/analyze' : '/chat';
+  const body = isQuickBrief
+    ? { portfolio }
+    : { portfolio, message, history: chatHistory.slice(0, -2).filter(m => !m.content.includes('chat-thinking')) };
+
+  try {
+    const r = await fetch(`${workerUrl}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await r.json();
+    // Remove placeholder
+    chatHistory.pop();
+    if (data.error) appendChat('assistant', `**Error:** ${data.error}`);
+    else {
+      const providerTag = data.provider ? `\n\n---\n*via ${data.provider}*` : '';
+      appendChat('assistant', (data.reply || '(no response)') + providerTag);
+    }
+  } catch (e) {
+    chatHistory.pop();
+    appendChat('assistant', `**Worker call failed:** ${e.message}\n\nCheck your Worker has \`GEMINI_API_KEY\` and/or \`GROQ_API_KEY\` secrets set.`);
+  } finally {
+    isChatting = false;
+    briefBtn.disabled = false; sendBtn.disabled = false;
+  }
+}
+
+// ============================================================
+// STATUS / MODAL
+// ============================================================
+
+function showStatus(html, type = 'info') { const el = document.getElementById('status'); el.innerHTML = html; el.className = 'status show ' + type; }
+function hideStatus() { document.getElementById('status').className = 'status'; }
+
+function openModal() { document.getElementById('addWalletModal').classList.add('active'); updateModalForChain(); document.getElementById('addressInput').focus(); }
+function closeModal() { document.getElementById('addWalletModal').classList.remove('active'); document.getElementById('addressInput').value = ''; document.getElementById('labelInput').value = ''; }
+function updateModalForChain() {
+  const chain = document.getElementById('chainSelect').value;
+  const cfg = CHAINS[chain];
+  document.getElementById('addressLabel').textContent = cfg.addressLabel;
+  document.getElementById('addressInput').placeholder = cfg.addressPlaceholder;
+  document.getElementById('addressHelp').innerHTML = cfg.addressHelp || '';
+}
+
+function addWallet() {
+  const chain = document.getElementById('chainSelect').value;
+  let address = document.getElementById('addressInput').value.trim();
+  if (CHAINS[chain].type === 'exchange') address = address.replace(/\/$/, '');
+  const label = document.getElementById('labelInput').value.trim() || `${CHAINS[chain].nativeSymbol} ${CHAINS[chain].type === 'exchange' ? 'exchange' : 'wallet'}`;
+  if (!CHAINS[chain].validate(address)) { alert(`That doesn't look like a valid ${CHAINS[chain].name} ${CHAINS[chain].type === 'exchange' ? 'Worker URL' : 'address'}.`); return; }
+  if (state.wallets.find(w => w.address.toLowerCase() === address.toLowerCase() && w.chain === chain)) { alert('That source is already added.'); return; }
+  state.wallets.push({ id: 'w_' + Math.random().toString(36).slice(2, 10), chain, address, label });
+  saveState(); closeModal(); refreshAll();
+}
+
+function removeWallet(id) {
+  if (!confirm('Remove this source from tracking?')) return;
+  state.wallets = state.wallets.filter(w => w.id !== id);
+  if (state.snapshot?.walletData) delete state.snapshot.walletData[id];
+  saveState(); refreshAll();
+}
+window.removeWallet = removeWallet;
+
+// ============================================================
+// EVENTS + INIT
+// ============================================================
+
+document.getElementById('addWalletBtn').addEventListener('click', openModal);
+document.getElementById('cancelBtn').addEventListener('click', closeModal);
+document.getElementById('saveWalletBtn').addEventListener('click', addWallet);
+document.getElementById('refreshBtn').addEventListener('click', refreshAll);
+document.getElementById('chainSelect').addEventListener('change', updateModalForChain);
+document.getElementById('addWalletModal').addEventListener('click', (e) => { if (e.target.id === 'addWalletModal') closeModal(); });
+document.getElementById('addressInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') addWallet(); });
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activityFilter = tab.dataset.filter;
+    renderTxs();
+  });
+});
+
+// AI controls
+document.getElementById('briefBtn').addEventListener('click', () => sendToAi('Give me a quick brief on my portfolio.', true));
+document.getElementById('clearChatBtn').addEventListener('click', () => {
+  if (!confirm('Clear chat history?')) return;
+  chatHistory = []; saveChatHistory(); renderChat();
+});
+document.getElementById('sendChatBtn').addEventListener('click', () => {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  sendToAi(msg);
+});
+document.getElementById('chatInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('sendChatBtn').click();
+});
+document.querySelectorAll('.suggestion').forEach(s => {
+  s.addEventListener('click', () => sendToAi(s.dataset.prompt));
+});
+
+render();
+if (state.wallets.length && (!state.snapshot || Date.now() - (state.lastRefresh || 0) > 2 * 60 * 1000)) setTimeout(refreshAll, 200);
+</script>
+</body>
+</html>
