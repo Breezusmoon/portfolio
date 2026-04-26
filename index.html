@@ -81,11 +81,30 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 .section-count { font-family: var(--mono); font-size: 11px; color: var(--muted); background: var(--bg); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); }
 
 /* Sources */
-.wallet-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
-.wallet-card { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 7px; transition: border-color 0.15s; }
-.wallet-card:hover { border-color: var(--border-hi); }
+.wallet-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.wallet-card { background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px; transition: all 0.15s; position: relative; overflow: hidden; }
+.wallet-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); opacity: 0.6; }
+.wallet-card.has-error::before { background: var(--red); }
+.wallet-card.chain-mexc::before, .wallet-card.chain-coinspot::before { background: var(--warn); }
+.wallet-card.chain-btc::before { background: #fb923c; }
+.wallet-card.chain-kas::before { background: #70c7ba; }
+.wallet-card.chain-eth::before { background: #a3aed6; }
+.wallet-card.chain-base::before { background: #3a7eff; }
+.wallet-card.chain-solana::before { background: #b986ff; }
+.wallet-card.chain-avax::before { background: #e84142; }
+.wallet-card:hover { border-color: var(--border-hi); transform: translateY(-1px); box-shadow: 0 4px 18px rgba(0,0,0,0.2); }
 .wallet-card .label-row { display: flex; justify-content: space-between; align-items: center; }
-.wallet-card .wallet-label { font-weight: 600; font-size: 13px; }
+.wallet-card .wallet-label { font-weight: 600; font-size: 14px; }
+.wallet-card .wallet-value { font-family: var(--mono); font-size: 22px; font-weight: 700; margin-top: 6px; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.wallet-card .wallet-pnl { font-family: var(--mono); font-size: 12px; display: flex; gap: 10px; flex-wrap: wrap; }
+.wallet-card .wallet-pnl-item { display: flex; flex-direction: column; gap: 2px; }
+.wallet-card .wallet-pnl-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.7px; }
+.wallet-card .wallet-pnl-value { font-weight: 600; font-variant-numeric: tabular-nums; }
+.wallet-card .wallet-stats { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--border); margin-top: 4px; font-size: 11px; color: var(--muted); }
+.wallet-card .wallet-actions { display: flex; gap: 6px; align-items: center; }
+.wallet-card .dust-toggle { font-size: 10px; color: var(--muted); cursor: pointer; padding: 3px 7px; border-radius: 4px; border: 1px solid transparent; transition: all 0.1s; user-select: none; }
+.wallet-card .dust-toggle:hover { color: var(--accent); border-color: var(--border); }
+.wallet-card .dust-toggle.active { color: var(--accent); border-color: var(--accent); background: rgba(34,211,238,0.07); }
 .chain-badge { font-family: var(--mono); font-size: 9px; padding: 3px 7px; background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 4px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
 .chain-badge.btc { background: rgba(251, 146, 60, 0.1); border-color: rgba(251, 146, 60, 0.3); color: #fb923c; }
 .chain-badge.kas { background: rgba(112, 199, 186, 0.1); border-color: rgba(112, 199, 186, 0.3); color: #70c7ba; }
@@ -93,12 +112,40 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 .chain-badge.eth { background: rgba(124, 130, 168, 0.1); border-color: rgba(124, 130, 168, 0.3); color: #a3aed6; }
 .chain-badge.base { background: rgba(0, 82, 255, 0.15); border-color: rgba(0, 82, 255, 0.4); color: #3a7eff; }
 .chain-badge.solana { background: rgba(153, 69, 255, 0.15); border-color: rgba(153, 69, 255, 0.4); color: #b986ff; }
+.chain-badge.avax { background: rgba(232,65,66,0.13); border-color: rgba(232,65,66,0.4); color: #ff6b6b; }
 .wallet-card .address { font-family: var(--mono); font-size: 11px; color: var(--muted); word-break: break-all; }
 .wallet-card .address a { color: inherit; text-decoration: none; }
-.wallet-card .wallet-value { font-family: var(--mono); font-size: 15px; font-weight: 600; margin-top: 4px; font-variant-numeric: tabular-nums; }
 .wallet-card .wallet-error { font-family: var(--mono); font-size: 10px; color: var(--red); margin-top: 4px; }
-.remove-btn { background: transparent; border: 1px solid transparent; color: var(--muted); font-size: 11px; padding: 3px 8px; align-self: flex-end; margin-top: -2px; }
+.remove-btn { background: transparent; border: 1px solid transparent; color: var(--muted); font-size: 10px; padding: 3px 8px; border-radius: 4px; cursor: pointer; transition: all 0.1s; }
 .remove-btn:hover { color: var(--red); border-color: var(--red); }
+
+/* Hub cards (DCA + Alerts) */
+.hub-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+@media (max-width: 720px) { .hub-cards { grid-template-columns: 1fr; } }
+.hub-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; min-height: 130px; display: flex; flex-direction: column; }
+.hub-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.hub-card-dca::before { background: linear-gradient(90deg, #34d399, #22d3ee); }
+.hub-card-alerts::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.hub-card:hover { border-color: var(--border-hi); transform: translateY(-1px); box-shadow: 0 4px 18px rgba(0,0,0,0.2); }
+.hub-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.hub-title { font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text); }
+.hub-badge { background: rgba(34,211,238,0.1); color: var(--accent); border: 1px solid rgba(34,211,238,0.3); border-radius: 6px; padding: 2px 8px; font-family: var(--mono); font-size: 11px; font-weight: 600; min-width: 24px; text-align: center; }
+.hub-card-alerts .hub-badge { background: rgba(245,158,11,0.1); color: #f59e0b; border-color: rgba(245,158,11,0.3); }
+.hub-card-alerts .hub-badge.has-triggered { background: rgba(239,68,68,0.13); color: #ef4444; border-color: rgba(239,68,68,0.4); animation: pulse-badge 1.5s ease-in-out infinite; }
+@keyframes pulse-badge { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+.hub-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.hub-empty { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.6; }
+.hub-cta { color: var(--accent); font-family: var(--mono); font-size: 11px; }
+.hub-list { display: flex; flex-direction: column; gap: 6px; }
+.hub-item { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.hub-item:last-child { border-bottom: none; }
+.hub-item-symbol { font-weight: 600; font-family: var(--mono); }
+.hub-item-detail { color: var(--muted); font-family: var(--mono); font-size: 11px; }
+.hub-item-status { font-size: 10px; padding: 2px 7px; border-radius: 4px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.5px; }
+.hub-item-status.active { background: rgba(34,197,94,0.13); color: #22c55e; }
+.hub-item-status.triggered { background: rgba(239,68,68,0.13); color: #ef4444; }
+.hub-item-status.upcoming { background: rgba(34,211,238,0.13); color: var(--accent); }
+.hub-more { font-size: 11px; color: var(--accent); font-family: var(--mono); margin-top: 6px; text-align: center; padding-top: 6px; border-top: 1px solid var(--border); }
 
 /* Holdings table */
 .table-wrapper { overflow-x: auto; margin: -20px; padding: 0 20px; }
@@ -295,6 +342,28 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     <div class="total-change" id="totalChange">—</div>
     <div class="total-pnl-row" id="totalPnlRow"></div>
     <div class="history-chart" id="historyChart"></div>
+  </div>
+
+  <!-- DCA + Alerts hub cards -->
+  <div class="hub-cards">
+    <div class="hub-card hub-card-dca" onclick="openDcaModal()">
+      <div class="hub-head">
+        <div class="hub-title">📅 DCA Tracker</div>
+        <div class="hub-badge" id="dcaBadgeCount">0</div>
+      </div>
+      <div class="hub-body" id="dcaPreview">
+        <div class="hub-empty">No DCA targets set.<br><span class="hub-cta">Tap to add →</span></div>
+      </div>
+    </div>
+    <div class="hub-card hub-card-alerts" onclick="openAlertsModal()">
+      <div class="hub-head">
+        <div class="hub-title">🔔 Price Alerts</div>
+        <div class="hub-badge" id="alertsBadgeCount">0</div>
+      </div>
+      <div class="hub-body" id="alertsPreview">
+        <div class="hub-empty">No alerts set.<br><span class="hub-cta">Tap to add →</span></div>
+      </div>
+    </div>
   </div>
 
   <section class="section">
@@ -1037,6 +1106,19 @@ async function refreshAll() {
   // Save history snapshot (max 1 per hour to keep it tight)
   saveHistoryPoint(state.activeId, total);
 
+  // Cache alerts + DCA on snapshot for hub cards (best-effort, silent failure)
+  if (workerUrl) {
+    try {
+      const [alertsR, dcaR] = await Promise.all([
+        fetch(`${workerUrl}/alerts`).catch(() => null),
+        fetch(`${workerUrl}/dca`).catch(() => null),
+      ]);
+      if (alertsR?.ok) snapshot.alerts = (await alertsR.json()).alerts || [];
+      if (dcaR?.ok) snapshot.dca = (await dcaR.json()).dca || [];
+      setActiveSnapshot(snapshot);
+    } catch {}
+  }
+
   // Push snapshot to Worker for Telegram bot
   if (workerUrl) {
     try {
@@ -1131,7 +1213,7 @@ function sparklinePath(points, w = 70, h = 20) {
 // ============================================================
 // Render
 // ============================================================
-function render() { renderPortSwitcher(); renderTotal(); renderWallets(); renderHoldings(); renderTxs(); renderAi(); renderHistoryChart(); }
+function render() { renderPortSwitcher(); renderTotal(); renderHubCards(); renderWallets(); renderHoldings(); renderTxs(); renderAi(); renderHistoryChart(); }
 
 function renderPortSwitcher() {
   const wrap = document.getElementById('portSwitcher');
@@ -1181,6 +1263,67 @@ function renderHistoryChart() {
   </svg>`;
 }
 
+function renderHubCards() {
+  const snap = activeSnapshot();
+  const dca = snap?.dca || [];
+  const alerts = snap?.alerts || [];
+
+  // DCA card
+  const dcaBadge = document.getElementById('dcaBadgeCount');
+  const dcaPreview = document.getElementById('dcaPreview');
+  if (dcaBadge) dcaBadge.textContent = dca.length;
+  if (dcaPreview) {
+    if (!dca.length) {
+      dcaPreview.innerHTML = `<div class="hub-empty">No DCA targets set.<br><span class="hub-cta">Tap to add →</span></div>`;
+    } else {
+      const top = dca.slice(0, 3);
+      dcaPreview.innerHTML = `<div class="hub-list">${top.map(d => {
+        const next = d.nextBuyTs ? new Date(d.nextBuyTs).toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'short' }) : 'soon';
+        return `<div class="hub-item">
+          <span class="hub-item-symbol">${escapeHtml(d.symbol || 'DCA')}</span>
+          <span class="hub-item-detail">A$${(d.amountAud || 0).toFixed(0)} / ${escapeHtml(d.frequency || 'wk')}</span>
+          <span class="hub-item-status upcoming">${escapeHtml(next)}</span>
+        </div>`;
+      }).join('')}${dca.length > 3 ? `<div class="hub-more">+${dca.length - 3} more →</div>` : ''}</div>`;
+    }
+  }
+
+  // Alerts card
+  const alertsBadge = document.getElementById('alertsBadgeCount');
+  const alertsPreview = document.getElementById('alertsPreview');
+  const triggered = alerts.filter(a => a.triggered);
+  if (alertsBadge) {
+    alertsBadge.textContent = alerts.length;
+    alertsBadge.classList.toggle('has-triggered', triggered.length > 0);
+  }
+  if (alertsPreview) {
+    if (!alerts.length) {
+      alertsPreview.innerHTML = `<div class="hub-empty">No alerts set.<br><span class="hub-cta">Tap to add →</span></div>`;
+    } else {
+      // Sort: triggered first, then active
+      const sorted = [...alerts].sort((a, b) => (b.triggered ? 1 : 0) - (a.triggered ? 1 : 0));
+      const top = sorted.slice(0, 3);
+      alertsPreview.innerHTML = `<div class="hub-list">${top.map(a => {
+        const sign = a.condition === 'above' ? '↑' : '↓';
+        const status = a.triggered ? 'triggered' : 'active';
+        const statusText = a.triggered ? 'fired' : 'active';
+        return `<div class="hub-item">
+          <span class="hub-item-symbol">${escapeHtml(a.symbol || '?')}</span>
+          <span class="hub-item-detail">${sign} A$${fmtPriceCompact(a.target)}</span>
+          <span class="hub-item-status ${status}">${statusText}</span>
+        </div>`;
+      }).join('')}${alerts.length > 3 ? `<div class="hub-more">+${alerts.length - 3} more →</div>` : ''}</div>`;
+    }
+  }
+}
+
+function fmtPriceCompact(p) {
+  if (!p) return '0';
+  if (p >= 1) return p.toFixed(2);
+  if (p >= 0.01) return p.toFixed(4);
+  return p.toExponential(2);
+}
+
 function renderWallets() {
   const wrap = document.getElementById('walletList');
   const empty = document.getElementById('walletEmpty');
@@ -1189,33 +1332,96 @@ function renderWallets() {
   if (!port.wallets.length) { wrap.innerHTML = ''; empty.style.display = 'block'; return; }
   empty.style.display = 'none';
   const snap = activeSnapshot();
+  const dustThreshold = state.settings?.dustThreshold ?? 1;
+
   wrap.innerHTML = port.wallets.map(w => {
     const data = snap?.walletData?.[w.id];
     const chain = CHAINS[w.chain];
-    let value = 0;
-    if (data) {
-      if (chain.type === 'chain') value = data.native * (snap.prices?.[chain.coingeckoId]?.price || 0);
-      for (const t of (data.tokens || [])) {
-        let p = 0;
-        if (t.contract && t.platform === 'avalanche') p = snap.prices?.['avax_token:' + t.contract.toLowerCase()]?.price || 0;
-        else if (t.contract && t.platform === 'ethereum') p = snap.prices?.['eth_token:' + t.contract.toLowerCase()]?.price || 0;
-        else if (t.contract && t.platform === 'base') p = snap.prices?.['base_token:' + t.contract.toLowerCase()]?.price || 0;
-        else if (t.mint && t.platform === 'solana') p = snap.prices?.['solana_mint:' + t.mint]?.price || 0;
-        else if (t.coingeckoId) p = snap.prices?.[t.coingeckoId]?.price || 0;
-        if (!p && t.audValueOverride) p = t.audValueOverride / t.balance;
-        value += t.balance * p;
+    const hideDust = !!w.hideDust;
+
+    // Compute wallet value, holding count, and per-wallet PnL
+    let value = 0, hiddenCount = 0, hiddenValue = 0, holdingCount = 0;
+    let pnlAud = 0, pnlPct24h = 0, weighted24hValue = 0;
+    if (data && !data.error) {
+      // Native
+      if (chain.type === 'chain') {
+        const nativeP = snap.prices?.[chain.coingeckoId];
+        const nativeVal = data.native * (nativeP?.price || 0);
+        if (nativeVal > 0) {
+          if (hideDust && nativeVal < dustThreshold) { hiddenCount++; hiddenValue += nativeVal; }
+          else { holdingCount++; }
+          value += nativeVal;
+          if (nativeP?.change24h != null) weighted24hValue += nativeVal * (nativeP.change24h / 100);
+        }
       }
+      // Tokens
+      for (const t of (data.tokens || [])) {
+        let p = 0, priceInfo = null;
+        if (t.contract && t.platform === 'avalanche') priceInfo = snap.prices?.['avax_token:' + t.contract.toLowerCase()];
+        else if (t.contract && t.platform === 'ethereum') priceInfo = snap.prices?.['eth_token:' + t.contract.toLowerCase()];
+        else if (t.contract && t.platform === 'base') priceInfo = snap.prices?.['base_token:' + t.contract.toLowerCase()];
+        else if (t.mint && t.platform === 'solana') priceInfo = snap.prices?.['solana_mint:' + t.mint];
+        else if (t.coingeckoId) priceInfo = snap.prices?.[t.coingeckoId];
+        p = priceInfo?.price || 0;
+        if (!p && t.audValueOverride) p = t.audValueOverride / t.balance;
+        const tokVal = t.balance * p;
+        if (tokVal > 0) {
+          if (hideDust && tokVal < dustThreshold) { hiddenCount++; hiddenValue += tokVal; }
+          else { holdingCount++; }
+          value += tokVal;
+          if (priceInfo?.change24h != null) weighted24hValue += tokVal * (priceInfo.change24h / 100);
+        } else if (t.balance > 0) {
+          // Unpriced token
+          if (!hideDust) holdingCount++;
+        }
+      }
+      // Approximate 24h PnL (from price changes weighted by value)
+      pnlAud = weighted24hValue;
+      pnlPct24h = value > 0 ? (weighted24hValue / value) * 100 : 0;
     }
+
+    // Visible value (if hideDust on, subtract hidden)
+    const visibleValue = hideDust ? value - hiddenValue : value;
     const errorHtml = data?.error ? `<div class="wallet-error">⚠ ${escapeHtml(data.error)}</div>` : '';
     let addr; try { addr = chain.type === 'exchange' ? new URL(w.address).host : shortAddr(w.address); } catch { addr = shortAddr(w.address); }
-    return `<div class="wallet-card">
-      <div class="label-row"><span class="wallet-label">${escapeHtml(w.label)}</span><span class="chain-badge ${w.chain}">${chain.nativeSymbol}</span></div>
+    const pnlClass = pnlAud > 0 ? 'up' : pnlAud < 0 ? 'down' : 'muted-cell';
+    const pnlSign = pnlAud > 0 ? '+' : '';
+    const pnlDisplay = data && !data.error && value > 0
+      ? `<div class="wallet-pnl">
+          <div class="wallet-pnl-item"><div class="wallet-pnl-label">24h</div><div class="wallet-pnl-value ${pnlClass}">${pnlSign}${pnlPct24h.toFixed(2)}%</div></div>
+          <div class="wallet-pnl-item"><div class="wallet-pnl-label">24h Δ</div><div class="wallet-pnl-value ${pnlClass}">${pnlSign}${fmtAUD(Math.abs(pnlAud))}</div></div>
+        </div>`
+      : '';
+
+    const dustToggleLabel = hiddenCount > 0
+      ? `Hide dust (${hiddenCount})`
+      : 'Hide dust';
+    const dustToggle = `<span class="dust-toggle ${hideDust ? 'active' : ''}" onclick="event.stopPropagation(); toggleWalletDust('${w.id}')" title="Hide holdings under A$${dustThreshold}">⊘ ${dustToggleLabel}</span>`;
+
+    const errorClass = data?.error ? ' has-error' : '';
+    const chainCls = ` chain-${w.chain}`;
+    return `<div class="wallet-card${errorClass}${chainCls}">
+      <div class="label-row"><span class="wallet-label">${escapeHtml(w.label)}</span><span class="chain-badge ${w.chain}">${chain.nativeSymbol || w.chain.toUpperCase()}</span></div>
       <div class="address"><a href="${chain.explorerUrl(w.address)}" target="_blank" rel="noopener">${escapeHtml(addr)}</a></div>
-      <div class="wallet-value">${data && !data.error ? fmtAUD(value) : '—'}</div>
+      <div class="wallet-value">${data && !data.error ? fmtAUD(visibleValue) : '—'}</div>
+      ${pnlDisplay}
       ${errorHtml}
-      <button class="remove-btn" onclick="removeWallet('${w.id}')">Remove</button>
+      <div class="wallet-stats">
+        <div class="wallet-actions">${dustToggle}</div>
+        <span style="font-family:var(--mono);font-size:10px">${holdingCount} held</span>
+      </div>
+      <button class="remove-btn" style="position:absolute;top:8px;right:8px;font-size:9px" onclick="removeWallet('${w.id}')">×</button>
     </div>`;
   }).join('');
+}
+
+function toggleWalletDust(walletId) {
+  const port = activePortfolio();
+  const w = port.wallets.find(x => x.id === walletId);
+  if (!w) return;
+  w.hideDust = !w.hideDust;
+  saveState();
+  render();
 }
 
 function renderHoldings() {
