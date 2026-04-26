@@ -102,9 +102,10 @@ button:disabled { opacity: 0.4; cursor: not-allowed; }
 .wallet-card .wallet-pnl-value { font-weight: 600; font-variant-numeric: tabular-nums; }
 .wallet-card .wallet-stats { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--border); margin-top: 4px; font-size: 11px; color: var(--muted); }
 .wallet-card .wallet-actions { display: flex; gap: 6px; align-items: center; }
-.wallet-card .dust-toggle { font-size: 10px; color: var(--muted); cursor: pointer; padding: 3px 7px; border-radius: 4px; border: 1px solid transparent; transition: all 0.1s; user-select: none; }
-.wallet-card .dust-toggle:hover { color: var(--accent); border-color: var(--border); }
-.wallet-card .dust-toggle.active { color: var(--accent); border-color: var(--accent); background: rgba(34,211,238,0.07); }
+.wallet-card .dust-toggle { font-size: 10px; }
+.dust-toggle { font-size: 11px; color: var(--muted); cursor: pointer; padding: 4px 9px; border-radius: 5px; border: 1px solid var(--border); transition: all 0.1s; user-select: none; font-family: var(--mono); white-space: nowrap; background: var(--panel-2); }
+.dust-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.dust-toggle.active { color: var(--accent); border-color: var(--accent); background: rgba(34,211,238,0.07); }
 .chain-badge { font-family: var(--mono); font-size: 9px; padding: 3px 7px; background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 4px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
 .chain-badge.btc { background: rgba(251, 146, 60, 0.1); border-color: rgba(251, 146, 60, 0.3); color: #fb923c; }
 .chain-badge.kas { background: rgba(112, 199, 186, 0.1); border-color: rgba(112, 199, 186, 0.3); color: #70c7ba; }
@@ -378,7 +379,11 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
   <section class="section">
     <div class="section-head">
       <h2>Holdings <span class="section-count" id="holdingCount">0</span></h2>
-      <span class="muted-cell" style="font-family:var(--mono);font-size:11px">Click any coin for AI deep-dive →</span>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <span id="holdingsDustToggle" class="dust-toggle" onclick="toggleGlobalHideDust()" title="Toggle dust filter for entire holdings table">⊘ Hide dust</span>
+        <span id="holdingsUnpricedToggle" class="dust-toggle" onclick="toggleGlobalHideUnpriced()" title="Hide tokens with no CoinGecko price">⊘ Hide unpriced</span>
+        <span class="muted-cell" style="font-family:var(--mono);font-size:11px">Click any coin for AI deep-dive →</span>
+      </div>
     </div>
     <div class="table-wrapper">
       <table>
@@ -1178,7 +1183,27 @@ function fmtAUDSigned(v) { if (v == null || isNaN(v)) return '—'; return (v >=
 function fmtNum(v, dp = 4) { if (v == null || isNaN(v)) return '—'; if (v >= 1000) return Number(v).toLocaleString('en-AU', { maximumFractionDigits: 2 }); return Number(v).toLocaleString('en-AU', { maximumFractionDigits: dp }); }
 function fmtPct(v) { if (v == null || isNaN(v)) return '—'; return (v >= 0 ? '+' : '') + v.toFixed(2) + '%'; }
 function fmtPctSmall(v) { if (v == null || isNaN(v)) return '—'; return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
-function fmtPrice(v) { if (v == null || isNaN(v) || v === 0) return '—'; if (v < 0.0001) return 'A$' + v.toExponential(2); if (v < 0.01) return 'A$' + v.toFixed(6); if (v < 1) return 'A$' + v.toFixed(4); return fmtAUD(v); }
+// fmtPrice uses CoinGecko-style subscript notation for tiny numbers.
+// Examples:
+//   0.00000000272 → "A$0.0₈272"  (₈ = 8 leading zeros after decimal, then 272)
+//   0.0000297     → "A$0.0₄297"  (₄ = 4 leading zeros)
+// Larger numbers use normal decimal display.
+function fmtPrice(v) {
+  if (v == null || isNaN(v) || v === 0) return '—';
+  const abs = Math.abs(v);
+  const sign = v < 0 ? '-' : '';
+  if (abs >= 1) return sign + fmtAUD(v).replace('-', '');
+  if (abs >= 0.01) return sign + 'A$' + abs.toFixed(4);
+  if (abs >= 0.0001) return sign + 'A$' + abs.toFixed(6);
+  // Subscript notation for very small numbers
+  const exp = Math.floor(Math.log10(abs));  // e.g. -9 for 3.4e-9
+  const zeros = -exp - 1;  // leading zeros after decimal
+  if (zeros < 4) return sign + 'A$' + abs.toFixed(zeros + 4);
+  const sig = Math.round(abs * Math.pow(10, zeros + 3)).toString();  // 3 sig figs
+  const sub = String(zeros).split('').map(d => '₀₁₂₃₄₅₆₇₈₉'[+d]).join('');
+  return sign + `A$0.0${sub}${sig}`;
+}
+function fmtPriceSigned(v) { return fmtPrice(v); }
 function shortAddr(a) { if (!a) return ''; if (a.length <= 24) return a; return a.slice(0, 12) + '…' + a.slice(-8); }
 function timeAgo(ts) { const s = (Date.now() - ts) / 1000; if (s < 60) return Math.floor(s) + 's ago'; if (s < 3600) return Math.floor(s / 60) + 'm ago'; if (s < 86400) return Math.floor(s / 3600) + 'h ago'; if (s < 86400 * 7) return Math.floor(s / 86400) + 'd ago'; return new Date(ts).toLocaleDateString('en-AU'); }
 function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
@@ -1321,7 +1346,15 @@ function fmtPriceCompact(p) {
   if (!p) return '0';
   if (p >= 1) return p.toFixed(2);
   if (p >= 0.01) return p.toFixed(4);
-  return p.toExponential(2);
+  // Subscript notation for tiny numbers
+  const str = Math.abs(p).toFixed(20);
+  const m = str.match(/^0\.(0+)(\d+?)0*$/);
+  if (!m) return p.toExponential(2);
+  const zeros = m[1].length;
+  const sig = m[2].slice(0, 3);
+  if (zeros < 4) return p.toFixed(zeros + 3);
+  const sub = String(zeros).split('').map(d => '₀₁₂₃₄₅₆₇₈₉'[+d]).join('');
+  return `0.0${sub}${sig}`;
 }
 
 function renderWallets() {
@@ -1424,6 +1457,18 @@ function toggleWalletDust(walletId) {
   render();
 }
 
+function toggleGlobalHideDust() {
+  state.settings.hideDust = !state.settings.hideDust;
+  saveState();
+  render();
+}
+
+function toggleGlobalHideUnpriced() {
+  state.settings.hideUnpriced = !state.settings.hideUnpriced;
+  saveState();
+  render();
+}
+
 function renderHoldings() {
   const body = document.getElementById('holdingsBody');
   const empty = document.getElementById('holdingsEmpty');
@@ -1443,6 +1488,18 @@ function renderHoldings() {
   const dustThreshold = state.settings?.dustThreshold ?? 1;
   const hideDust = state.settings?.hideDust ?? false;
   const hideUnpriced = state.settings?.hideUnpriced ?? false;
+
+  // Update toggle visual states
+  const dustToggle = document.getElementById('holdingsDustToggle');
+  const unpricedToggle = document.getElementById('holdingsUnpricedToggle');
+  if (dustToggle) {
+    dustToggle.classList.toggle('active', hideDust);
+    dustToggle.textContent = hideDust ? `⊘ Hide dust < A$${dustThreshold}` : `⊘ Hide dust`;
+  }
+  if (unpricedToggle) {
+    unpricedToggle.classList.toggle('active', hideUnpriced);
+  }
+
   let list = allHoldings;
   let hiddenCount = 0;
   let hiddenValue = 0;
