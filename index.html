@@ -123,6 +123,8 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
 .up { color: var(--green); }
 .down { color: var(--red); }
 .muted-cell { color: var(--muted); }
+.unpriced-row { opacity: 0.55; }
+.unpriced-row:hover { opacity: 0.85; }
 .ath-cell { font-size: 11px; color: var(--muted); }
 
 /* Sparkline */
@@ -445,6 +447,22 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
       </select>
     </div>
     <div class="field">
+      <label>Display filters</label>
+      <div class="field-row" style="flex-direction:column;gap:8px;align-items:stretch">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input type="checkbox" id="hideDustToggle" style="width:18px;height:18px"> 
+          <span>Hide dust holdings worth less than</span>
+          <input type="number" id="dustThresholdInput" min="0" step="0.5" style="width:80px;padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg-2);color:var(--text)">
+          <span style="color:var(--muted)">A$</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input type="checkbox" id="hideUnpricedToggle" style="width:18px;height:18px"> 
+          <span>Hide unpriced tokens (no CoinGecko data)</span>
+        </label>
+      </div>
+      <div class="field-help">Cleaner view for portfolios with many small/dust airdropped tokens. Hidden tokens still count in totals if priced.</div>
+    </div>
+    <div class="field">
       <label>Backup / Restore</label>
       <div class="field-row">
         <button id="exportBtn" class="btn">📥 Export JSON</button>
@@ -600,6 +618,7 @@ const CHAINS = {
 };
 
 const MEXC_TO_CG = {
+  // Majors
   BTC:'bitcoin', ETH:'ethereum', USDT:'tether', USDC:'usd-coin',
   AVAX:'avalanche-2', KAS:'kaspa', SOL:'solana', BNB:'binancecoin',
   DOGE:'dogecoin', XRP:'ripple', ADA:'cardano', DOT:'polkadot', LINK:'chainlink',
@@ -618,10 +637,17 @@ const MEXC_TO_CG = {
   SNX:'havven', YFI:'yearn-finance', MKR:'maker',
   ONDO:'ondo-finance', WLD:'worldcoin-wld', PENDLE:'pendle', ENA:'ethena',
   DAI:'dai', LDO:'lido-dao', STRK:'starknet', POPCAT:'popcat',
-  BLAZE:'blaze', GUNZ:'gunz',
-  VRA:'verasity', OMI:'ecomi', SHIRO:'shiro-neko',
-  COQ:'coq-inu', BEAM:'beam-2', ARENA:'arena-token',
+  // Avalanche / Beam ecosystem
+  BLAZE:'blaze', BEAM:'beam-2', ARENA:'arena-token', COQ:'coq-inu',
+  // GUNZ ecosystem (Gunzilla Games L1)
+  GUN:'gunz', GUNZ:'gunz',
+  // User holdings
+  VRA:'verasity', OMI:'ecomi',
+  SHIRO:'shiro-neko-2',  // Shiro Neko (Ethereum) — listed on MEXC
+  MX:'mx-token',  // MEXC exchange token
+  // Other small caps
   KNIGHT:'forest-knight', FATE:'fate', SPEED:'speed-ink',
+  TRADER:'trader-coin', BORI:'boring-coin',
 };
 
 const STABLECOINS = new Set(['USDT','USDC','BUSD','DAI','TUSD','USDP','FDUSD','AUDC','AUDT']);
@@ -639,10 +665,20 @@ function loadState() {
     portfolios: [{ id: 'default', name: 'Main', wallets: [] }],
     activeId: 'default',
     snapshots: {},
-    settings: { autoRefreshMin: 5 },
+    settings: { autoRefreshMin: 5, dustThreshold: 1, hideDust: false, hideUnpriced: false },
   };
 }
 function saveState() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {} }
+
+// Migration for older schemas missing new settings keys
+function migrateState() {
+  if (!state.settings) state.settings = { autoRefreshMin: 5, dustThreshold: 1, hideDust: false, hideUnpriced: false };
+  if (state.settings.dustThreshold === undefined) state.settings.dustThreshold = 1;
+  if (state.settings.hideDust === undefined) state.settings.hideDust = false;
+  if (state.settings.hideUnpriced === undefined) state.settings.hideUnpriced = false;
+  saveState();
+}
+migrateState();
 function loadChatHistory() { try { const raw = localStorage.getItem(CHAT_KEY); return raw ? JSON.parse(raw) : []; } catch { return []; } }
 function saveChatHistory() { try { localStorage.setItem(CHAT_KEY, JSON.stringify(chatHistory)); } catch {} }
 function loadHistory() { try { const raw = localStorage.getItem(HISTORY_KEY); return raw ? JSON.parse(raw) : {}; } catch { return {}; } }
@@ -1194,13 +1230,34 @@ function renderHoldings() {
     return;
   }
   empty.style.display = 'none';
-  const list = Object.values(snap.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) })).sort((a, b) => b.value - a.value);
-  const total = list.reduce((s, h) => s + h.value, 0);
-  count.textContent = list.length;
+  const allHoldings = Object.values(snap.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) })).sort((a, b) => b.value - a.value);
+  const total = allHoldings.reduce((s, h) => s + h.value, 0);
+
+  // Apply filters: dust threshold + unpriced
+  const dustThreshold = state.settings?.dustThreshold ?? 1;
+  const hideDust = state.settings?.hideDust ?? false;
+  const hideUnpriced = state.settings?.hideUnpriced ?? false;
+  let list = allHoldings;
+  let hiddenCount = 0;
+  let hiddenValue = 0;
+  if (hideDust || hideUnpriced) {
+    list = allHoldings.filter(h => {
+      const isDust = hideDust && h.value < dustThreshold && h.value > 0;
+      const isUnpriced = hideUnpriced && (!h.price || h.price === 0);
+      const shouldHide = isDust || isUnpriced;
+      if (shouldHide) { hiddenCount++; hiddenValue += h.value; }
+      return !shouldHide;
+    });
+  }
+
+  count.textContent = list.length + (hiddenCount > 0 ? ` <span style="opacity:0.5;font-weight:normal">(${hiddenCount} hidden)</span>` : '');
+  count.innerHTML = list.length + (hiddenCount > 0 ? ` <span style="opacity:0.5;font-weight:normal">(${hiddenCount} hidden)</span>` : '');
   body.innerHTML = list.map(h => {
     const allocation = total > 0 ? (h.value / total * 100) : 0;
     const c24 = h.change24h > 0 ? 'up' : h.change24h < 0 ? 'down' : '';
     const c7 = h.change7d > 0 ? 'up' : h.change7d < 0 ? 'down' : '';
+    const isUnpriced = !h.price || h.price === 0;
+    const rowClass = isUnpriced ? 'unpriced-row' : '';
     const pnlPct = h.unrealizedPnlPct;
     const pnlAud = h.unrealizedPnlAud;
     const pnlClass = pnlPct == null ? 'muted-cell' : pnlPct > 0 ? 'up' : pnlPct < 0 ? 'down' : '';
@@ -1210,11 +1267,12 @@ function renderHoldings() {
     const sparkColor = h.change7d > 0 ? '#34d399' : h.change7d < 0 ? '#f87171' : '#6a6a85';
     const spark = sparkPath ? `<svg class="spark" viewBox="0 0 70 20"><path d="${sparkPath}" fill="none" stroke="${sparkColor}" stroke-width="1.5"/></svg>` : '';
     const riskCls = h.riskScore <= 4 ? 'risk-low' : h.riskScore <= 7 ? 'risk-med' : 'risk-high';
-    return `<tr onclick="openCoinDetail('${escapeHtml(h.symbol)}')">
+    const priceDisplay = isUnpriced ? '<span class="muted-cell" title="No price data on CoinGecko">no data</span>' : fmtPrice(h.price);
+    return `<tr class="${rowClass}" onclick="openCoinDetail('${escapeHtml(h.symbol)}')">
       <td><div class="coin-cell"><div class="coin-icon ${h.symbol.toLowerCase()}">${escapeHtml(h.symbol.slice(0, 4))}</div><div><div class="coin-name">${escapeHtml(h.symbol)}</div>${h.name && h.name !== h.symbol ? `<div class="coin-fullname">${escapeHtml(h.name)}</div>` : ''}</div></div></td>
       <td class="num">${fmtNum(h.balance)}</td>
       <td class="num ${h.avgCost ? '' : 'muted-cell'}">${h.avgCost ? fmtPrice(h.avgCost) : '—'}</td>
-      <td class="num">${fmtPrice(h.price)}</td>
+      <td class="num">${priceDisplay}</td>
       <td class="num ${pnlClass}">${pnlDisplay}</td>
       <td class="num ${c24}">${fmtPctSmall(h.change24h)}</td>
       <td class="num ${c7}">${fmtPctSmall(h.change7d)}</td>
@@ -1517,6 +1575,9 @@ async function saveNewAlert() {
 // Settings
 function openSettingsModal() {
   document.getElementById('autoRefreshSelect').value = String(state.settings.autoRefreshMin || 5);
+  document.getElementById('hideDustToggle').checked = !!state.settings.hideDust;
+  document.getElementById('dustThresholdInput').value = state.settings.dustThreshold ?? 1;
+  document.getElementById('hideUnpricedToggle').checked = !!state.settings.hideUnpriced;
   document.getElementById('settingsModal').classList.add('active');
 }
 function exportData() {
@@ -1723,6 +1784,9 @@ document.getElementById('settingsBtn').addEventListener('click', openSettingsMod
 document.getElementById('closeSettingsBtn').addEventListener('click', () => document.getElementById('settingsModal').classList.remove('active'));
 document.getElementById('settingsModal').addEventListener('click', (e) => { if (e.target.id === 'settingsModal') document.getElementById('settingsModal').classList.remove('active'); });
 document.getElementById('autoRefreshSelect').addEventListener('change', (e) => { state.settings.autoRefreshMin = Number(e.target.value); saveState(); setupAutoRefresh(); });
+document.getElementById('hideDustToggle').addEventListener('change', (e) => { state.settings.hideDust = e.target.checked; saveState(); render(); });
+document.getElementById('dustThresholdInput').addEventListener('change', (e) => { state.settings.dustThreshold = Math.max(0, Number(e.target.value) || 1); saveState(); render(); });
+document.getElementById('hideUnpricedToggle').addEventListener('change', (e) => { state.settings.hideUnpriced = e.target.checked; saveState(); render(); });
 document.getElementById('exportBtn').addEventListener('click', exportData);
 document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importFile').click());
 document.getElementById('importFile').addEventListener('change', (e) => { if (e.target.files[0]) importData(e.target.files[0]); });
