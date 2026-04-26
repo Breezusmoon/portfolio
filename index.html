@@ -2,7 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#07070d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Portfolio">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Portfolio Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,189 +25,227 @@
   --sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body {
-  background: var(--bg); color: var(--text); font-family: var(--sans);
-  min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-}
-body {
-  background-image:
-    radial-gradient(circle at 15% -10%, rgba(34, 211, 238, 0.08), transparent 50%),
-    radial-gradient(circle at 85% 100%, rgba(167, 139, 250, 0.08), transparent 50%);
-  background-attachment: fixed;
-  padding: 24px 20px 60px;
-}
+html, body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+body { background-image: radial-gradient(circle at 15% -10%, rgba(34, 211, 238, 0.08), transparent 50%), radial-gradient(circle at 85% 100%, rgba(167, 139, 250, 0.08), transparent 50%); background-attachment: fixed; padding: max(20px, env(safe-area-inset-top)) 16px max(40px, env(safe-area-inset-bottom)); }
 .container { max-width: 1400px; margin: 0 auto; }
 
-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
-.brand { display: flex; align-items: center; gap: 14px; }
-.logo { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-weight: 700; color: #07070d; font-size: 18px; box-shadow: 0 0 24px rgba(34, 211, 238, 0.3); }
-.brand h1 { font-family: var(--mono); font-size: 18px; font-weight: 600; letter-spacing: -0.5px; }
+header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-weight: 700; color: #07070d; font-size: 17px; box-shadow: 0 0 24px rgba(34, 211, 238, 0.3); }
+.brand h1 { font-family: var(--mono); font-size: 17px; font-weight: 600; letter-spacing: -0.5px; }
 .brand h1 .accent { color: var(--accent); }
-.actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-button, .btn {
-  background: var(--panel); color: var(--text);
-  border: 1px solid var(--border);
-  padding: 10px 18px; border-radius: 8px; cursor: pointer;
-  font-size: 13px; font-weight: 500; font-family: var(--sans);
-  transition: all 0.15s ease;
-  display: inline-flex; align-items: center; gap: 8px; letter-spacing: 0.3px;
-}
+button, .btn { background: var(--panel); color: var(--text); border: 1px solid var(--border); padding: 9px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; font-family: var(--sans); transition: all 0.15s ease; display: inline-flex; align-items: center; gap: 6px; letter-spacing: 0.3px; }
 button:hover, .btn:hover { border-color: var(--border-hi); background: var(--panel-2); }
 button:disabled { opacity: 0.4; cursor: not-allowed; }
 .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; color: #07070d; font-weight: 700; }
-.btn-primary:hover { filter: brightness(1.1); box-shadow: 0 4px 20px rgba(34, 211, 238, 0.3); }
+.btn-primary:hover { filter: brightness(1.1); }
 .btn-ghost { background: transparent; }
-.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-sm { padding: 6px 11px; font-size: 12px; }
+.btn-icon { padding: 8px 10px; }
 
-.total-card {
-  background: linear-gradient(135deg, var(--panel) 0%, var(--bg-2) 100%);
-  border: 1px solid var(--border); border-radius: 18px;
-  padding: 32px; margin-bottom: 24px;
-  position: relative; overflow: hidden;
-}
-.total-card::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(34, 211, 238, 0.12), transparent 60%); pointer-events: none; }
-.total-card::after { content: ''; position: absolute; bottom: -50%; left: -10%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(167, 139, 250, 0.1), transparent 60%); pointer-events: none; }
-.total-label { color: var(--muted); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; position: relative; z-index: 1; }
-.total-amount { font-family: var(--mono); font-size: 52px; font-weight: 700; letter-spacing: -2px; margin-bottom: 12px; position: relative; z-index: 1; font-variant-numeric: tabular-nums; }
-.total-change { font-family: var(--mono); font-size: 15px; font-weight: 500; position: relative; z-index: 1; }
+/* Portfolio switcher */
+.port-switcher { display: flex; gap: 4px; margin-bottom: 18px; padding: 4px; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; align-items: center; }
+.port-tab { padding: 7px 14px; border-radius: 6px; cursor: pointer; font-family: var(--mono); font-size: 12px; color: var(--muted); transition: all 0.1s; }
+.port-tab.active { background: var(--accent); color: var(--bg); font-weight: 700; }
+.port-tab:hover:not(.active) { color: var(--text); background: var(--panel-2); }
+.port-add { padding: 7px 11px; cursor: pointer; color: var(--muted); font-family: var(--mono); font-size: 14px; border-radius: 6px; }
+.port-add:hover { color: var(--accent); background: var(--panel-2); }
+
+/* Total card */
+.total-card { background: linear-gradient(135deg, var(--panel) 0%, var(--bg-2) 100%); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 20px; position: relative; overflow: hidden; }
+.total-card::before { content: ''; position: absolute; top: -50%; right: -10%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(34, 211, 238, 0.12), transparent 60%); pointer-events: none; }
+.total-card::after { content: ''; position: absolute; bottom: -50%; left: -10%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(167, 139, 250, 0.1), transparent 60%); pointer-events: none; }
+.total-label { color: var(--muted); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; position: relative; z-index: 1; }
+.total-amount { font-family: var(--mono); font-size: 46px; font-weight: 700; letter-spacing: -2px; margin-bottom: 10px; position: relative; z-index: 1; font-variant-numeric: tabular-nums; }
+.total-change { font-family: var(--mono); font-size: 14px; font-weight: 500; position: relative; z-index: 1; }
 .total-change.up { color: var(--green); }
 .total-change.down { color: var(--red); }
-.total-change .delta-aud { color: var(--muted); margin-left: 6px; font-size: 13px; }
-.total-meta { position: absolute; top: 24px; right: 24px; font-family: var(--mono); font-size: 11px; color: var(--muted); z-index: 1; text-align: right; }
-.total-pnl-row { margin-top: 14px; display: flex; gap: 24px; flex-wrap: wrap; position: relative; z-index: 1; font-family: var(--mono); font-size: 12px; }
+.total-change .delta-aud { color: var(--muted); margin-left: 6px; font-size: 12px; }
+.total-meta { position: absolute; top: 22px; right: 22px; font-family: var(--mono); font-size: 11px; color: var(--muted); z-index: 1; text-align: right; }
+.total-pnl-row { margin-top: 12px; display: flex; gap: 22px; flex-wrap: wrap; position: relative; z-index: 1; font-family: var(--mono); font-size: 12px; }
 .total-pnl-item { color: var(--muted); }
-.total-pnl-item .v { font-weight: 700; margin-left: 6px; font-size: 14px; }
+.total-pnl-item .v { font-weight: 700; margin-left: 6px; font-size: 13px; }
 
-.section { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 22px; margin-bottom: 20px; }
-.section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
-.section h2 { font-family: var(--mono); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; display: flex; align-items: center; gap: 10px; }
-.section h2::before { content: ''; display: inline-block; width: 4px; height: 14px; background: var(--accent); border-radius: 2px; }
+/* Portfolio history mini-chart */
+.history-chart { margin-top: 16px; height: 60px; position: relative; z-index: 1; }
+.history-chart svg { width: 100%; height: 100%; }
+
+.section { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 18px; }
+.section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+.section h2 { font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; display: flex; align-items: center; gap: 10px; }
+.section h2::before { content: ''; display: inline-block; width: 4px; height: 13px; background: var(--accent); border-radius: 2px; }
 .section h2.ai::before { background: var(--accent-2); }
+.section h2.warn::before { background: var(--warn); }
 .section-count { font-family: var(--mono); font-size: 11px; color: var(--muted); background: var(--bg); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); }
 
-.wallet-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-.wallet-card { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 8px; transition: border-color 0.15s; }
+/* Sources */
+.wallet-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.wallet-card { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 7px; transition: border-color 0.15s; }
 .wallet-card:hover { border-color: var(--border-hi); }
 .wallet-card .label-row { display: flex; justify-content: space-between; align-items: center; }
-.wallet-card .wallet-label { font-weight: 600; font-size: 14px; }
-.chain-badge { font-family: var(--mono); font-size: 10px; padding: 3px 8px; background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 4px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.wallet-card .wallet-label { font-weight: 600; font-size: 13px; }
+.chain-badge { font-family: var(--mono); font-size: 9px; padding: 3px 7px; background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.3); border-radius: 4px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
 .chain-badge.btc { background: rgba(251, 146, 60, 0.1); border-color: rgba(251, 146, 60, 0.3); color: #fb923c; }
 .chain-badge.kas { background: rgba(112, 199, 186, 0.1); border-color: rgba(112, 199, 186, 0.3); color: #70c7ba; }
-.chain-badge.mexc { background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.3); color: var(--warn); }
+.chain-badge.mexc, .chain-badge.coinspot { background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.3); color: var(--warn); }
+.chain-badge.eth { background: rgba(124, 130, 168, 0.1); border-color: rgba(124, 130, 168, 0.3); color: #a3aed6; }
+.chain-badge.base { background: rgba(0, 82, 255, 0.15); border-color: rgba(0, 82, 255, 0.4); color: #3a7eff; }
+.chain-badge.solana { background: rgba(153, 69, 255, 0.15); border-color: rgba(153, 69, 255, 0.4); color: #b986ff; }
 .wallet-card .address { font-family: var(--mono); font-size: 11px; color: var(--muted); word-break: break-all; }
 .wallet-card .address a { color: inherit; text-decoration: none; }
-.wallet-card .address a:hover { color: var(--accent); }
-.wallet-card .wallet-value { font-family: var(--mono); font-size: 16px; font-weight: 600; margin-top: 6px; font-variant-numeric: tabular-nums; }
-.wallet-card .wallet-error { font-family: var(--mono); font-size: 11px; color: var(--red); margin-top: 4px; }
-.remove-btn { background: transparent; border: 1px solid transparent; color: var(--muted); font-size: 11px; padding: 4px 10px; align-self: flex-end; margin-top: -2px; }
-.remove-btn:hover { color: var(--red); border-color: var(--red); background: rgba(248, 113, 113, 0.05); }
+.wallet-card .wallet-value { font-family: var(--mono); font-size: 15px; font-weight: 600; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.wallet-card .wallet-error { font-family: var(--mono); font-size: 10px; color: var(--red); margin-top: 4px; }
+.remove-btn { background: transparent; border: 1px solid transparent; color: var(--muted); font-size: 11px; padding: 3px 8px; align-self: flex-end; margin-top: -2px; }
+.remove-btn:hover { color: var(--red); border-color: var(--red); }
 
-.table-wrapper { overflow-x: auto; margin: -22px -22px -22px -22px; padding: 0 22px; }
-table { width: 100%; border-collapse: collapse; min-width: 720px; }
-th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
-th { color: var(--muted); font-family: var(--mono); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+/* Holdings table */
+.table-wrapper { overflow-x: auto; margin: -20px; padding: 0 20px; }
+table { width: 100%; border-collapse: collapse; min-width: 880px; }
+th, td { padding: 12px 11px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+th { color: var(--muted); font-family: var(--mono); font-weight: 500; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
 td { font-family: var(--sans); }
-tbody tr { transition: background 0.1s; }
-tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+tbody tr { transition: background 0.1s; cursor: pointer; }
+tbody tr:hover { background: rgba(34, 211, 238, 0.04); }
 tbody tr:last-child td { border-bottom: none; }
 td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
-.coin-cell { display: flex; align-items: center; gap: 12px; }
-.coin-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; background: var(--bg-2); border: 1px solid var(--border); flex-shrink: 0; }
+.coin-cell { display: flex; align-items: center; gap: 11px; }
+.coin-icon { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; font-weight: 700; background: var(--bg-2); border: 1px solid var(--border); flex-shrink: 0; }
 .coin-icon.avax { background: rgba(232, 65, 66, 0.15); color: #e84142; border-color: rgba(232, 65, 66, 0.3); }
 .coin-icon.btc { background: rgba(247, 147, 26, 0.15); color: #f7931a; border-color: rgba(247, 147, 26, 0.3); }
 .coin-icon.kas { background: rgba(112, 199, 186, 0.15); color: #70c7ba; border-color: rgba(112, 199, 186, 0.3); }
 .coin-icon.usdt, .coin-icon.usdc { background: rgba(38, 161, 123, 0.15); color: #26a17b; border-color: rgba(38, 161, 123, 0.3); }
-.coin-name { font-weight: 600; font-size: 14px; }
+.coin-icon.sol { background: rgba(153, 69, 255, 0.15); color: #9945ff; border-color: rgba(153, 69, 255, 0.3); }
+.coin-icon.eth { background: rgba(98, 126, 234, 0.15); color: #627eea; border-color: rgba(98, 126, 234, 0.3); }
+.coin-name { font-weight: 600; font-size: 13px; }
 .coin-fullname { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .up { color: var(--green); }
 .down { color: var(--red); }
 .muted-cell { color: var(--muted); }
+.ath-cell { font-size: 11px; color: var(--muted); }
 
-.alloc-bar { display: inline-flex; align-items: center; gap: 8px; justify-content: flex-end; }
-.alloc-bar-track { width: 50px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+/* Sparkline */
+.spark { display: inline-block; width: 70px; height: 20px; vertical-align: middle; }
+
+/* Risk pill */
+.risk-pill { display: inline-block; padding: 2px 7px; border-radius: 8px; font-size: 10px; font-family: var(--mono); font-weight: 700; }
+.risk-low { background: rgba(52, 211, 153, 0.15); color: var(--green); }
+.risk-med { background: rgba(251, 191, 36, 0.15); color: var(--warn); }
+.risk-high { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+
+.alloc-bar { display: inline-flex; align-items: center; gap: 7px; justify-content: flex-end; }
+.alloc-bar-track { width: 44px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
 .alloc-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 2px; }
 
-.tx-list { display: flex; flex-direction: column; gap: 6px; max-height: 480px; overflow-y: auto; padding-right: 4px; }
+/* Activity */
+.tx-list { display: flex; flex-direction: column; gap: 6px; max-height: 460px; overflow-y: auto; padding-right: 4px; }
 .tx-list::-webkit-scrollbar { width: 6px; }
 .tx-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-.tx-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; transition: border-color 0.1s; }
-.tx-item:hover { border-color: var(--border-hi); }
-.tx-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
-.tx-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex-shrink: 0; }
+.tx-item { display: flex; justify-content: space-between; align-items: center; padding: 11px 13px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; }
+.tx-left { display: flex; align-items: center; gap: 11px; flex: 1; min-width: 0; }
+.tx-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; flex-shrink: 0; }
 .tx-icon.in { background: rgba(52, 211, 153, 0.12); color: var(--green); }
 .tx-icon.out { background: rgba(248, 113, 113, 0.12); color: var(--red); }
 .tx-icon.buy { background: rgba(34, 211, 238, 0.12); color: var(--accent); }
 .tx-icon.sell { background: rgba(167, 139, 250, 0.12); color: var(--accent-2); }
-.tx-title { font-weight: 600; font-size: 14px; }
-.tx-meta { font-size: 11px; color: var(--muted); margin-top: 3px; font-family: var(--mono); }
+.tx-title { font-weight: 600; font-size: 13px; }
+.tx-meta { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: var(--mono); }
 .tx-meta a { color: var(--accent-2); text-decoration: none; }
-.tx-meta a:hover { color: var(--accent); }
 .tx-amount { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; flex-shrink: 0; }
-.tx-amount-val { font-weight: 600; font-size: 14px; }
+.tx-amount-val { font-weight: 600; font-size: 13px; }
 .tx-amount-sym { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
-.tab-row { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-.tab { padding: 6px 12px; border-radius: 6px; cursor: pointer; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid var(--border); background: var(--panel-2); color: var(--muted); transition: all 0.15s; }
+.tab-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.tab { padding: 6px 11px; border-radius: 6px; cursor: pointer; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid var(--border); background: var(--panel-2); color: var(--muted); transition: all 0.15s; }
 .tab:hover { color: var(--text); }
-.tab.active { background: var(--accent); color: #07070d; border-color: var(--accent); font-weight: 700; }
+.tab.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 700; }
 
-/* AI Analyst panel */
+/* Alerts list */
+.alert-list { display: flex; flex-direction: column; gap: 8px; }
+.alert-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; }
+.alert-item.triggered { opacity: 0.5; border-color: var(--green); }
+.alert-info { display: flex; align-items: center; gap: 12px; flex: 1; }
+.alert-condition { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.alert-target { font-family: var(--mono); font-weight: 600; }
+
+/* AI panel */
 .ai-section { background: linear-gradient(135deg, var(--panel) 0%, rgba(167, 139, 250, 0.04) 100%); border-color: rgba(167, 139, 250, 0.2); }
 .ai-controls { display: flex; gap: 8px; flex-wrap: wrap; }
-.chat-list { display: flex; flex-direction: column; gap: 14px; max-height: 600px; overflow-y: auto; padding: 6px 0; }
+.chat-list { display: flex; flex-direction: column; gap: 13px; max-height: 580px; overflow-y: auto; padding: 6px 0; }
 .chat-list::-webkit-scrollbar { width: 6px; }
 .chat-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-.chat-empty { text-align: center; padding: 32px 20px; color: var(--muted); font-family: var(--mono); font-size: 13px; line-height: 1.7; }
+.chat-empty { text-align: center; padding: 30px 18px; color: var(--muted); font-family: var(--mono); font-size: 13px; line-height: 1.7; }
 .chat-empty strong { color: var(--accent-2); }
-.chat-msg { padding: 14px 16px; border-radius: 12px; font-size: 14px; line-height: 1.65; max-width: 92%; }
+.chat-msg { padding: 13px 15px; border-radius: 12px; font-size: 14px; line-height: 1.65; max-width: 92%; }
 .chat-msg.user { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--bg); align-self: flex-end; font-weight: 500; }
 .chat-msg.user p { margin: 0; }
 .chat-msg.ai { background: var(--panel-2); border: 1px solid var(--border); color: var(--text); align-self: flex-start; }
-.chat-msg.ai p { margin: 0 0 10px 0; }
+.chat-msg.ai p { margin: 0 0 8px 0; }
 .chat-msg.ai p:last-child { margin-bottom: 0; }
-.chat-msg.ai ul, .chat-msg.ai ol { margin: 8px 0 8px 22px; padding: 0; }
-.chat-msg.ai li { margin: 4px 0; }
+.chat-msg.ai ul, .chat-msg.ai ol { margin: 6px 0 6px 22px; padding: 0; }
+.chat-msg.ai li { margin: 3px 0; }
 .chat-msg.ai strong { color: var(--accent); font-weight: 700; }
 .chat-msg.ai em { color: var(--accent-2); font-style: italic; }
 .chat-msg.ai code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-family: var(--mono); font-size: 12px; color: var(--accent); }
-.chat-msg.ai h3, .chat-msg.ai h4 { margin: 12px 0 6px; color: var(--accent); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
-.chat-msg.ai h3:first-child, .chat-msg.ai h4:first-child { margin-top: 0; }
+.chat-msg.ai h3, .chat-msg.ai h4 { margin: 11px 0 5px; color: var(--accent); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
 .chat-thinking { color: var(--muted); font-family: var(--mono); font-size: 12px; padding: 12px 14px; }
 
-.chat-input-row { display: flex; gap: 8px; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
-.chat-input { flex: 1; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; font-family: var(--sans); }
+.chat-input-row { display: flex; gap: 8px; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
+.chat-input { flex: 1; padding: 11px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; font-family: var(--sans); }
 .chat-input:focus { outline: none; border-color: var(--accent-2); }
-.chat-input::placeholder { color: var(--muted); }
 
-.suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
-.suggestion { padding: 6px 12px; border-radius: 16px; cursor: pointer; font-size: 12px; border: 1px solid var(--border); background: var(--panel-2); color: var(--muted); font-family: var(--mono); transition: all 0.15s; }
+.suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.suggestion { padding: 5px 11px; border-radius: 14px; cursor: pointer; font-size: 11px; border: 1px solid var(--border); background: var(--panel-2); color: var(--muted); font-family: var(--mono); transition: all 0.15s; }
 .suggestion:hover { color: var(--accent); border-color: var(--accent); background: rgba(34, 211, 238, 0.05); }
-
 .ai-disabled { padding: 24px; text-align: center; color: var(--muted); font-family: var(--mono); font-size: 13px; line-height: 1.7; }
 .ai-disabled code { background: var(--bg); padding: 2px 6px; border-radius: 4px; color: var(--accent); }
 
 /* Modal */
-.modal { display: none; position: fixed; inset: 0; background: rgba(7, 7, 13, 0.8); backdrop-filter: blur(8px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+.modal { display: none; position: fixed; inset: 0; background: rgba(7, 7, 13, 0.85); backdrop-filter: blur(8px); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
 .modal.active { display: flex; }
-.modal-content { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: 100%; max-width: 480px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); max-height: 90vh; overflow-y: auto; }
-.modal h3 { font-family: var(--mono); font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 22px; color: var(--accent); }
-.field { margin-bottom: 16px; }
-.field label { display: block; font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-.field input, .field select { width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px; font-family: var(--mono); transition: border-color 0.15s; }
-.field input::placeholder { color: var(--muted); }
+.modal-content { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 24px; width: 100%; max-width: 460px; max-height: 92vh; overflow-y: auto; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+.modal-content.lg { max-width: 720px; }
+.modal h3 { font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 18px; color: var(--accent); }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 1px; }
+.field input, .field select { width: 100%; padding: 11px 13px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px; font-family: var(--mono); }
 .field input:focus, .field select:focus { outline: none; border-color: var(--accent); }
 .field-help { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
 .field-help code { background: var(--bg); padding: 2px 6px; border-radius: 3px; font-family: var(--mono); }
-.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+.field-row { display: flex; gap: 8px; }
+.field-row > * { flex: 1; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
 
-.status { padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; font-size: 13px; font-family: var(--mono); display: none; align-items: center; gap: 10px; }
+/* Coin deep dive */
+.coin-modal-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.coin-modal-header .coin-icon { width: 36px; height: 36px; font-size: 12px; }
+.coin-modal-header h3 { color: var(--text); margin: 0; font-size: 17px; letter-spacing: 0; }
+.coin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+.stat { background: var(--panel-2); padding: 10px 12px; border-radius: 7px; }
+.stat-label { font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+.stat-value { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+
+/* Take-profit ladder */
+.tp-section { margin-top: 16px; padding: 16px; background: var(--panel-2); border-radius: 10px; }
+.tp-title { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 12px; }
+.tp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.tp-card { padding: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; }
+.tp-card-pct { font-family: var(--mono); color: var(--accent-2); font-size: 11px; font-weight: 700; }
+.tp-card-amount { font-family: var(--mono); font-size: 14px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.tp-card-aud { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+.tp-card-pnl { font-size: 11px; margin-top: 6px; }
+.tp-mexc-link { display: inline-block; margin-top: 8px; font-size: 10px; color: var(--accent); text-decoration: none; font-family: var(--mono); }
+.tp-mexc-link:hover { text-decoration: underline; }
+
+/* Status */
+.status { padding: 11px 14px; border-radius: 10px; margin-bottom: 14px; font-size: 13px; font-family: var(--mono); display: none; align-items: center; gap: 10px; }
 .status.show { display: flex; }
 .status.info { background: rgba(167, 139, 250, 0.08); border: 1px solid rgba(167, 139, 250, 0.2); color: var(--accent-2); }
 .status.error { background: rgba(248, 113, 113, 0.08); border: 1px solid rgba(248, 113, 113, 0.2); color: var(--red); }
 .status.success { background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); color: var(--green); }
 
-.empty { text-align: center; color: var(--muted); padding: 32px 20px; font-size: 14px; font-family: var(--mono); }
+.empty { text-align: center; color: var(--muted); padding: 28px 18px; font-size: 14px; font-family: var(--mono); }
 .empty-cta { margin-top: 12px; }
 
 .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -210,31 +254,35 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
 .live-dot { display: inline-block; width: 6px; height: 6px; background: var(--green); border-radius: 50%; margin-right: 6px; animation: pulse 2s ease-in-out infinite; }
 
 @media (max-width: 700px) {
-  body { padding: 16px 14px 40px; }
+  body { padding: max(16px, env(safe-area-inset-top)) 12px max(40px, env(safe-area-inset-bottom)); }
   .total-card { padding: 22px; }
-  .total-amount { font-size: 36px; letter-spacing: -1px; }
-  .total-meta { position: static; margin-top: 14px; text-align: left; }
-  th, td { padding: 10px 8px; font-size: 13px; }
+  .total-amount { font-size: 34px; letter-spacing: -1px; }
+  .total-meta { position: static; margin-top: 12px; text-align: left; }
+  th, td { padding: 9px 7px; font-size: 12px; }
   .coin-fullname { display: none; }
   .alloc-bar-track { display: none; }
-  .section { padding: 18px 16px; }
-  .table-wrapper { margin: -18px -16px; padding: 0 16px; }
+  .section { padding: 16px 14px; }
+  .table-wrapper { margin: -16px -14px; padding: 0 14px; }
   .chat-msg { max-width: 100%; }
+  .actions button { font-size: 12px; padding: 8px 12px; }
 }
 </style>
 </head>
 <body>
 <div class="container">
   <header>
-    <div class="brand">
-      <div class="logo">P</div>
-      <h1>portfolio<span class="accent">.hub</span></h1>
-    </div>
+    <div class="brand"><div class="logo">P</div><h1>portfolio<span class="accent">.hub</span></h1></div>
     <div class="actions">
+      <button id="settingsBtn" class="btn-icon" title="Settings">⚙</button>
+      <button id="alertsBtn" class="btn-icon" title="Price alerts">🔔</button>
+      <button id="taxBtn" class="btn-icon" title="ATO tax report">🇦🇺</button>
+      <button id="dcaBtn" class="btn-icon" title="DCA tracker">📅</button>
       <button id="refreshBtn"><span id="refreshIcon">↻</span> Refresh</button>
-      <button id="addWalletBtn" class="btn-primary">+ Add Source</button>
+      <button id="addWalletBtn" class="btn-primary">+ Source</button>
     </div>
   </header>
+
+  <div class="port-switcher" id="portSwitcher"></div>
 
   <div class="status" id="status"></div>
 
@@ -244,6 +292,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     <div class="total-amount" id="totalValue">A$0.00</div>
     <div class="total-change" id="totalChange">—</div>
     <div class="total-pnl-row" id="totalPnlRow"></div>
+    <div class="history-chart" id="historyChart"></div>
   </div>
 
   <section class="section">
@@ -256,7 +305,10 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
   </section>
 
   <section class="section">
-    <div class="section-head"><h2>Holdings <span class="section-count" id="holdingCount">0</span></h2></div>
+    <div class="section-head">
+      <h2>Holdings <span class="section-count" id="holdingCount">0</span></h2>
+      <span class="muted-cell" style="font-family:var(--mono);font-size:11px">Click any coin for AI deep-dive →</span>
+    </div>
     <div class="table-wrapper">
       <table>
         <thead><tr>
@@ -266,6 +318,10 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
           <th class="num">Price</th>
           <th class="num">P&L</th>
           <th class="num">24h</th>
+          <th class="num">7d</th>
+          <th class="num">From ATH</th>
+          <th>7d trend</th>
+          <th class="num">Risk</th>
           <th class="num">Value</th>
           <th class="num">Alloc</th>
         </tr></thead>
@@ -287,27 +343,25 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
       <div id="chatList" class="chat-list">
         <div class="chat-empty" id="chatEmpty">
           <strong>Your portfolio analyst.</strong><br>
-          Ask anything about your holdings, trades, or risk. Click <strong>Quick Brief</strong> for an instant rundown.<br><br>
-          Powered by Gemini + Groq (free) — analytical only, never gives buy/sell signals.
+          Ask anything. Click any holding for deep-dive + take-profit ladder.<br><br>
+          Powered by Gemini + Groq (free) — analysis only, never gives buy/sell signals.
         </div>
       </div>
       <div class="suggestions" id="suggestions">
-        <div class="suggestion" data-prompt="Give me a quick brief on my portfolio.">⚡ Quick brief</div>
-        <div class="suggestion" data-prompt="What's my biggest concentration risk right now?">⚖️ Concentration risk</div>
-        <div class="suggestion" data-prompt="How am I doing on each position? Show me cost basis vs current.">📊 P&L breakdown</div>
-        <div class="suggestion" data-prompt="Anything weird or concerning in my trade pattern?">🔍 Trade pattern check</div>
-        <div class="suggestion" data-prompt="If I wanted to de-risk, what should I be thinking about?">🛡️ De-risk checklist</div>
+        <div class="suggestion" data-prompt="Sharp brief — what's at decision points right now?">⚡ Sharp brief</div>
+        <div class="suggestion" data-prompt="Which positions are closest to ATH? Sell levels to think about?">📈 ATH analysis</div>
+        <div class="suggestion" data-prompt="Walk me through my biggest unrealized winners and losers.">💰 Winners & losers</div>
+        <div class="suggestion" data-prompt="Anything weird or concerning in my recent trade pattern? Be honest.">🔍 Trade pattern</div>
+        <div class="suggestion" data-prompt="If I had to take some profit this week, what would you weigh up?">🛡️ Profit-taking</div>
       </div>
       <div class="chat-input-row">
-        <input type="text" id="chatInput" class="chat-input" placeholder="Ask the analyst — e.g. should I worry about my AVAX exposure?" autocomplete="off">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Ask anything — should I worry about my AVAX exposure?" autocomplete="off">
         <button id="sendChatBtn" class="btn-primary">Send</button>
       </div>
     </div>
     <div id="aiDisabled" class="ai-disabled" style="display:none">
       AI Analyst needs a Worker URL.<br><br>
-      Add an MEXC source first (the Worker URL is reused for AI calls).<br>
-      Make sure your Worker has <code>GEMINI_API_KEY</code> and/or <code>GROQ_API_KEY</code> secrets set.<br><br>
-      Both are free, no credit card needed.
+      Add an MEXC source first. Worker needs <code>GEMINI_API_KEY</code> + <code>GROQ_API_KEY</code> secrets.
     </div>
   </section>
 
@@ -323,16 +377,25 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
   </section>
 </div>
 
+<!-- Add source modal -->
 <div class="modal" id="addWalletModal">
   <div class="modal-content">
     <h3>+ Add Source</h3>
     <div class="field">
       <label>Type</label>
       <select id="chainSelect">
-        <option value="avax">Avalanche C-Chain (AVAX + tokens)</option>
-        <option value="btc">Bitcoin (BTC)</option>
-        <option value="kas">Kaspa (KAS)</option>
-        <option value="mexc">MEXC Exchange (via Worker)</option>
+        <optgroup label="Wallets">
+          <option value="avax">Avalanche C-Chain</option>
+          <option value="eth">Ethereum</option>
+          <option value="base">Base</option>
+          <option value="solana">Solana</option>
+          <option value="btc">Bitcoin</option>
+          <option value="kas">Kaspa</option>
+        </optgroup>
+        <optgroup label="Exchanges">
+          <option value="mexc">MEXC (via Worker)</option>
+          <option value="coinspot">Coinspot (via Worker)</option>
+        </optgroup>
       </select>
     </div>
     <div class="field">
@@ -342,7 +405,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     </div>
     <div class="field">
       <label>Label</label>
-      <input type="text" id="labelInput" placeholder="Core Main / Ledger BTC / MEXC Spot" autocomplete="off">
+      <input type="text" id="labelInput" placeholder="Core Main / MEXC Spot" autocomplete="off">
     </div>
     <div class="modal-actions">
       <button id="cancelBtn" class="btn-ghost">Cancel</button>
@@ -351,310 +414,420 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
   </div>
 </div>
 
-<script>
-// ============================================================
-// PORTFOLIO HUB v3 — On-chain + MEXC + AI Analyst
-// ============================================================
+<!-- Coin deep-dive modal with take-profit ladder -->
+<div class="modal" id="coinModal">
+  <div class="modal-content lg">
+    <div class="coin-modal-header">
+      <div class="coin-icon" id="coinModalIcon"></div>
+      <h3 id="coinModalTitle">—</h3>
+    </div>
+    <div class="coin-stats" id="coinModalStats"></div>
+    <div id="coinTakeProfit"></div>
+    <div id="coinAlertSet" style="margin-top:14px"></div>
+    <div id="coinModalAi" style="margin-top:18px"><div class="chat-thinking"><span class="spinner"></span> analysing your position...</div></div>
+    <div class="modal-actions">
+      <button id="closeCoinBtn" class="btn-ghost">Close</button>
+    </div>
+  </div>
+</div>
 
-const STORAGE_KEY = 'portfolioHub_v1';
-const CHAT_KEY = 'portfolioHub_chat_v1';
+<!-- Settings modal -->
+<div class="modal" id="settingsModal">
+  <div class="modal-content">
+    <h3>⚙ Settings</h3>
+    <div class="field">
+      <label>Auto-refresh (mins)</label>
+      <select id="autoRefreshSelect">
+        <option value="0">Off</option>
+        <option value="2">2 min</option>
+        <option value="5" selected>5 min</option>
+        <option value="15">15 min</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Backup / Restore</label>
+      <div class="field-row">
+        <button id="exportBtn" class="btn">📥 Export JSON</button>
+        <button id="importBtn" class="btn">📤 Import JSON</button>
+      </div>
+      <input type="file" id="importFile" accept=".json" style="display:none">
+      <div class="field-help">Backs up wallets, alerts, DCA targets, history. Keys stay in the Worker.</div>
+    </div>
+    <div class="field">
+      <label>Telegram Webhook (one-time setup)</label>
+      <button id="setupTgBtn" class="btn btn-sm">Register webhook with Telegram</button>
+      <div class="field-help">Tells Telegram to send your bot's messages to this Worker. Needs Worker configured first.</div>
+    </div>
+    <div class="modal-actions">
+      <button id="closeSettingsBtn" class="btn-ghost">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Alerts modal -->
+<div class="modal" id="alertsModal">
+  <div class="modal-content lg">
+    <h3>🔔 Price Alerts</h3>
+    <div id="alertsList" class="alert-list"></div>
+    <div style="border-top:1px solid var(--border); margin: 18px 0; padding-top: 18px"></div>
+    <h3 style="margin-bottom: 14px; color: var(--accent-2)">+ New alert</h3>
+    <div class="field-row">
+      <div class="field"><label>Coin</label><select id="newAlertCoin"></select></div>
+      <div class="field"><label>Condition</label><select id="newAlertCondition"><option value="above">Above</option><option value="below">Below</option></select></div>
+      <div class="field"><label>Target (AUD)</label><input type="number" id="newAlertTarget" step="any" placeholder="0.00"></div>
+    </div>
+    <div class="field"><label>Note (optional)</label><input type="text" id="newAlertLabel" placeholder="Take profit zone / dip buy / etc"></div>
+    <div class="modal-actions">
+      <button id="closeAlertsBtn" class="btn-ghost">Close</button>
+      <button id="saveAlertBtn" class="btn-primary">Add Alert</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add portfolio modal -->
+<div class="modal" id="newPortModal">
+  <div class="modal-content">
+    <h3>+ New Portfolio</h3>
+    <div class="field">
+      <label>Name</label>
+      <input type="text" id="newPortName" placeholder="Trading / Hold / DeFi" autocomplete="off">
+    </div>
+    <div class="modal-actions">
+      <button id="cancelNewPortBtn" class="btn-ghost">Cancel</button>
+      <button id="saveNewPortBtn" class="btn-primary">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tax modal -->
+<div class="modal" id="taxModal">
+  <div class="modal-content lg">
+    <h3>🇦🇺 ATO CGT Report</h3>
+    <div class="field-row">
+      <div class="field">
+        <label>Financial year</label>
+        <select id="taxFy"></select>
+      </div>
+      <div class="field" style="display: flex; align-items: flex-end;">
+        <button id="generateTaxBtn" class="btn-primary">Generate</button>
+      </div>
+    </div>
+    <div id="taxResult"></div>
+    <div class="field-help" style="margin-top: 16px">
+      ⚠️ Indicative only. FIFO cost basis used. 50% CGT discount applied to gains held >12 months. Confirm with your accountant.
+    </div>
+    <div class="modal-actions">
+      <button id="closeTaxBtn" class="btn-ghost">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- DCA modal -->
+<div class="modal" id="dcaModal">
+  <div class="modal-content lg">
+    <h3>📅 DCA Tracker</h3>
+    <div id="dcaList" class="alert-list"></div>
+    <div style="border-top:1px solid var(--border); margin: 18px 0; padding-top: 18px"></div>
+    <h3 style="margin-bottom: 14px; color: var(--accent-2)">+ New DCA target</h3>
+    <div class="field-row">
+      <div class="field"><label>Coin</label><select id="newDcaCoin"></select></div>
+      <div class="field"><label>Amount AUD</label><input type="number" id="newDcaAmount" step="any" placeholder="50"></div>
+      <div class="field"><label>Frequency</label><select id="newDcaFreq"><option value="weekly">Weekly</option><option value="biweekly">Fortnightly</option><option value="monthly">Monthly</option></select></div>
+    </div>
+    <div class="field"><label>Note</label><input type="text" id="newDcaLabel" placeholder="Long-term KAS stack / etc"></div>
+    <div class="modal-actions">
+      <button id="closeDcaBtn" class="btn-ghost">Close</button>
+      <button id="saveDcaBtn" class="btn-primary">Add Target</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// PORTFOLIO HUB v5
+const STORAGE_KEY = 'portfolioHub_v5';
+const CHAT_KEY = 'portfolioHub_chat_v5';
+const HISTORY_KEY = 'portfolioHub_history_v5';
 
 const CHAINS = {
-  avax: {
-    name: 'Avalanche C-Chain', nativeSymbol: 'AVAX', coingeckoId: 'avalanche-2', type: 'chain',
+  avax: { name: 'Avalanche C-Chain', nativeSymbol: 'AVAX', coingeckoId: 'avalanche-2', type: 'chain',
     validate: (a) => /^0x[a-fA-F0-9]{40}$/.test(a),
     explorerUrl: (a) => `https://snowtrace.io/address/${a}`,
     txUrl: (h) => `https://snowtrace.io/tx/${h}`,
     addressLabel: 'Public Address', addressPlaceholder: '0x...',
-    addressHelp: 'Your Avalanche C-Chain wallet address (Core / MetaMask / Ledger).'
-  },
-  btc: {
-    name: 'Bitcoin', nativeSymbol: 'BTC', coingeckoId: 'bitcoin', type: 'chain',
+    addressHelp: 'Avalanche C-Chain wallet address (Core / MetaMask / Ledger).' },
+  eth: { name: 'Ethereum', nativeSymbol: 'ETH', coingeckoId: 'ethereum', type: 'chain',
+    validate: (a) => /^0x[a-fA-F0-9]{40}$/.test(a),
+    explorerUrl: (a) => `https://etherscan.io/address/${a}`,
+    txUrl: (h) => `https://etherscan.io/tx/${h}`,
+    addressLabel: 'Public Address', addressPlaceholder: '0x...',
+    addressHelp: 'Ethereum wallet address. Worker proxies via Alchemy.' },
+  base: { name: 'Base', nativeSymbol: 'ETH', coingeckoId: 'ethereum', type: 'chain',
+    validate: (a) => /^0x[a-fA-F0-9]{40}$/.test(a),
+    explorerUrl: (a) => `https://basescan.org/address/${a}`,
+    txUrl: (h) => `https://basescan.org/tx/${h}`,
+    addressLabel: 'Public Address', addressPlaceholder: '0x...',
+    addressHelp: 'Base wallet address. Worker proxies via Alchemy.' },
+  solana: { name: 'Solana', nativeSymbol: 'SOL', coingeckoId: 'solana', type: 'chain',
+    validate: (a) => /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(a),
+    explorerUrl: (a) => `https://solscan.io/account/${a}`,
+    txUrl: (h) => `https://solscan.io/tx/${h}`,
+    addressLabel: 'Public Address', addressPlaceholder: 'Solana address',
+    addressHelp: 'Solana wallet address (e.g. from Phantom).' },
+  btc: { name: 'Bitcoin', nativeSymbol: 'BTC', coingeckoId: 'bitcoin', type: 'chain',
     validate: (a) => /^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,87}$/.test(a),
     explorerUrl: (a) => `https://mempool.space/address/${a}`,
     txUrl: (h) => `https://mempool.space/tx/${h}`,
     addressLabel: 'Public Address', addressPlaceholder: 'bc1... or 1... or 3...',
-    addressHelp: 'Your Bitcoin address. For HD wallets (Ledger), add each receive address used.'
-  },
-  kas: {
-    name: 'Kaspa', nativeSymbol: 'KAS', coingeckoId: 'kaspa', type: 'chain',
+    addressHelp: 'Bitcoin address. For HD wallets, add each receive address used.' },
+  kas: { name: 'Kaspa', nativeSymbol: 'KAS', coingeckoId: 'kaspa', type: 'chain',
     validate: (a) => /^kaspa:[a-z0-9]{50,90}$/i.test(a),
     explorerUrl: (a) => `https://explorer.kaspa.org/addresses/${a}`,
     txUrl: (h) => `https://explorer.kaspa.org/txs/${h}`,
     addressLabel: 'Public Address', addressPlaceholder: 'kaspa:...',
-    addressHelp: 'Your Kaspa address (starts with kaspa:).'
-  },
-  mexc: {
-    name: 'MEXC', nativeSymbol: 'MEXC', coingeckoId: null, type: 'exchange',
+    addressHelp: 'Kaspa address (starts with kaspa:).' },
+  mexc: { name: 'MEXC', nativeSymbol: 'MEXC', coingeckoId: null, type: 'exchange',
     validate: (a) => /^https:\/\/.+/.test(a),
     explorerUrl: () => 'https://www.mexc.com/u/orders/spot',
     txUrl: () => 'https://www.mexc.com/u/orders/spot',
     addressLabel: 'Cloudflare Worker URL', addressPlaceholder: 'https://your-worker.workers.dev',
-    addressHelp: 'Paste your deployed Bridge Worker URL. Test with <code>your-url/health</code> first. Same Worker is reused for AI Analyst.'
-  }
+    addressHelp: 'Bridge Worker URL. Same Worker handles MEXC + Coinspot + AI.' },
+  coinspot: { name: 'Coinspot', nativeSymbol: 'CSPT', coingeckoId: null, type: 'exchange',
+    validate: (a) => /^https:\/\/.+/.test(a),
+    explorerUrl: () => 'https://www.coinspot.com.au/my/orders',
+    txUrl: () => 'https://www.coinspot.com.au/my/orders',
+    addressLabel: 'Cloudflare Worker URL', addressPlaceholder: 'https://your-worker.workers.dev',
+    addressHelp: 'Same Worker URL as MEXC. Worker pulls Coinspot via separate API key.' },
 };
 
 const MEXC_TO_CG = {
-  BTC: 'bitcoin', ETH: 'ethereum', USDT: 'tether', USDC: 'usd-coin', BUSD: 'binance-usd',
-  AVAX: 'avalanche-2', KAS: 'kaspa', SOL: 'solana', BNB: 'binancecoin',
-  DOGE: 'dogecoin', XRP: 'ripple', ADA: 'cardano', DOT: 'polkadot', LINK: 'chainlink',
-  SHIB: 'shiba-inu', LTC: 'litecoin', TRX: 'tron', ATOM: 'cosmos', NEAR: 'near',
-  ARB: 'arbitrum', OP: 'optimism', SUI: 'sui', APT: 'aptos', TON: 'the-open-network',
-  PEPE: 'pepe', FLOKI: 'floki', WIF: 'dogwifcoin', BONK: 'bonk',
-  RUNE: 'thorchain', INJ: 'injective-protocol', TIA: 'celestia', SEI: 'sei-network',
-  JUP: 'jupiter-exchange-solana', MATIC: 'matic-network', POL: 'matic-network',
-  XLM: 'stellar', BCH: 'bitcoin-cash', ETC: 'ethereum-classic', FIL: 'filecoin',
-  ICP: 'internet-computer', UNI: 'uniswap', AAVE: 'aave', RNDR: 'render-token',
-  RENDER: 'render-token', FET: 'fetch-ai', TAO: 'bittensor',
-  HBAR: 'hedera-hashgraph', VET: 'vechain', GRT: 'the-graph', SAND: 'the-sandbox',
-  MANA: 'decentraland', AXS: 'axie-infinity', GALA: 'gala', IMX: 'immutable-x',
-  STX: 'blockstack', ALGO: 'algorand', FTM: 'fantom',
-  CHZ: 'chiliz', ENJ: 'enjincoin', ZEC: 'zcash',
-  CRV: 'curve-dao-token', SNX: 'havven', COMP: 'compound-governance-token',
-  YFI: 'yearn-finance', MKR: 'maker', '1INCH': '1inch',
-  CELO: 'celo', FLOW: 'flow', PYTH: 'pyth-network',
-  ONDO: 'ondo-finance', WLD: 'worldcoin-wld', PENDLE: 'pendle', ENA: 'ethena',
-  DAI: 'dai', LDO: 'lido-dao', STRK: 'starknet', POPCAT: 'popcat',
-  BLAZE: 'blaze', GUNZ: 'gunz'
+  BTC:'bitcoin', ETH:'ethereum', USDT:'tether', USDC:'usd-coin',
+  AVAX:'avalanche-2', KAS:'kaspa', SOL:'solana', BNB:'binancecoin',
+  DOGE:'dogecoin', XRP:'ripple', ADA:'cardano', DOT:'polkadot', LINK:'chainlink',
+  SHIB:'shiba-inu', LTC:'litecoin', TRX:'tron', ATOM:'cosmos', NEAR:'near',
+  ARB:'arbitrum', OP:'optimism', SUI:'sui', APT:'aptos', TON:'the-open-network',
+  PEPE:'pepe', FLOKI:'floki', WIF:'dogwifcoin', BONK:'bonk',
+  RUNE:'thorchain', INJ:'injective-protocol', TIA:'celestia', SEI:'sei-network',
+  JUP:'jupiter-exchange-solana', MATIC:'matic-network', POL:'matic-network',
+  XLM:'stellar', BCH:'bitcoin-cash', ETC:'ethereum-classic', FIL:'filecoin',
+  ICP:'internet-computer', UNI:'uniswap', AAVE:'aave', RNDR:'render-token',
+  RENDER:'render-token', FET:'fetch-ai', TAO:'bittensor',
+  HBAR:'hedera-hashgraph', VET:'vechain', GRT:'the-graph', SAND:'the-sandbox',
+  MANA:'decentraland', AXS:'axie-infinity', GALA:'gala', IMX:'immutable-x',
+  STX:'blockstack', ALGO:'algorand', FTM:'fantom',
+  CHZ:'chiliz', ENJ:'enjincoin', ZEC:'zcash', CRV:'curve-dao-token',
+  SNX:'havven', YFI:'yearn-finance', MKR:'maker',
+  ONDO:'ondo-finance', WLD:'worldcoin-wld', PENDLE:'pendle', ENA:'ethena',
+  DAI:'dai', LDO:'lido-dao', STRK:'starknet', POPCAT:'popcat',
+  BLAZE:'blaze', GUNZ:'gunz',
+  VRA:'verasity', OMI:'ecomi', SHIRO:'shiro-neko',
+  COQ:'coq-inu', BEAM:'beam-2', ARENA:'arena-token',
+  KNIGHT:'forest-knight', FATE:'fate', SPEED:'speed-ink',
 };
 
-const STABLECOINS = new Set(['USDT', 'USDC', 'BUSD', 'DAI', 'TUSD', 'USDP', 'FDUSD']);
+const STABLECOINS = new Set(['USDT','USDC','BUSD','DAI','TUSD','USDP','FDUSD','AUDC','AUDT']);
 
 let state = loadState();
 let chatHistory = loadChatHistory();
+let portfolioHistory = loadHistory();
 let activityFilter = 'all';
+let autoRefreshTimer = null;
 
 function loadState() {
-  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); }
-  catch (e) { console.warn('load failed', e); }
-  return { wallets: [], snapshot: null, lastRefresh: null };
+  try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); } catch {}
+  // v5 schema: portfolios array, activeId
+  return {
+    portfolios: [{ id: 'default', name: 'Main', wallets: [] }],
+    activeId: 'default',
+    snapshots: {},
+    settings: { autoRefreshMin: 5 },
+  };
 }
-function saveState() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {} }
-function loadChatHistory() {
-  try { const raw = localStorage.getItem(CHAT_KEY); if (raw) return JSON.parse(raw); }
-  catch (e) {}
-  return [];
-}
-function saveChatHistory() { try { localStorage.setItem(CHAT_KEY, JSON.stringify(chatHistory)); } catch (e) {} }
+function saveState() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {} }
+function loadChatHistory() { try { const raw = localStorage.getItem(CHAT_KEY); return raw ? JSON.parse(raw) : []; } catch { return []; } }
+function saveChatHistory() { try { localStorage.setItem(CHAT_KEY, JSON.stringify(chatHistory)); } catch {} }
+function loadHistory() { try { const raw = localStorage.getItem(HISTORY_KEY); return raw ? JSON.parse(raw) : {}; } catch { return {}; } }
+function saveHistory() { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(portfolioHistory)); } catch {} }
 
+function activePortfolio() { return state.portfolios.find(p => p.id === state.activeId) || state.portfolios[0]; }
+function activeSnapshot() { return state.snapshots[state.activeId] || null; }
+function setActiveSnapshot(snap) { state.snapshots[state.activeId] = snap; saveState(); }
 function getWorkerUrl() {
-  const mexc = state.wallets.find(w => w.chain === 'mexc');
-  return mexc ? mexc.address.replace(/\/$/, '') : null;
+  const p = activePortfolio();
+  const m = p.wallets.find(w => w.chain === 'mexc' || w.chain === 'coinspot');
+  return m ? m.address.replace(/\/$/, '') : null;
 }
 
 // ============================================================
-// PRICES
+// Fetchers
 // ============================================================
-
-async function fetchPrices(coingeckoIds, avaxContracts = []) {
-  const result = {};
-  const ids = [...new Set(coingeckoIds.filter(Boolean))];
-  for (let i = 0; i < ids.length; i += 100) {
-    const chunk = ids.slice(i, i + 100).join(',');
-    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${chunk}&vs_currencies=aud&include_24hr_change=true`;
-    try {
-      const r = await fetch(url);
-      if (r.ok) {
-        const data = await r.json();
-        for (const [id, info] of Object.entries(data)) result[id] = { price: info.aud, change24h: info.aud_24h_change };
-      }
-    } catch (e) {}
-  }
-  if (avaxContracts.length) {
-    const list = [...new Set(avaxContracts.map(c => c.toLowerCase()))].join(',');
-    const url = `https://api.coingecko.com/api/v3/simple/token_price/avalanche?contract_addresses=${list}&vs_currencies=aud&include_24hr_change=true`;
-    try {
-      const r = await fetch(url);
-      if (r.ok) {
-        const data = await r.json();
-        for (const [c, info] of Object.entries(data)) result['avax_token:' + c] = { price: info.aud, change24h: info.aud_24h_change };
-      }
-    } catch (e) {}
-  }
-  return result;
-}
-
-// ============================================================
-// AVALANCHE
-// ============================================================
-
 const ROUTESCAN = 'https://api.routescan.io/v2/network/mainnet/evm/43114/etherscan/api';
 
 async function fetchAvax(address) {
   const result = { native: 0, tokens: [], txs: [] };
-  try {
-    const r = await fetch(`${ROUTESCAN}?module=account&action=balance&address=${address}&tag=latest`);
-    const data = await r.json();
-    result.native = Number(data.result || 0) / 1e18;
-  } catch (e) {}
+  try { const r = await fetch(`${ROUTESCAN}?module=account&action=balance&address=${address}&tag=latest`); const d = await r.json(); result.native = Number(d.result || 0) / 1e18; } catch {}
   const tokenSet = {};
   try {
     const r = await fetch(`${ROUTESCAN}?module=account&action=tokentx&address=${address}&page=1&offset=200&sort=desc`);
-    const data = await r.json();
-    if (Array.isArray(data.result)) {
-      for (const tx of data.result) {
-        const c = tx.contractAddress.toLowerCase();
-        if (!tokenSet[c]) tokenSet[c] = { contract: c, symbol: tx.tokenSymbol || 'TOKEN', name: tx.tokenName || '', decimals: Number(tx.tokenDecimal) || 18 };
-        const isIn = tx.to.toLowerCase() === address.toLowerCase();
-        const decimals = Number(tx.tokenDecimal) || 18;
-        result.txs.push({ hash: tx.hash, symbol: tx.tokenSymbol || 'TOKEN', amount: Number(tx.value) / Math.pow(10, decimals), direction: isIn ? 'in' : 'out', timestamp: Number(tx.timeStamp) * 1000, chain: 'avax', kind: 'transfer' });
-      }
+    const d = await r.json();
+    if (Array.isArray(d.result)) for (const tx of d.result) {
+      const c = tx.contractAddress.toLowerCase();
+      if (!tokenSet[c]) tokenSet[c] = { contract: c, symbol: tx.tokenSymbol || 'TOKEN', name: tx.tokenName || '', decimals: Number(tx.tokenDecimal) || 18 };
+      const isIn = tx.to.toLowerCase() === address.toLowerCase();
+      const dec = Number(tx.tokenDecimal) || 18;
+      result.txs.push({ hash: tx.hash, symbol: tx.tokenSymbol || 'TOKEN', amount: Number(tx.value) / Math.pow(10, dec), direction: isIn ? 'in' : 'out', timestamp: Number(tx.timeStamp) * 1000, chain: 'avax', kind: 'transfer' });
     }
-  } catch (e) {}
+  } catch {}
   for (const t of Object.values(tokenSet)) {
-    try {
-      const r = await fetch(`${ROUTESCAN}?module=account&action=tokenbalance&contractaddress=${t.contract}&address=${address}&tag=latest`);
-      const data = await r.json();
-      const bal = Number(data.result || 0) / Math.pow(10, t.decimals);
-      if (bal > 0.000001) result.tokens.push({ ...t, balance: bal });
-    } catch (e) {}
+    try { const r = await fetch(`${ROUTESCAN}?module=account&action=tokenbalance&contractaddress=${t.contract}&address=${address}&tag=latest`); const d = await r.json(); const bal = Number(d.result || 0) / Math.pow(10, t.decimals); if (bal > 0.000001) result.tokens.push({ ...t, balance: bal, platform: 'avalanche' }); } catch {}
   }
   try {
     const r = await fetch(`${ROUTESCAN}?module=account&action=txlist&address=${address}&page=1&offset=50&sort=desc`);
-    const data = await r.json();
-    if (Array.isArray(data.result)) {
-      for (const tx of data.result) {
-        const value = Number(tx.value) / 1e18;
-        if (value === 0) continue;
-        const isIn = tx.to.toLowerCase() === address.toLowerCase();
-        result.txs.push({ hash: tx.hash, symbol: 'AVAX', amount: value, direction: isIn ? 'in' : 'out', timestamp: Number(tx.timeStamp) * 1000, chain: 'avax', kind: 'transfer' });
-      }
+    const d = await r.json();
+    if (Array.isArray(d.result)) for (const tx of d.result) {
+      const v = Number(tx.value) / 1e18; if (v === 0) continue;
+      const isIn = tx.to.toLowerCase() === address.toLowerCase();
+      result.txs.push({ hash: tx.hash, symbol: 'AVAX', amount: v, direction: isIn ? 'in' : 'out', timestamp: Number(tx.timeStamp) * 1000, chain: 'avax', kind: 'transfer' });
     }
-  } catch (e) {}
+  } catch {}
   return result;
 }
 
-// ============================================================
-// BITCOIN
-// ============================================================
+async function fetchEvmViaWorker(workerUrl, chain, address) {
+  const r = await fetch(`${workerUrl}/${chain}/${address}`);
+  const d = await r.json();
+  if (d.error) return { native: 0, tokens: [], txs: [], error: d.error };
+  // Tag tokens with platform for price enrichment
+  d.tokens = (d.tokens || []).map(t => ({ ...t, platform: chain === 'eth' ? 'ethereum' : 'base' }));
+  return d;
+}
+
+async function fetchSolanaViaWorker(workerUrl, address) {
+  const r = await fetch(`${workerUrl}/solana/${address}`);
+  const d = await r.json();
+  if (d.error) return { native: 0, tokens: [], txs: [], error: d.error };
+  d.tokens = (d.tokens || []).map(t => ({ ...t, platform: 'solana' }));
+  return d;
+}
 
 async function fetchBtc(address) {
   const result = { native: 0, tokens: [], txs: [] };
-  try {
-    const r = await fetch(`https://blockstream.info/api/address/${address}`);
-    const info = await r.json();
-    const funded = info.chain_stats.funded_txo_sum + info.mempool_stats.funded_txo_sum;
-    const spent = info.chain_stats.spent_txo_sum + info.mempool_stats.spent_txo_sum;
-    result.native = (funded - spent) / 1e8;
-  } catch (e) {}
+  try { const r = await fetch(`https://blockstream.info/api/address/${address}`); const i = await r.json(); const f = i.chain_stats.funded_txo_sum + i.mempool_stats.funded_txo_sum; const s = i.chain_stats.spent_txo_sum + i.mempool_stats.spent_txo_sum; result.native = (f - s) / 1e8; } catch {}
   try {
     const r = await fetch(`https://blockstream.info/api/address/${address}/txs`);
     const txs = await r.json();
-    if (Array.isArray(txs)) {
-      for (const tx of txs.slice(0, 50)) {
-        let inflow = 0, outflow = 0;
-        for (const v of tx.vout || []) if (v.scriptpubkey_address === address) inflow += v.value;
-        for (const i of tx.vin || []) if (i.prevout && i.prevout.scriptpubkey_address === address) outflow += i.prevout.value;
-        const net = (inflow - outflow) / 1e8;
-        if (net === 0) continue;
-        result.txs.push({ hash: tx.txid, symbol: 'BTC', amount: Math.abs(net), direction: net > 0 ? 'in' : 'out', timestamp: ((tx.status && tx.status.block_time) || Math.floor(Date.now() / 1000)) * 1000, chain: 'btc', kind: 'transfer' });
-      }
+    if (Array.isArray(txs)) for (const tx of txs.slice(0, 50)) {
+      let inflow = 0, outflow = 0;
+      for (const v of tx.vout || []) if (v.scriptpubkey_address === address) inflow += v.value;
+      for (const i of tx.vin || []) if (i.prevout && i.prevout.scriptpubkey_address === address) outflow += i.prevout.value;
+      const net = (inflow - outflow) / 1e8; if (net === 0) continue;
+      result.txs.push({ hash: tx.txid, symbol: 'BTC', amount: Math.abs(net), direction: net > 0 ? 'in' : 'out', timestamp: ((tx.status?.block_time) || Math.floor(Date.now() / 1000)) * 1000, chain: 'btc', kind: 'transfer' });
     }
-  } catch (e) {}
+  } catch {}
   return result;
 }
-
-// ============================================================
-// KASPA
-// ============================================================
 
 async function fetchKas(address) {
   const result = { native: 0, tokens: [], txs: [] };
-  try {
-    const r = await fetch(`https://api.kaspa.org/addresses/${encodeURIComponent(address)}/balance`);
-    const data = await r.json();
-    result.native = Number(data.balance || 0) / 1e8;
-  } catch (e) {}
+  try { const r = await fetch(`https://api.kaspa.org/addresses/${encodeURIComponent(address)}/balance`); const d = await r.json(); result.native = Number(d.balance || 0) / 1e8; } catch {}
   try {
     const r = await fetch(`https://api.kaspa.org/addresses/${encodeURIComponent(address)}/full-transactions-page?limit=50&resolve_previous_outpoints=light`);
     const txs = await r.json();
-    if (Array.isArray(txs)) {
-      for (const tx of txs) {
-        let inflow = 0, outflow = 0;
-        for (const out of (tx.outputs || [])) if (out.script_public_key_address === address) inflow += Number(out.amount) || 0;
-        for (const inp of (tx.inputs || [])) if (inp.previous_outpoint_address === address) outflow += Number(inp.previous_outpoint_amount) || 0;
-        const net = (inflow - outflow) / 1e8;
-        if (net === 0) continue;
-        result.txs.push({ hash: tx.transaction_id, symbol: 'KAS', amount: Math.abs(net), direction: net > 0 ? 'in' : 'out', timestamp: Number(tx.block_time) || Date.now(), chain: 'kas', kind: 'transfer' });
-      }
+    if (Array.isArray(txs)) for (const tx of txs) {
+      let inflow = 0, outflow = 0;
+      for (const out of (tx.outputs || [])) if (out.script_public_key_address === address) inflow += Number(out.amount) || 0;
+      for (const inp of (tx.inputs || [])) if (inp.previous_outpoint_address === address) outflow += Number(inp.previous_outpoint_amount) || 0;
+      const net = (inflow - outflow) / 1e8; if (net === 0) continue;
+      result.txs.push({ hash: tx.transaction_id, symbol: 'KAS', amount: Math.abs(net), direction: net > 0 ? 'in' : 'out', timestamp: Number(tx.block_time) || Date.now(), chain: 'kas', kind: 'transfer' });
     }
-  } catch (e) {}
+  } catch {}
   return result;
 }
-
-// ============================================================
-// MEXC
-// ============================================================
 
 async function fetchMexc(workerUrl) {
   const result = { native: 0, tokens: [], txs: [] };
   const base = workerUrl.replace(/\/$/, '');
   let balances = [];
-  try {
-    const r = await fetch(`${base}/balances`);
-    const data = await r.json();
-    if (data.error) throw new Error(data.error);
-    balances = data.balances || [];
-  } catch (e) { result.error = `Worker call failed: ${e.message}`; return result; }
-
+  try { const r = await fetch(`${base}/balances`); const d = await r.json(); if (d.error) throw new Error(d.error); balances = d.balances || []; }
+  catch (e) { result.error = `MEXC: ${e.message}`; return result; }
   for (const b of balances) {
     const total = Number(b.free) + Number(b.locked);
     if (total <= 0) continue;
-    const cgId = MEXC_TO_CG[b.asset.toUpperCase()] || null;
-    result.tokens.push({ symbol: b.asset, balance: total, coingeckoId: cgId, source: 'mexc' });
+    result.tokens.push({ symbol: b.asset, balance: total, coingeckoId: MEXC_TO_CG[b.asset.toUpperCase()] || null, source: 'mexc' });
   }
-
-  const tradeable = result.tokens.filter(t => !STABLECOINS.has(t.symbol)).slice(0, 8);
+  const tradeable = result.tokens.filter(t => !STABLECOINS.has(t.symbol)).slice(0, 10);
   for (const t of tradeable) {
     const symbol = `${t.symbol}USDT`;
     try {
       const r = await fetch(`${base}/trades?symbol=${symbol}&limit=100`);
-      const data = await r.json();
-      if (data.error || !Array.isArray(data.trades)) continue;
-      for (const tr of data.trades) {
-        result.txs.push({
-          hash: String(tr.id), symbol: t.symbol, quoteSymbol: 'USDT',
-          amount: Number(tr.qty), quoteAmount: Number(tr.quoteQty), price: Number(tr.price),
-          direction: tr.isBuyer ? 'buy' : 'sell',
-          timestamp: Number(tr.time),
-          chain: 'mexc', kind: 'trade', symbolPair: symbol
-        });
-      }
-    } catch (e) {}
+      const d = await r.json();
+      if (d.error || !Array.isArray(d.trades)) continue;
+      for (const tr of d.trades) result.txs.push({
+        hash: String(tr.id), symbol: t.symbol, quoteSymbol: 'USDT',
+        amount: Number(tr.qty), quoteAmount: Number(tr.quoteQty), price: Number(tr.price),
+        direction: tr.isBuyer ? 'buy' : 'sell', timestamp: Number(tr.time),
+        chain: 'mexc', kind: 'trade', symbolPair: symbol,
+      });
+    } catch {}
   }
   return result;
 }
 
-const FETCHERS = { avax: fetchAvax, btc: fetchBtc, kas: fetchKas, mexc: fetchMexc };
+async function fetchCoinspot(workerUrl) {
+  const result = { native: 0, tokens: [], txs: [] };
+  const base = workerUrl.replace(/\/$/, '');
+  try {
+    const r = await fetch(`${base}/coinspot/balances`);
+    const d = await r.json();
+    if (d.error) throw new Error(d.error);
+    for (const b of (d.balances || [])) {
+      result.tokens.push({
+        symbol: b.asset, balance: Number(b.free) + Number(b.locked || 0),
+        coingeckoId: MEXC_TO_CG[b.asset.toUpperCase()] || null, source: 'coinspot',
+        audValueOverride: b.audValue, // Coinspot gives us AUD directly
+      });
+    }
+  } catch (e) { result.error = `Coinspot: ${e.message}`; return result; }
+  try {
+    const r = await fetch(`${base}/coinspot/trades`);
+    const d = await r.json();
+    if (Array.isArray(d.trades)) for (const tr of d.trades) result.txs.push({
+      hash: String(tr.id), symbol: tr.symbol, quoteSymbol: 'AUD',
+      amount: tr.amount, quoteAmount: tr.audTotal, price: tr.audPrice || tr.price,
+      direction: tr.direction, timestamp: tr.timestamp,
+      chain: 'coinspot', kind: 'trade', symbolPair: `${tr.symbol}/AUD`,
+    });
+  } catch {}
+  return result;
+}
+
+const FETCHERS = {
+  avax: fetchAvax,
+  eth: async (addr) => { const url = getWorkerUrl(); if (!url) return { error: 'Worker URL needed for ETH', native: 0, tokens: [], txs: [] }; return fetchEvmViaWorker(url, 'eth', addr); },
+  base: async (addr) => { const url = getWorkerUrl(); if (!url) return { error: 'Worker URL needed for Base', native: 0, tokens: [], txs: [] }; return fetchEvmViaWorker(url, 'base', addr); },
+  solana: async (addr) => { const url = getWorkerUrl(); if (!url) return { error: 'Worker URL needed for Solana', native: 0, tokens: [], txs: [] }; return fetchSolanaViaWorker(url, addr); },
+  btc: fetchBtc,
+  kas: fetchKas,
+  mexc: fetchMexc,
+  coinspot: fetchCoinspot,
+};
 
 // ============================================================
-// COST BASIS (FIFO from MEXC trades)
+// FIFO cost basis
 // ============================================================
-
 function calcCostBasis(trades) {
-  // trades for one asset (in USDT pricing)
   const sorted = trades.slice().sort((a, b) => a.timestamp - b.timestamp);
-  const buys = []; // FIFO: { qty, priceUsdt }
-  let realizedPnlUsdt = 0;
-  let totalBoughtQty = 0, totalBoughtCost = 0;
-  let totalSoldQty = 0, totalSoldProceeds = 0;
-  let firstBuyTime = null;
+  const buys = []; let realizedPnlUsdt = 0; let firstBuyTime = null;
   for (const t of sorted) {
     if (t.direction === 'buy') {
       buys.push({ qty: t.amount, priceUsdt: t.price });
-      totalBoughtQty += t.amount;
-      totalBoughtCost += t.amount * t.price;
       if (!firstBuyTime) firstBuyTime = t.timestamp;
     } else {
       let remaining = t.amount;
-      totalSoldQty += t.amount;
-      totalSoldProceeds += t.amount * t.price;
       while (remaining > 0.000001 && buys.length > 0) {
         const oldest = buys[0];
         const consumed = Math.min(remaining, oldest.qty);
         realizedPnlUsdt += consumed * (t.price - oldest.priceUsdt);
-        oldest.qty -= consumed;
-        remaining -= consumed;
+        oldest.qty -= consumed; remaining -= consumed;
         if (oldest.qty <= 0.000001) buys.shift();
       }
     }
@@ -662,266 +835,350 @@ function calcCostBasis(trades) {
   const remainingQty = buys.reduce((s, b) => s + b.qty, 0);
   const remainingCostUsdt = buys.reduce((s, b) => s + b.qty * b.priceUsdt, 0);
   const avgCostUsdt = remainingQty > 0 ? remainingCostUsdt / remainingQty : 0;
-  return { avgCostUsdt, remainingQty, realizedPnlUsdt, totalBoughtQty, totalSoldQty, firstBuyTime };
+  return { avgCostUsdt, remainingQty, realizedPnlUsdt, firstBuyTime };
 }
 
 // ============================================================
-// REFRESH
+// Risk score: 0-10 based on volatility (7d swing) + concentration
 // ============================================================
+function calcRiskScore(h, allocation) {
+  let score = 5; // baseline medium
+  // Volatility from 30d swing
+  if (h.change30d != null) {
+    const vol = Math.abs(h.change30d);
+    if (vol > 60) score += 3;
+    else if (vol > 30) score += 2;
+    else if (vol > 15) score += 1;
+    else if (vol < 5) score -= 1;
+  }
+  // Concentration penalty
+  if (allocation > 50) score += 2;
+  else if (allocation > 30) score += 1;
+  // Market cap rank
+  if (h.rank != null) {
+    if (h.rank <= 10) score -= 2;
+    else if (h.rank <= 50) score -= 1;
+    else if (h.rank > 500) score += 1;
+    else if (h.rank > 1000) score += 2;
+  }
+  // Far from ATH = high risk it stays down (or low if already crushed)
+  if (h.ath_change_pct != null) {
+    if (h.ath_change_pct < -90) score += 1;
+  }
+  return Math.max(1, Math.min(10, Math.round(score)));
+}
 
+// ============================================================
+// Refresh
+// ============================================================
 let isRefreshing = false;
-
 async function refreshAll() {
   if (isRefreshing) return;
-  if (!state.wallets.length) { showStatus('Add a source to start tracking.', 'info'); return; }
+  const port = activePortfolio();
+  if (!port.wallets.length) { showStatus('Add a source to start tracking.', 'info'); return; }
   isRefreshing = true;
   document.getElementById('refreshIcon').innerHTML = '<span class="spinner"></span>';
-  showStatus('<span class="spinner"></span> Fetching wallet & exchange data...', 'info');
+  showStatus('<span class="spinner"></span> Fetching wallets...', 'info');
 
   const walletData = {};
-  for (const w of state.wallets) {
+  for (const w of port.wallets) {
     try { walletData[w.id] = await FETCHERS[w.chain](w.address); }
     catch (e) { walletData[w.id] = { native: 0, tokens: [], txs: [], error: e.message }; }
   }
 
-  const cgIds = new Set();
-  const avaxContracts = new Set();
-  for (const w of state.wallets) {
+  // Build price-fetch lists by chain
+  const cgIds = new Set(['tether']);
+  const avaxContracts = new Set(), ethContracts = new Set(), baseContracts = new Set(), solanaMints = new Set();
+  for (const w of port.wallets) {
     const chain = CHAINS[w.chain];
     if (chain.coingeckoId) cgIds.add(chain.coingeckoId);
-    for (const t of walletData[w.id].tokens) {
-      if (t.contract) avaxContracts.add(t.contract);
+    for (const t of (walletData[w.id].tokens || [])) {
       if (t.coingeckoId) cgIds.add(t.coingeckoId);
+      if (t.contract && t.platform === 'avalanche') avaxContracts.add(t.contract);
+      if (t.contract && t.platform === 'ethereum') ethContracts.add(t.contract);
+      if (t.contract && t.platform === 'base') baseContracts.add(t.contract);
+      if (t.mint && t.platform === 'solana') solanaMints.add(t.mint);
     }
   }
-  // Always fetch USDT for AUD conversion of cost basis
-  cgIds.add('tether');
 
-  showStatus('<span class="spinner"></span> Fetching live AUD prices...', 'info');
-  const prices = await fetchPrices([...cgIds], [...avaxContracts]);
-  const usdtAud = prices.tether?.price || 1.5; // fallback approx
+  const workerUrl = getWorkerUrl();
+  let prices = {};
+  if (workerUrl) {
+    showStatus('<span class="spinner"></span> Fetching prices + market context...', 'info');
+    try {
+      const r = await fetch(`${workerUrl}/enrich`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ coingeckoIds: [...cgIds], avaxContracts: [...avaxContracts], ethContracts: [...ethContracts], baseContracts: [...baseContracts], solanaMints: [...solanaMints] }),
+      });
+      const data = await r.json();
+      if (data.error) throw new Error(data.error);
+      prices = data.prices || {};
+    } catch (e) { console.warn('enrich failed', e); }
+  }
+  const usdtAud = prices.tether?.price || 1.5;
 
   // Holdings aggregation
   const holdings = {};
-  for (const w of state.wallets) {
+  for (const w of port.wallets) {
     const d = walletData[w.id];
     const chain = CHAINS[w.chain];
     if (chain.type === 'chain' && d.native > 0) {
       const key = chain.nativeSymbol;
-      if (!holdings[key]) holdings[key] = { symbol: chain.nativeSymbol, name: chain.name, balance: 0, price: prices[chain.coingeckoId]?.price || 0, change24h: prices[chain.coingeckoId]?.change24h || 0, isNative: true, chain: w.chain };
+      const p = prices[chain.coingeckoId];
+      if (!holdings[key]) holdings[key] = { symbol: chain.nativeSymbol, name: chain.name, balance: 0, coingeckoId: chain.coingeckoId, ...extractPriceData(p) };
       holdings[key].balance += d.native;
     }
-    for (const t of d.tokens) {
+    for (const t of (d.tokens || [])) {
       const key = t.symbol;
-      let priceInfo;
-      if (t.contract) priceInfo = prices['avax_token:' + t.contract];
+      let priceInfo = null;
+      if (t.contract && t.platform === 'avalanche') priceInfo = prices['avax_token:' + t.contract.toLowerCase()];
+      else if (t.contract && t.platform === 'ethereum') priceInfo = prices['eth_token:' + t.contract.toLowerCase()];
+      else if (t.contract && t.platform === 'base') priceInfo = prices['base_token:' + t.contract.toLowerCase()];
+      else if (t.mint && t.platform === 'solana') priceInfo = prices['solana_mint:' + t.mint];
       else if (t.coingeckoId) priceInfo = prices[t.coingeckoId];
-      if (!holdings[key]) holdings[key] = { symbol: t.symbol, name: t.name || t.symbol, balance: 0, price: priceInfo?.price || 0, change24h: priceInfo?.change24h || 0, contract: t.contract, coingeckoId: t.coingeckoId, chain: t.source || w.chain };
-      else if (!holdings[key].price && priceInfo?.price) { holdings[key].price = priceInfo.price; holdings[key].change24h = priceInfo.change24h; }
+
+      if (!holdings[key]) holdings[key] = { symbol: t.symbol, name: t.name || t.symbol, balance: 0, contract: t.contract, mint: t.mint, coingeckoId: t.coingeckoId, ...extractPriceData(priceInfo) };
+      else if (!holdings[key].price && priceInfo?.price) Object.assign(holdings[key], extractPriceData(priceInfo));
+
+      // Coinspot AUD override (since they give us AUD value directly)
+      if (t.audValueOverride && !holdings[key].price) {
+        holdings[key].price = t.audValueOverride / t.balance;
+      }
       holdings[key].balance += t.balance;
     }
   }
 
-  // Cost basis: aggregate ALL MEXC trades by symbol, then FIFO each
+  // FIFO cost basis from trades (MEXC USDT pairs + Coinspot AUD pairs)
   const tradesBySymbol = {};
-  for (const w of state.wallets) {
-    for (const tx of walletData[w.id].txs) {
-      if (tx.kind !== 'trade') continue;
-      if (!tradesBySymbol[tx.symbol]) tradesBySymbol[tx.symbol] = [];
-      tradesBySymbol[tx.symbol].push(tx);
-    }
+  for (const w of port.wallets) for (const tx of (walletData[w.id].txs || [])) {
+    if (tx.kind !== 'trade') continue;
+    if (!tradesBySymbol[tx.symbol]) tradesBySymbol[tx.symbol] = [];
+    tradesBySymbol[tx.symbol].push(tx);
   }
   let totalRealizedPnlAud = 0;
   for (const [sym, trades] of Object.entries(tradesBySymbol)) {
+    // Detect trade currency: Coinspot trades are AUD already, MEXC are USDT
+    const isAudPriced = trades.every(t => t.chain === 'coinspot');
     const cb = calcCostBasis(trades);
     if (holdings[sym]) {
-      holdings[sym].avgCostUsdt = cb.avgCostUsdt;
-      holdings[sym].avgCost = cb.avgCostUsdt * usdtAud; // AUD
-      holdings[sym].costBasisQty = cb.remainingQty;
-      holdings[sym].realizedPnlAud = cb.realizedPnlUsdt * usdtAud;
+      holdings[sym].avgCostUsdt = isAudPriced ? null : cb.avgCostUsdt;
+      holdings[sym].avgCost = isAudPriced ? cb.avgCostUsdt : cb.avgCostUsdt * usdtAud;
+      holdings[sym].realizedPnlAud = isAudPriced ? cb.realizedPnlUsdt : cb.realizedPnlUsdt * usdtAud;
       holdings[sym].firstBuyTime = cb.firstBuyTime;
-      // Unrealized P&L: for the qty we have cost basis on
       const trackQty = Math.min(holdings[sym].balance, cb.remainingQty);
       if (cb.avgCostUsdt > 0 && holdings[sym].price > 0) {
-        const unrealAud = trackQty * (holdings[sym].price - holdings[sym].avgCost);
-        holdings[sym].unrealizedPnlAud = unrealAud;
+        holdings[sym].unrealizedPnlAud = trackQty * (holdings[sym].price - holdings[sym].avgCost);
         holdings[sym].unrealizedPnlPct = ((holdings[sym].price - holdings[sym].avgCost) / holdings[sym].avgCost) * 100;
       }
     }
-    totalRealizedPnlAud += cb.realizedPnlUsdt * usdtAud;
+    totalRealizedPnlAud += isAudPriced ? cb.realizedPnlUsdt : cb.realizedPnlUsdt * usdtAud;
   }
 
   // Activity feed
   const allTxs = [];
-  for (const w of state.wallets) for (const tx of walletData[w.id].txs) allTxs.push({ ...tx, walletLabel: w.label });
+  for (const w of port.wallets) for (const tx of (walletData[w.id].txs || [])) allTxs.push({ ...tx, walletLabel: w.label });
   allTxs.sort((a, b) => b.timestamp - a.timestamp);
 
-  // Total unrealized P&L (sum across positions where we have cost basis)
+  // Compute total + risk scores
+  const list = Object.values(holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) }));
+  const total = list.reduce((s, h) => s + h.value, 0);
+  for (const h of list) {
+    const alloc = total > 0 ? (h.value / total * 100) : 0;
+    h.allocation = alloc;
+    h.riskScore = calcRiskScore(h, alloc);
+    holdings[h.symbol] = h;
+  }
   let totalUnrealizedPnlAud = 0;
   for (const h of Object.values(holdings)) if (h.unrealizedPnlAud != null) totalUnrealizedPnlAud += h.unrealizedPnlAud;
 
-  state.snapshot = {
+  const snapshot = {
     walletData, holdings, txs: allTxs.slice(0, 100), prices,
-    totalRealizedPnlAud, totalUnrealizedPnlAud, usdtAud,
-    lastRefresh: Date.now()
+    totalAud: total, totalRealizedPnlAud, totalUnrealizedPnlAud, usdtAud,
+    lastRefresh: Date.now(),
   };
-  state.lastRefresh = Date.now();
-  saveState();
+  setActiveSnapshot(snapshot);
+
+  // Save history snapshot (max 1 per hour to keep it tight)
+  saveHistoryPoint(state.activeId, total);
+
+  // Push snapshot to Worker for Telegram bot
+  if (workerUrl) {
+    try {
+      const snapForBot = {
+        totalAud: total,
+        unrealizedPnlAud: totalUnrealizedPnlAud,
+        realizedPnlAud: totalRealizedPnlAud,
+        holdings: list.sort((a, b) => b.value - a.value).map(h => ({
+          symbol: h.symbol, balance: Number(h.balance.toFixed(8)),
+          price: h.price, change24h: h.change24h, change7d: h.change7d, change30d: h.change30d,
+          ath: h.ath, ath_change_pct: h.ath_change_pct, rank: h.rank,
+          value: h.value, allocation: h.allocation,
+          avgCost: h.avgCost, unrealizedPnlPct: h.unrealizedPnlPct, unrealizedPnlAud: h.unrealizedPnlAud,
+          firstBuyTime: h.firstBuyTime, riskScore: h.riskScore,
+        })),
+        recentTrades: allTxs.filter(t => t.kind === 'trade').slice(0, 30),
+        recentTransfers: allTxs.filter(t => t.kind === 'transfer').slice(0, 15),
+      };
+      fetch(`${workerUrl}/snapshot`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(snapForBot) }).catch(() => {});
+    } catch (e) { console.warn('snapshot push failed', e); }
+  }
 
   document.getElementById('refreshIcon').textContent = '↻';
   isRefreshing = false;
-  const errors = state.wallets.filter(w => walletData[w.id].error).map(w => `${w.label}: ${walletData[w.id].error}`);
-  if (errors.length) showStatus('⚠ Some sources failed: ' + errors.join(' | '), 'error');
+  const errors = port.wallets.filter(w => walletData[w.id]?.error).map(w => `${w.label}: ${walletData[w.id].error}`);
+  if (errors.length) showStatus('⚠ ' + errors.join(' | '), 'error');
   else { showStatus(`✓ Updated ${new Date().toLocaleTimeString('en-AU')}`, 'success'); setTimeout(hideStatus, 3000); }
   render();
 }
 
-// ============================================================
-// FORMATTERS
-// ============================================================
+function extractPriceData(p) {
+  if (!p) return { price: 0, change24h: null, change7d: null, change30d: null, ath: null, ath_change_pct: null, ath_date: null, atl: null, rank: null, marketCap: null, sparkline: null };
+  return { price: p.price || 0, change24h: p.change24h ?? null, change7d: p.change7d ?? null, change30d: p.change30d ?? null, ath: p.ath ?? null, ath_change_pct: p.ath_change_pct ?? null, ath_date: p.ath_date ?? null, atl: p.atl ?? null, rank: p.rank ?? null, marketCap: p.marketCap ?? null, sparkline: p.sparkline ?? null };
+}
 
-function fmtAUD(v, dp = 2) {
-  if (v == null || isNaN(v)) return '—';
-  if (Math.abs(v) >= 1000000) return 'A$' + (v / 1000000).toFixed(2) + 'M';
-  return 'A$' + Number(v).toLocaleString('en-AU', { minimumFractionDigits: dp, maximumFractionDigits: dp });
+function saveHistoryPoint(portId, value) {
+  if (!portfolioHistory[portId]) portfolioHistory[portId] = [];
+  const arr = portfolioHistory[portId];
+  const now = Date.now();
+  // Throttle to one point per hour
+  if (arr.length && now - arr[arr.length - 1].t < 60 * 60 * 1000) {
+    arr[arr.length - 1] = { t: now, v: value };
+  } else {
+    arr.push({ t: now, v: value });
+  }
+  // Keep last 90 days
+  const cutoff = now - 90 * 24 * 60 * 60 * 1000;
+  while (arr.length && arr[0].t < cutoff) arr.shift();
+  saveHistory();
 }
-function fmtAUDSigned(v) {
-  if (v == null || isNaN(v)) return '—';
-  return (v >= 0 ? '+' : '−') + fmtAUD(Math.abs(v));
-}
-function fmtNum(v, dp = 4) {
-  if (v == null || isNaN(v)) return '—';
-  if (v >= 1000) return Number(v).toLocaleString('en-AU', { maximumFractionDigits: 2 });
-  return Number(v).toLocaleString('en-AU', { maximumFractionDigits: dp });
-}
+
+// ============================================================
+// Formatters
+// ============================================================
+function fmtAUD(v, dp = 2) { if (v == null || isNaN(v)) return '—'; if (Math.abs(v) >= 1000000) return 'A$' + (v / 1000000).toFixed(2) + 'M'; return 'A$' + Number(v).toLocaleString('en-AU', { minimumFractionDigits: dp, maximumFractionDigits: dp }); }
+function fmtAUDSigned(v) { if (v == null || isNaN(v)) return '—'; return (v >= 0 ? '+' : '−') + fmtAUD(Math.abs(v)); }
+function fmtNum(v, dp = 4) { if (v == null || isNaN(v)) return '—'; if (v >= 1000) return Number(v).toLocaleString('en-AU', { maximumFractionDigits: 2 }); return Number(v).toLocaleString('en-AU', { maximumFractionDigits: dp }); }
 function fmtPct(v) { if (v == null || isNaN(v)) return '—'; return (v >= 0 ? '+' : '') + v.toFixed(2) + '%'; }
-function fmtPrice(v) {
-  if (v == null || isNaN(v) || v === 0) return '—';
-  if (v < 0.0001) return 'A$' + v.toExponential(2);
-  if (v < 0.01) return 'A$' + v.toFixed(6);
-  if (v < 1) return 'A$' + v.toFixed(4);
-  return fmtAUD(v);
-}
+function fmtPctSmall(v) { if (v == null || isNaN(v)) return '—'; return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; }
+function fmtPrice(v) { if (v == null || isNaN(v) || v === 0) return '—'; if (v < 0.0001) return 'A$' + v.toExponential(2); if (v < 0.01) return 'A$' + v.toFixed(6); if (v < 1) return 'A$' + v.toFixed(4); return fmtAUD(v); }
 function shortAddr(a) { if (!a) return ''; if (a.length <= 24) return a; return a.slice(0, 12) + '…' + a.slice(-8); }
-function timeAgo(ts) {
-  const s = (Date.now() - ts) / 1000;
-  if (s < 60) return Math.floor(s) + 's ago';
-  if (s < 3600) return Math.floor(s / 60) + 'm ago';
-  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
-  if (s < 86400 * 7) return Math.floor(s / 86400) + 'd ago';
-  return new Date(ts).toLocaleDateString('en-AU');
-}
-function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function timeAgo(ts) { const s = (Date.now() - ts) / 1000; if (s < 60) return Math.floor(s) + 's ago'; if (s < 3600) return Math.floor(s / 60) + 'm ago'; if (s < 86400) return Math.floor(s / 3600) + 'h ago'; if (s < 86400 * 7) return Math.floor(s / 86400) + 'd ago'; return new Date(ts).toLocaleDateString('en-AU'); }
+function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
 
-// Tiny markdown renderer for AI responses
 function renderMd(text) {
   let html = escapeHtml(text);
-  // Code spans
   html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
-  // Bold
   html = html.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
-  // Italic
   html = html.replace(/(^|[\s(])\*([^*\n]+)\*([\s).,!?]|$)/g, '$1<em>$2</em>$3');
-  // Headers
   html = html.replace(/^####\s+(.+)$/gm, '<h4>$1</h4>');
   html = html.replace(/^###\s+(.+)$/gm, '<h4>$1</h4>');
   html = html.replace(/^##\s+(.+)$/gm, '<h3>$1</h3>');
   html = html.replace(/^#\s+(.+)$/gm, '<h3>$1</h3>');
-  // Lists
-  const lines = html.split('\n');
-  let out = [];
-  let inList = false;
+  const lines = html.split('\n'); const out = []; let inList = false;
   for (const line of lines) {
     const m = line.match(/^[\s]*[-*•]\s+(.+)$/) || line.match(/^[\s]*\d+\.\s+(.+)$/);
-    if (m) {
-      if (!inList) { out.push('<ul>'); inList = true; }
-      out.push(`<li>${m[1]}</li>`);
-    } else {
-      if (inList) { out.push('</ul>'); inList = false; }
-      out.push(line);
-    }
+    if (m) { if (!inList) { out.push('<ul>'); inList = true; } out.push(`<li>${m[1]}</li>`); }
+    else { if (inList) { out.push('</ul>'); inList = false; } out.push(line); }
   }
   if (inList) out.push('</ul>');
-  // Paragraphs
-  return out.join('\n').split(/\n\n+/).map(p => {
-    p = p.trim();
-    if (!p) return '';
-    if (p.startsWith('<')) return p;
-    return `<p>${p.replace(/\n/g, '<br>')}</p>`;
-  }).join('');
+  return out.join('\n').split(/\n\n+/).map(p => { p = p.trim(); if (!p) return ''; if (p.startsWith('<')) return p; return `<p>${p.replace(/\n/g,'<br>')}</p>`; }).join('');
+}
+
+function sparklinePath(points, w = 70, h = 20) {
+  if (!points || points.length < 2) return '';
+  const min = Math.min(...points), max = Math.max(...points);
+  const range = max - min || 1;
+  const step = w / (points.length - 1);
+  return points.map((p, i) => `${i === 0 ? 'M' : 'L'}${(i * step).toFixed(1)},${(h - ((p - min) / range) * h).toFixed(1)}`).join(' ');
 }
 
 // ============================================================
-// RENDER
+// Render
 // ============================================================
+function render() { renderPortSwitcher(); renderTotal(); renderWallets(); renderHoldings(); renderTxs(); renderAi(); renderHistoryChart(); }
 
-function render() { renderTotal(); renderWallets(); renderHoldings(); renderTxs(); renderAi(); }
+function renderPortSwitcher() {
+  const wrap = document.getElementById('portSwitcher');
+  wrap.innerHTML = state.portfolios.map(p =>
+    `<div class="port-tab ${p.id === state.activeId ? 'active' : ''}" data-port="${p.id}">${escapeHtml(p.name)}</div>`
+  ).join('') + '<div class="port-add" id="addPortBtn" title="New portfolio">+</div>';
+  wrap.querySelectorAll('.port-tab').forEach(el => el.addEventListener('click', () => { state.activeId = el.dataset.port; saveState(); chatHistory = []; saveChatHistory(); render(); refreshAll(); }));
+  document.getElementById('addPortBtn').addEventListener('click', () => document.getElementById('newPortModal').classList.add('active'));
+}
 
 function renderTotal() {
   const totalEl = document.getElementById('totalValue');
   const changeEl = document.getElementById('totalChange');
   const metaEl = document.getElementById('totalMeta');
   const pnlRow = document.getElementById('totalPnlRow');
-
-  if (!state.snapshot) {
-    totalEl.textContent = 'A$0.00';
-    changeEl.textContent = state.wallets.length ? 'Click ↻ Refresh to load' : '—';
-    changeEl.className = 'total-change';
-    metaEl.textContent = '';
-    pnlRow.innerHTML = '';
-    return;
-  }
-  const list = Object.values(state.snapshot.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) }));
+  const snap = activeSnapshot();
+  const port = activePortfolio();
+  if (!snap) { totalEl.textContent = 'A$0.00'; changeEl.textContent = port.wallets.length ? 'Click ↻ Refresh' : '—'; changeEl.className = 'total-change'; metaEl.textContent = ''; pnlRow.innerHTML = ''; return; }
+  const list = Object.values(snap.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) }));
   const total = list.reduce((s, h) => s + h.value, 0);
   let weighted24 = 0;
-  for (const h of list) if (total > 0 && h.change24h != null && !isNaN(h.change24h)) weighted24 += (h.value / total) * h.change24h;
+  for (const h of list) if (total > 0 && h.change24h != null) weighted24 += (h.value / total) * h.change24h;
   totalEl.textContent = fmtAUD(total);
   changeEl.className = 'total-change ' + (weighted24 >= 0 ? 'up' : 'down');
   const change24Value = total * weighted24 / 100;
-  const arrow = weighted24 >= 0 ? '▲' : '▼';
-  changeEl.innerHTML = `${arrow} ${fmtPct(weighted24)} <span class="delta-aud">(${change24Value >= 0 ? '+' : '−'}${fmtAUD(Math.abs(change24Value))} 24h)</span>`;
-  metaEl.innerHTML = `<span class="live-dot"></span>Updated ${timeAgo(state.snapshot.lastRefresh)}`;
-  // P&L row
-  const realized = state.snapshot.totalRealizedPnlAud || 0;
-  const unrealized = state.snapshot.totalUnrealizedPnlAud || 0;
-  pnlRow.innerHTML = `
-    <span class="total-pnl-item">Realized P&L <span class="v ${realized >= 0 ? 'up' : 'down'}">${fmtAUDSigned(realized)}</span></span>
-    <span class="total-pnl-item">Unrealized P&L <span class="v ${unrealized >= 0 ? 'up' : 'down'}">${fmtAUDSigned(unrealized)}</span></span>
-  `;
+  changeEl.innerHTML = `${weighted24 >= 0 ? '▲' : '▼'} ${fmtPct(weighted24)} <span class="delta-aud">(${change24Value >= 0 ? '+' : '−'}${fmtAUD(Math.abs(change24Value))} 24h)</span>`;
+  metaEl.innerHTML = `<span class="live-dot"></span>Updated ${timeAgo(snap.lastRefresh)}`;
+  const realized = snap.totalRealizedPnlAud || 0;
+  const unrealized = snap.totalUnrealizedPnlAud || 0;
+  pnlRow.innerHTML = `<span class="total-pnl-item">Realized P&L <span class="v ${realized >= 0 ? 'up' : 'down'}">${fmtAUDSigned(realized)}</span></span><span class="total-pnl-item">Unrealized P&L <span class="v ${unrealized >= 0 ? 'up' : 'down'}">${fmtAUDSigned(unrealized)}</span></span>`;
+}
+
+function renderHistoryChart() {
+  const el = document.getElementById('historyChart');
+  const arr = portfolioHistory[state.activeId] || [];
+  if (arr.length < 2) { el.innerHTML = ''; return; }
+  const points = arr.slice(-90).map(p => p.v);
+  const min = Math.min(...points), max = Math.max(...points);
+  const path = sparklinePath(points, 800, 60);
+  const last = points[points.length - 1];
+  const first = points[0];
+  const trend = last >= first ? 'up' : 'down';
+  el.innerHTML = `<svg viewBox="0 0 800 60" preserveAspectRatio="none">
+    <defs><linearGradient id="histgrad" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="${trend === 'up' ? '#34d399' : '#f87171'}" stop-opacity="0.4"/><stop offset="100%" stop-color="${trend === 'up' ? '#34d399' : '#f87171'}" stop-opacity="0"/></linearGradient></defs>
+    <path d="${path} L800,60 L0,60 Z" fill="url(#histgrad)"/>
+    <path d="${path}" fill="none" stroke="${trend === 'up' ? '#34d399' : '#f87171'}" stroke-width="1.5"/>
+  </svg>`;
 }
 
 function renderWallets() {
   const wrap = document.getElementById('walletList');
   const empty = document.getElementById('walletEmpty');
-  document.getElementById('walletCount').textContent = state.wallets.length;
-  if (!state.wallets.length) { wrap.innerHTML = ''; empty.style.display = 'block'; return; }
+  const port = activePortfolio();
+  document.getElementById('walletCount').textContent = port.wallets.length;
+  if (!port.wallets.length) { wrap.innerHTML = ''; empty.style.display = 'block'; return; }
   empty.style.display = 'none';
-  wrap.innerHTML = state.wallets.map(w => {
-    const data = state.snapshot?.walletData?.[w.id];
+  const snap = activeSnapshot();
+  wrap.innerHTML = port.wallets.map(w => {
+    const data = snap?.walletData?.[w.id];
     const chain = CHAINS[w.chain];
     let value = 0;
     if (data) {
-      if (chain.type === 'chain') value = data.native * (state.snapshot.prices?.[chain.coingeckoId]?.price || 0);
-      for (const t of data.tokens) {
+      if (chain.type === 'chain') value = data.native * (snap.prices?.[chain.coingeckoId]?.price || 0);
+      for (const t of (data.tokens || [])) {
         let p = 0;
-        if (t.contract) p = state.snapshot.prices?.['avax_token:' + t.contract]?.price || 0;
-        else if (t.coingeckoId) p = state.snapshot.prices?.[t.coingeckoId]?.price || 0;
+        if (t.contract && t.platform === 'avalanche') p = snap.prices?.['avax_token:' + t.contract.toLowerCase()]?.price || 0;
+        else if (t.contract && t.platform === 'ethereum') p = snap.prices?.['eth_token:' + t.contract.toLowerCase()]?.price || 0;
+        else if (t.contract && t.platform === 'base') p = snap.prices?.['base_token:' + t.contract.toLowerCase()]?.price || 0;
+        else if (t.mint && t.platform === 'solana') p = snap.prices?.['solana_mint:' + t.mint]?.price || 0;
+        else if (t.coingeckoId) p = snap.prices?.[t.coingeckoId]?.price || 0;
+        if (!p && t.audValueOverride) p = t.audValueOverride / t.balance;
         value += t.balance * p;
       }
     }
     const errorHtml = data?.error ? `<div class="wallet-error">⚠ ${escapeHtml(data.error)}</div>` : '';
-    let addressDisplay;
-    try { addressDisplay = chain.type === 'exchange' ? new URL(w.address).host : shortAddr(w.address); }
-    catch { addressDisplay = shortAddr(w.address); }
-    return `
-      <div class="wallet-card">
-        <div class="label-row"><span class="wallet-label">${escapeHtml(w.label)}</span><span class="chain-badge ${w.chain}">${chain.nativeSymbol}</span></div>
-        <div class="address"><a href="${chain.explorerUrl(w.address)}" target="_blank" rel="noopener">${escapeHtml(addressDisplay)}</a></div>
-        <div class="wallet-value">${data && !data.error ? fmtAUD(value) : '—'}</div>
-        ${errorHtml}
-        <button class="remove-btn" onclick="removeWallet('${w.id}')">Remove</button>
-      </div>
-    `;
+    let addr; try { addr = chain.type === 'exchange' ? new URL(w.address).host : shortAddr(w.address); } catch { addr = shortAddr(w.address); }
+    return `<div class="wallet-card">
+      <div class="label-row"><span class="wallet-label">${escapeHtml(w.label)}</span><span class="chain-badge ${w.chain}">${chain.nativeSymbol}</span></div>
+      <div class="address"><a href="${chain.explorerUrl(w.address)}" target="_blank" rel="noopener">${escapeHtml(addr)}</a></div>
+      <div class="wallet-value">${data && !data.error ? fmtAUD(value) : '—'}</div>
+      ${errorHtml}
+      <button class="remove-btn" onclick="removeWallet('${w.id}')">Remove</button>
+    </div>`;
   }).join('');
 }
 
@@ -929,48 +1186,44 @@ function renderHoldings() {
   const body = document.getElementById('holdingsBody');
   const empty = document.getElementById('holdingsEmpty');
   const count = document.getElementById('holdingCount');
-  if (!state.snapshot || !Object.keys(state.snapshot.holdings).length) {
+  const snap = activeSnapshot();
+  if (!snap || !Object.keys(snap.holdings).length) {
     body.innerHTML = ''; count.textContent = '0';
-    empty.style.display = state.wallets.length ? 'block' : 'none';
-    if (state.wallets.length && !state.snapshot) empty.textContent = 'Click ↻ Refresh to load holdings.';
+    empty.style.display = activePortfolio().wallets.length ? 'block' : 'none';
+    if (activePortfolio().wallets.length && !snap) empty.textContent = 'Click ↻ Refresh.';
     return;
   }
   empty.style.display = 'none';
-  const list = Object.values(state.snapshot.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) })).sort((a, b) => b.value - a.value);
+  const list = Object.values(snap.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) })).sort((a, b) => b.value - a.value);
   const total = list.reduce((s, h) => s + h.value, 0);
   count.textContent = list.length;
   body.innerHTML = list.map(h => {
     const allocation = total > 0 ? (h.value / total * 100) : 0;
-    const change24Class = h.change24h > 0 ? 'up' : h.change24h < 0 ? 'down' : '';
+    const c24 = h.change24h > 0 ? 'up' : h.change24h < 0 ? 'down' : '';
+    const c7 = h.change7d > 0 ? 'up' : h.change7d < 0 ? 'down' : '';
     const pnlPct = h.unrealizedPnlPct;
     const pnlAud = h.unrealizedPnlAud;
     const pnlClass = pnlPct == null ? 'muted-cell' : pnlPct > 0 ? 'up' : pnlPct < 0 ? 'down' : '';
     const pnlDisplay = pnlPct == null ? '—' : `${fmtPct(pnlPct)}<br><span style="font-size:11px;opacity:0.7">${fmtAUDSigned(pnlAud)}</span>`;
-    return `
-      <tr>
-        <td>
-          <div class="coin-cell">
-            <div class="coin-icon ${h.symbol.toLowerCase()}">${escapeHtml(h.symbol.slice(0, 4))}</div>
-            <div>
-              <div class="coin-name">${escapeHtml(h.symbol)}</div>
-              ${h.name && h.name !== h.symbol ? `<div class="coin-fullname">${escapeHtml(h.name)}</div>` : ''}
-            </div>
-          </div>
-        </td>
-        <td class="num">${fmtNum(h.balance)}</td>
-        <td class="num ${h.avgCost ? '' : 'muted-cell'}">${h.avgCost ? fmtPrice(h.avgCost) : '—'}</td>
-        <td class="num">${fmtPrice(h.price)}</td>
-        <td class="num ${pnlClass}">${pnlDisplay}</td>
-        <td class="num ${change24Class}">${fmtPct(h.change24h)}</td>
-        <td class="num">${fmtAUD(h.value)}</td>
-        <td class="num">
-          <div class="alloc-bar">
-            <div class="alloc-bar-track"><div class="alloc-bar-fill" style="width:${allocation.toFixed(1)}%"></div></div>
-            <span>${allocation.toFixed(1)}%</span>
-          </div>
-        </td>
-      </tr>
-    `;
+    const ath = h.ath_change_pct != null ? `<span class="ath-cell">${h.ath_change_pct.toFixed(0)}%</span>` : '<span class="muted-cell">—</span>';
+    const sparkPath = sparklinePath(h.sparkline, 70, 20);
+    const sparkColor = h.change7d > 0 ? '#34d399' : h.change7d < 0 ? '#f87171' : '#6a6a85';
+    const spark = sparkPath ? `<svg class="spark" viewBox="0 0 70 20"><path d="${sparkPath}" fill="none" stroke="${sparkColor}" stroke-width="1.5"/></svg>` : '';
+    const riskCls = h.riskScore <= 4 ? 'risk-low' : h.riskScore <= 7 ? 'risk-med' : 'risk-high';
+    return `<tr onclick="openCoinDetail('${escapeHtml(h.symbol)}')">
+      <td><div class="coin-cell"><div class="coin-icon ${h.symbol.toLowerCase()}">${escapeHtml(h.symbol.slice(0, 4))}</div><div><div class="coin-name">${escapeHtml(h.symbol)}</div>${h.name && h.name !== h.symbol ? `<div class="coin-fullname">${escapeHtml(h.name)}</div>` : ''}</div></div></td>
+      <td class="num">${fmtNum(h.balance)}</td>
+      <td class="num ${h.avgCost ? '' : 'muted-cell'}">${h.avgCost ? fmtPrice(h.avgCost) : '—'}</td>
+      <td class="num">${fmtPrice(h.price)}</td>
+      <td class="num ${pnlClass}">${pnlDisplay}</td>
+      <td class="num ${c24}">${fmtPctSmall(h.change24h)}</td>
+      <td class="num ${c7}">${fmtPctSmall(h.change7d)}</td>
+      <td class="num">${ath}</td>
+      <td>${spark}</td>
+      <td class="num"><span class="risk-pill ${riskCls}">${h.riskScore}/10</span></td>
+      <td class="num">${fmtAUD(h.value)}</td>
+      <td class="num"><div class="alloc-bar"><div class="alloc-bar-track"><div class="alloc-bar-fill" style="width:${allocation.toFixed(1)}%"></div></div><span>${allocation.toFixed(1)}%</span></div></td>
+    </tr>`;
   }).join('');
 }
 
@@ -978,12 +1231,9 @@ function renderTxs() {
   const list = document.getElementById('txList');
   const empty = document.getElementById('txEmpty');
   const count = document.getElementById('txCount');
-  if (!state.snapshot?.txs?.length) {
-    list.innerHTML = ''; count.textContent = '0';
-    empty.style.display = 'block'; empty.textContent = 'Activity will appear here after refresh.';
-    return;
-  }
-  let filtered = state.snapshot.txs;
+  const snap = activeSnapshot();
+  if (!snap?.txs?.length) { list.innerHTML = ''; count.textContent = '0'; empty.style.display = 'block'; return; }
+  let filtered = snap.txs;
   if (activityFilter === 'onchain') filtered = filtered.filter(t => t.kind === 'transfer');
   else if (activityFilter === 'trades') filtered = filtered.filter(t => t.kind === 'trade');
   count.textContent = filtered.length;
@@ -995,41 +1245,21 @@ function renderTxs() {
       const sign = tx.direction === 'buy' ? '+' : '−';
       const arrow = tx.direction === 'buy' ? '↘' : '↗';
       const verb = tx.direction === 'buy' ? 'Bought' : 'Sold';
-      return `
-        <div class="tx-item">
-          <div class="tx-left">
-            <div class="tx-icon ${tx.direction}">${arrow}</div>
-            <div>
-              <div class="tx-title">${verb} ${escapeHtml(tx.symbol)}</div>
-              <div class="tx-meta">${escapeHtml(tx.walletLabel)} · ${escapeHtml(tx.symbolPair)} @ ${fmtNum(tx.price, 6)} USDT · ${timeAgo(tx.timestamp)}</div>
-            </div>
-          </div>
-          <div class="tx-amount"><div class="tx-amount-val ${tx.direction === 'buy' ? 'up' : 'down'}">${sign}${fmtNum(tx.amount, 6)}</div><div class="tx-amount-sym">${escapeHtml(tx.symbol)}</div></div>
-        </div>
-      `;
+      const quote = tx.quoteSymbol === 'AUD' ? `A$${fmtNum(tx.price, 4)}` : `${fmtNum(tx.price, 6)} USDT`;
+      return `<div class="tx-item"><div class="tx-left"><div class="tx-icon ${tx.direction}">${arrow}</div><div><div class="tx-title">${verb} ${escapeHtml(tx.symbol)}</div><div class="tx-meta">${escapeHtml(tx.walletLabel)} · @ ${quote} · ${timeAgo(tx.timestamp)}</div></div></div><div class="tx-amount"><div class="tx-amount-val ${tx.direction === 'buy' ? 'up' : 'down'}">${sign}${fmtNum(tx.amount, 6)}</div><div class="tx-amount-sym">${escapeHtml(tx.symbol)}</div></div></div>`;
     } else {
       const sign = tx.direction === 'in' ? '+' : '−';
       const arrow = tx.direction === 'in' ? '↓' : '↑';
-      return `
-        <div class="tx-item">
-          <div class="tx-left">
-            <div class="tx-icon ${tx.direction}">${arrow}</div>
-            <div>
-              <div class="tx-title">${tx.direction === 'in' ? 'Received' : 'Sent'} ${escapeHtml(tx.symbol)}</div>
-              <div class="tx-meta">${escapeHtml(tx.walletLabel)} · ${timeAgo(tx.timestamp)} · <a href="${chain.txUrl(tx.hash)}" target="_blank" rel="noopener">view tx</a></div>
-            </div>
-          </div>
-          <div class="tx-amount"><div class="tx-amount-val ${tx.direction === 'in' ? 'up' : 'down'}">${sign}${fmtNum(tx.amount, 6)}</div><div class="tx-amount-sym">${escapeHtml(tx.symbol)}</div></div>
-        </div>
-      `;
+      const txLink = chain ? `<a href="${chain.txUrl(tx.hash)}" target="_blank" rel="noopener">view</a>` : '';
+      return `<div class="tx-item"><div class="tx-left"><div class="tx-icon ${tx.direction}">${arrow}</div><div><div class="tx-title">${tx.direction === 'in' ? 'Received' : 'Sent'} ${escapeHtml(tx.symbol)}</div><div class="tx-meta">${escapeHtml(tx.walletLabel)} · ${timeAgo(tx.timestamp)} · ${txLink}</div></div></div><div class="tx-amount"><div class="tx-amount-val ${tx.direction === 'in' ? 'up' : 'down'}">${sign}${fmtNum(tx.amount, 6)}</div><div class="tx-amount-sym">${escapeHtml(tx.symbol)}</div></div></div>`;
     }
   }).join('');
 }
 
 function renderAi() {
-  const workerUrl = getWorkerUrl();
-  document.getElementById('aiContent').style.display = workerUrl ? '' : 'none';
-  document.getElementById('aiDisabled').style.display = workerUrl ? 'none' : 'block';
+  const url = getWorkerUrl();
+  document.getElementById('aiContent').style.display = url ? '' : 'none';
+  document.getElementById('aiDisabled').style.display = url ? 'none' : 'block';
   renderChat();
 }
 
@@ -1038,109 +1268,164 @@ function renderChat() {
   const empty = document.getElementById('chatEmpty');
   if (!chatHistory.length) { empty.style.display = 'block'; list.innerHTML = ''; list.appendChild(empty); return; }
   empty.style.display = 'none';
-  list.innerHTML = chatHistory.map(m => {
-    if (m.role === 'user') return `<div class="chat-msg user"><p>${escapeHtml(m.content)}</p></div>`;
-    return `<div class="chat-msg ai">${renderMd(m.content)}</div>`;
-  }).join('');
+  list.innerHTML = chatHistory.map(m => m.role === 'user' ? `<div class="chat-msg user"><p>${escapeHtml(m.content)}</p></div>` : `<div class="chat-msg ai">${renderMd(m.content)}</div>`).join('');
   list.scrollTop = list.scrollHeight;
 }
 
-function appendChat(role, content) {
-  chatHistory.push({ role, content });
-  // Keep last 30 messages
-  if (chatHistory.length > 30) chatHistory = chatHistory.slice(-30);
-  saveChatHistory();
-  renderChat();
-}
+function appendChat(role, content) { chatHistory.push({ role, content }); if (chatHistory.length > 30) chatHistory = chatHistory.slice(-30); saveChatHistory(); renderChat(); }
 
 // ============================================================
-// AI ANALYST
+// AI calls
 // ============================================================
-
 function buildPortfolioContext() {
-  if (!state.snapshot) return null;
-  const sources = state.wallets.map(w => CHAINS[w.chain].name + (w.label ? ` (${w.label})` : ''));
-  const list = Object.values(state.snapshot.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) })).sort((a, b) => b.value - a.value);
+  const snap = activeSnapshot();
+  if (!snap) return null;
+  const list = Object.values(snap.holdings).map(h => ({ ...h, value: h.balance * (h.price || 0) })).sort((a, b) => b.value - a.value);
   const totalAud = list.reduce((s, h) => s + h.value, 0);
-  const holdings = list.map(h => ({
-    symbol: h.symbol,
-    balance: Number(h.balance.toFixed(8)),
-    price: h.price,
-    change24h: h.change24h,
-    value: h.value,
-    allocation: totalAud > 0 ? (h.value / totalAud * 100) : 0,
-    avgCost: h.avgCost,
-    unrealizedPnlPct: h.unrealizedPnlPct,
-    unrealizedPnlAud: h.unrealizedPnlAud
-  }));
-  const recentTrades = state.snapshot.txs.filter(t => t.kind === 'trade').slice(0, 30);
-  const recentTransfers = state.snapshot.txs.filter(t => t.kind === 'transfer').slice(0, 15);
   return {
     totalAud,
-    sources,
-    holdings,
-    recentTrades,
-    recentTransfers,
-    realizedPnlAud: state.snapshot.totalRealizedPnlAud
+    holdings: list.map(h => ({
+      symbol: h.symbol, balance: Number(h.balance.toFixed(8)),
+      price: h.price, change24h: h.change24h, change7d: h.change7d, change30d: h.change30d,
+      ath: h.ath, ath_change_pct: h.ath_change_pct, rank: h.rank,
+      value: h.value, allocation: totalAud > 0 ? (h.value / totalAud * 100) : 0,
+      avgCost: h.avgCost, unrealizedPnlPct: h.unrealizedPnlPct, unrealizedPnlAud: h.unrealizedPnlAud,
+      firstBuyTime: h.firstBuyTime, riskScore: h.riskScore,
+    })),
+    recentTrades: snap.txs.filter(t => t.kind === 'trade').slice(0, 30),
+    recentTransfers: snap.txs.filter(t => t.kind === 'transfer').slice(0, 15),
+    realizedPnlAud: snap.totalRealizedPnlAud, unrealizedPnlAud: snap.totalUnrealizedPnlAud,
   };
 }
 
 let isChatting = false;
-
 async function sendToAi(message, isQuickBrief = false) {
   const workerUrl = getWorkerUrl();
-  if (!workerUrl) { alert('Add a MEXC source first to enable AI Analyst.'); return; }
+  if (!workerUrl) { alert('Add a MEXC source first.'); return; }
   if (isChatting) return;
-  if (!state.snapshot) { alert('Refresh your portfolio first so the analyst has data to work with.'); return; }
-
+  if (!activeSnapshot()) { alert('Refresh portfolio first.'); return; }
   isChatting = true;
-  const briefBtn = document.getElementById('briefBtn');
-  const sendBtn = document.getElementById('sendChatBtn');
-  briefBtn.disabled = true; sendBtn.disabled = true;
-
-  // Show user message + thinking placeholder
+  document.getElementById('briefBtn').disabled = true;
+  document.getElementById('sendChatBtn').disabled = true;
   appendChat('user', message);
   chatHistory.push({ role: 'assistant', content: '<span class="chat-thinking"><span class="spinner"></span> analysing...</span>' });
   renderChat();
-
   const portfolio = buildPortfolioContext();
   const endpoint = isQuickBrief ? '/analyze' : '/chat';
-  const body = isQuickBrief
-    ? { portfolio }
-    : { portfolio, message, history: chatHistory.slice(0, -2).filter(m => !m.content.includes('chat-thinking')) };
-
+  const body = isQuickBrief ? { portfolio } : { portfolio, message, history: chatHistory.slice(0, -2).filter(m => !m.content.includes('chat-thinking')) };
   try {
-    const r = await fetch(`${workerUrl}${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
+    const r = await fetch(`${workerUrl}${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     const data = await r.json();
-    // Remove placeholder
     chatHistory.pop();
     if (data.error) appendChat('assistant', `**Error:** ${data.error}`);
-    else {
-      const providerTag = data.provider ? `\n\n---\n*via ${data.provider}*` : '';
-      appendChat('assistant', (data.reply || '(no response)') + providerTag);
-    }
+    else { const tag = data.provider ? `\n\n---\n*via ${data.provider}*` : ''; appendChat('assistant', (data.reply || '(no response)') + tag); }
   } catch (e) {
     chatHistory.pop();
-    appendChat('assistant', `**Worker call failed:** ${e.message}\n\nCheck your Worker has \`GEMINI_API_KEY\` and/or \`GROQ_API_KEY\` secrets set.`);
+    appendChat('assistant', `**Worker call failed:** ${e.message}`);
   } finally {
     isChatting = false;
-    briefBtn.disabled = false; sendBtn.disabled = false;
+    document.getElementById('briefBtn').disabled = false;
+    document.getElementById('sendChatBtn').disabled = false;
   }
 }
 
 // ============================================================
-// STATUS / MODAL
+// Coin deep dive + take-profit ladder
 // ============================================================
+async function openCoinDetail(symbol) {
+  const snap = activeSnapshot();
+  const h = snap?.holdings?.[symbol];
+  if (!h) return;
+  const workerUrl = getWorkerUrl();
+  if (!workerUrl) { alert('Add MEXC source first.'); return; }
 
+  const modal = document.getElementById('coinModal');
+  document.getElementById('coinModalIcon').className = `coin-icon ${symbol.toLowerCase()}`;
+  document.getElementById('coinModalIcon').textContent = symbol.slice(0, 4);
+  document.getElementById('coinModalTitle').textContent = `${symbol} — deep dive`;
+  document.getElementById('coinModalStats').innerHTML = `
+    <div class="stat"><div class="stat-label">Balance</div><div class="stat-value">${fmtNum(h.balance)}</div></div>
+    <div class="stat"><div class="stat-label">Price</div><div class="stat-value">${fmtPrice(h.price)}</div></div>
+    <div class="stat"><div class="stat-label">Avg cost</div><div class="stat-value ${h.avgCost ? '' : 'muted-cell'}">${h.avgCost ? fmtPrice(h.avgCost) : '—'}</div></div>
+    <div class="stat"><div class="stat-label">P&L</div><div class="stat-value ${h.unrealizedPnlPct > 0 ? 'up' : h.unrealizedPnlPct < 0 ? 'down' : 'muted-cell'}">${h.unrealizedPnlPct != null ? fmtPct(h.unrealizedPnlPct) : '—'}</div></div>
+    <div class="stat"><div class="stat-label">Value</div><div class="stat-value">${fmtAUD(h.balance * (h.price || 0))}</div></div>
+    <div class="stat"><div class="stat-label">From ATH</div><div class="stat-value">${h.ath_change_pct != null ? h.ath_change_pct.toFixed(1) + '%' : '—'}</div></div>
+    <div class="stat"><div class="stat-label">7d</div><div class="stat-value ${h.change7d > 0 ? 'up' : h.change7d < 0 ? 'down' : ''}">${fmtPctSmall(h.change7d)}</div></div>
+    <div class="stat"><div class="stat-label">30d</div><div class="stat-value ${h.change30d > 0 ? 'up' : h.change30d < 0 ? 'down' : ''}">${fmtPctSmall(h.change30d)}</div></div>
+    <div class="stat"><div class="stat-label">Risk</div><div class="stat-value">${h.riskScore}/10</div></div>
+  `;
+
+  // Take-profit ladder
+  document.getElementById('coinTakeProfit').innerHTML = renderTakeProfitLadder(h);
+
+  // Quick alert button
+  document.getElementById('coinAlertSet').innerHTML = `<button class="btn btn-sm" onclick="quickAlert('${escapeHtml(symbol)}', ${h.price * 1.2})">🔔 Alert at +20% (${fmtPrice(h.price * 1.2)})</button> <button class="btn btn-sm" onclick="quickAlert('${escapeHtml(symbol)}', ${h.price * 0.85}, 'below')">🔔 Alert at -15% (${fmtPrice(h.price * 0.85)})</button>`;
+
+  document.getElementById('coinModalAi').innerHTML = '<div class="chat-thinking"><span class="spinner"></span> analysing...</div>';
+  modal.classList.add('active');
+
+  const portfolio = buildPortfolioContext();
+  const trades = snap.txs.filter(t => t.kind === 'trade' && t.symbol === symbol);
+  try {
+    const r = await fetch(`${workerUrl}/coin`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ symbol, holding: h, trades, portfolio }) });
+    const data = await r.json();
+    if (data.error) document.getElementById('coinModalAi').innerHTML = `<div class="chat-msg ai">⚠ ${escapeHtml(data.error)}</div>`;
+    else {
+      const tag = data.provider ? `\n\n---\n*via ${data.provider}*` : '';
+      document.getElementById('coinModalAi').innerHTML = `<div class="chat-msg ai">${renderMd(data.reply + tag)}</div>`;
+    }
+  } catch (e) {
+    document.getElementById('coinModalAi').innerHTML = `<div class="chat-msg ai">⚠ Failed: ${escapeHtml(e.message)}</div>`;
+  }
+}
+window.openCoinDetail = openCoinDetail;
+
+function renderTakeProfitLadder(h) {
+  if (!h.balance || !h.price) return '';
+  const pcts = [25, 50, 75, 100];
+  const cards = pcts.map(pct => {
+    const sellAmt = h.balance * (pct / 100);
+    const aud = sellAmt * h.price;
+    let pnl = '';
+    if (h.avgCost && h.avgCost > 0) {
+      const profit = sellAmt * (h.price - h.avgCost);
+      pnl = `<div class="tp-card-pnl ${profit >= 0 ? 'up' : 'down'}">Realized: ${fmtAUDSigned(profit)}</div>`;
+    }
+    // MEXC deep link (only works if symbol is on MEXC). Pre-fills the order.
+    const mexcLink = `https://www.mexc.com/exchange/${h.symbol}_USDT`;
+    return `<div class="tp-card">
+      <div class="tp-card-pct">SELL ${pct}%</div>
+      <div class="tp-card-amount">${fmtNum(sellAmt, 6)} ${escapeHtml(h.symbol)}</div>
+      <div class="tp-card-aud">≈ ${fmtAUD(aud)}</div>
+      ${pnl}
+      <a href="${mexcLink}" target="_blank" rel="noopener" class="tp-mexc-link">→ Open on MEXC</a>
+    </div>`;
+  }).join('');
+  return `<div class="tp-section"><div class="tp-title">📊 Take-profit ladder (at current price)</div><div class="tp-grid">${cards}</div></div>`;
+}
+
+window.quickAlert = function(symbol, price, condition = 'above') {
+  const snap = activeSnapshot();
+  const h = snap?.holdings?.[symbol];
+  if (!h?.coingeckoId) { alert('Cannot set alert — coin not mapped to a price feed.'); return; }
+  fetch(`${getWorkerUrl()}/alerts`, { method: 'GET' })
+    .then(r => r.json())
+    .then(data => {
+      const alerts = data.alerts || [];
+      alerts.push({ id: 'a_' + Math.random().toString(36).slice(2, 9), symbol, coingeckoId: h.coingeckoId, condition, target: Number(price.toFixed(8)), triggered: false, createdAt: Date.now(), label: '' });
+      return fetch(`${getWorkerUrl()}/alerts`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ alerts }) });
+    })
+    .then(r => r.json())
+    .then(d => { if (d.ok) showStatus(`✓ Alert set for ${symbol} ${condition} ${fmtPrice(price)}`, 'success'); setTimeout(hideStatus, 3000); });
+};
+
+// ============================================================
+// Status / modals
+// ============================================================
 function showStatus(html, type = 'info') { const el = document.getElementById('status'); el.innerHTML = html; el.className = 'status show ' + type; }
 function hideStatus() { document.getElementById('status').className = 'status'; }
-
-function openModal() { document.getElementById('addWalletModal').classList.add('active'); updateModalForChain(); document.getElementById('addressInput').focus(); }
-function closeModal() { document.getElementById('addWalletModal').classList.remove('active'); document.getElementById('addressInput').value = ''; document.getElementById('labelInput').value = ''; }
+function openAddWalletModal() { document.getElementById('addWalletModal').classList.add('active'); updateModalForChain(); document.getElementById('addressInput').focus(); }
+function closeAddWalletModal() { document.getElementById('addWalletModal').classList.remove('active'); document.getElementById('addressInput').value = ''; document.getElementById('labelInput').value = ''; }
 function updateModalForChain() {
   const chain = document.getElementById('chainSelect').value;
   const cfg = CHAINS[chain];
@@ -1154,63 +1439,329 @@ function addWallet() {
   let address = document.getElementById('addressInput').value.trim();
   if (CHAINS[chain].type === 'exchange') address = address.replace(/\/$/, '');
   const label = document.getElementById('labelInput').value.trim() || `${CHAINS[chain].nativeSymbol} ${CHAINS[chain].type === 'exchange' ? 'exchange' : 'wallet'}`;
-  if (!CHAINS[chain].validate(address)) { alert(`That doesn't look like a valid ${CHAINS[chain].name} ${CHAINS[chain].type === 'exchange' ? 'Worker URL' : 'address'}.`); return; }
-  if (state.wallets.find(w => w.address.toLowerCase() === address.toLowerCase() && w.chain === chain)) { alert('That source is already added.'); return; }
-  state.wallets.push({ id: 'w_' + Math.random().toString(36).slice(2, 10), chain, address, label });
-  saveState(); closeModal(); refreshAll();
+  if (!CHAINS[chain].validate(address)) { alert(`Invalid ${CHAINS[chain].name} address.`); return; }
+  const port = activePortfolio();
+  if (port.wallets.find(w => w.address.toLowerCase() === address.toLowerCase() && w.chain === chain)) { alert('Already added.'); return; }
+  port.wallets.push({ id: 'w_' + Math.random().toString(36).slice(2, 10), chain, address, label });
+  saveState(); closeAddWalletModal(); refreshAll();
 }
 
 function removeWallet(id) {
-  if (!confirm('Remove this source from tracking?')) return;
-  state.wallets = state.wallets.filter(w => w.id !== id);
-  if (state.snapshot?.walletData) delete state.snapshot.walletData[id];
+  if (!confirm('Remove this source?')) return;
+  const port = activePortfolio();
+  port.wallets = port.wallets.filter(w => w.id !== id);
+  const snap = activeSnapshot();
+  if (snap?.walletData) delete snap.walletData[id];
   saveState(); refreshAll();
 }
 window.removeWallet = removeWallet;
 
-// ============================================================
-// EVENTS + INIT
-// ============================================================
+// Alerts UI
+async function openAlertsModal() {
+  const url = getWorkerUrl();
+  if (!url) { alert('Add MEXC source first.'); return; }
+  const modal = document.getElementById('alertsModal');
+  modal.classList.add('active');
+  const list = document.getElementById('alertsList');
+  list.innerHTML = '<div class="empty">loading…</div>';
+  try {
+    const r = await fetch(`${url}/alerts`);
+    const data = await r.json();
+    const alerts = data.alerts || [];
+    if (!alerts.length) list.innerHTML = '<div class="empty">No alerts. Add one below.</div>';
+    else list.innerHTML = alerts.map(a => `
+      <div class="alert-item ${a.triggered ? 'triggered' : ''}">
+        <div class="alert-info">
+          <div class="coin-icon ${a.symbol.toLowerCase()}">${escapeHtml(a.symbol.slice(0, 4))}</div>
+          <div>
+            <div><strong>${escapeHtml(a.symbol)}</strong> <span class="alert-condition">${a.condition}</span> <span class="alert-target">${fmtPrice(a.target)}</span></div>
+            ${a.label ? `<div class="tx-meta">${escapeHtml(a.label)}</div>` : ''}
+            ${a.triggered ? `<div class="tx-meta up">✓ Triggered ${timeAgo(a.triggeredAt)}</div>` : ''}
+          </div>
+        </div>
+        <button class="remove-btn" onclick="deleteAlert('${a.id}')">×</button>
+      </div>`).join('');
+  } catch (e) { list.innerHTML = `<div class="empty">⚠ ${escapeHtml(e.message)}</div>`; }
+  // Populate coin select from holdings
+  const select = document.getElementById('newAlertCoin');
+  const snap = activeSnapshot();
+  const opts = Object.values(snap?.holdings || {}).filter(h => h.coingeckoId).sort((a,b) => (b.balance * (b.price||0)) - (a.balance * (a.price||0)));
+  select.innerHTML = opts.map(h => `<option value="${escapeHtml(h.symbol)}|${escapeHtml(h.coingeckoId)}">${escapeHtml(h.symbol)} (${fmtPrice(h.price)})</option>`).join('');
+}
 
-document.getElementById('addWalletBtn').addEventListener('click', openModal);
-document.getElementById('cancelBtn').addEventListener('click', closeModal);
+window.deleteAlert = async function(id) {
+  const url = getWorkerUrl();
+  const r = await fetch(`${url}/alerts`); const d = await r.json();
+  const alerts = (d.alerts || []).filter(a => a.id !== id);
+  await fetch(`${url}/alerts`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ alerts }) });
+  openAlertsModal();
+};
+
+async function saveNewAlert() {
+  const url = getWorkerUrl();
+  const coinVal = document.getElementById('newAlertCoin').value;
+  if (!coinVal) { alert('Pick a coin'); return; }
+  const [symbol, coingeckoId] = coinVal.split('|');
+  const condition = document.getElementById('newAlertCondition').value;
+  const target = Number(document.getElementById('newAlertTarget').value);
+  if (!target || isNaN(target)) { alert('Enter a valid target price'); return; }
+  const label = document.getElementById('newAlertLabel').value.trim();
+  const r = await fetch(`${url}/alerts`); const d = await r.json();
+  const alerts = d.alerts || [];
+  alerts.push({ id: 'a_' + Math.random().toString(36).slice(2, 9), symbol, coingeckoId, condition, target, triggered: false, createdAt: Date.now(), label });
+  await fetch(`${url}/alerts`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ alerts }) });
+  document.getElementById('newAlertTarget').value = ''; document.getElementById('newAlertLabel').value = '';
+  openAlertsModal();
+}
+
+// Settings
+function openSettingsModal() {
+  document.getElementById('autoRefreshSelect').value = String(state.settings.autoRefreshMin || 5);
+  document.getElementById('settingsModal').classList.add('active');
+}
+function exportData() {
+  const blob = new Blob([JSON.stringify({ state, portfolioHistory, chatHistory }, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `portfolio-hub-backup-${new Date().toISOString().slice(0,10)}.json`; a.click();
+  URL.revokeObjectURL(url);
+}
+async function importData(file) {
+  try {
+    const text = await file.text();
+    const data = JSON.parse(text);
+    if (!confirm('This will REPLACE your current data. Continue?')) return;
+    if (data.state) { state = data.state; saveState(); }
+    if (data.portfolioHistory) { portfolioHistory = data.portfolioHistory; saveHistory(); }
+    if (data.chatHistory) { chatHistory = data.chatHistory; saveChatHistory(); }
+    location.reload();
+  } catch (e) { alert(`Import failed: ${e.message}`); }
+}
+
+async function setupTelegramWebhook() {
+  const url = getWorkerUrl();
+  if (!url) { alert('Add MEXC source first'); return; }
+  const token = prompt('Paste your Telegram bot token (from BotFather):');
+  if (!token) return;
+  const webhookUrl = `${url}/telegram/webhook`;
+  try {
+    const r = await fetch(`https://api.telegram.org/bot${token}/setWebhook?url=${encodeURIComponent(webhookUrl)}`);
+    const d = await r.json();
+    if (d.ok) alert('✓ Telegram webhook set! Now message your bot.');
+    else alert(`⚠ Failed: ${d.description}`);
+  } catch (e) { alert(`Failed: ${e.message}`); }
+}
+
+// Tax report
+async function openTaxModal() {
+  const url = getWorkerUrl();
+  if (!url) { alert('Add MEXC source first.'); return; }
+  document.getElementById('taxResult').innerHTML = '';
+  // Populate FY dropdown
+  const select = document.getElementById('taxFy');
+  const now = new Date();
+  const currentFy = now.getMonth() >= 6 ? now.getFullYear() + 1 : now.getFullYear();
+  const opts = [];
+  for (let y = currentFy; y >= currentFy - 4; y--) {
+    opts.push(`<option value="${y}">FY${y - 1}-${String(y).slice(2)} (1 Jul ${y - 1} → 30 Jun ${y})</option>`);
+  }
+  select.innerHTML = opts.join('');
+  document.getElementById('taxModal').classList.add('active');
+}
+
+async function generateTaxReport() {
+  const url = getWorkerUrl();
+  const fy = Number(document.getElementById('taxFy').value);
+  const snap = activeSnapshot();
+  if (!snap?.txs) { alert('Refresh portfolio first.'); return; }
+  const trades = snap.txs.filter(t => t.kind === 'trade').map(t => ({
+    symbol: t.symbol, direction: t.direction, amount: t.amount,
+    price: t.price, audPrice: t.chain === 'coinspot' ? t.price : null,
+    timestamp: t.timestamp, chain: t.chain,
+  }));
+  document.getElementById('taxResult').innerHTML = '<div class="chat-thinking"><span class="spinner"></span> calculating...</div>';
+  try {
+    const r = await fetch(`${url}/tax/cgt`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ trades, usdtAud: snap.usdtAud, financialYear: fy }) });
+    const data = await r.json();
+    if (data.error) { document.getElementById('taxResult').innerHTML = `<div class="empty">⚠ ${escapeHtml(data.error)}</div>`; return; }
+    const s = data.summary;
+    let html = `<div class="coin-stats">
+      <div class="stat"><div class="stat-label">Period</div><div class="stat-value">${escapeHtml(data.financialYear)}</div></div>
+      <div class="stat"><div class="stat-label">Disposals</div><div class="stat-value">${s.eventCount}</div></div>
+      <div class="stat"><div class="stat-label">Proceeds</div><div class="stat-value">${fmtAUD(s.totalProceedsAud)}</div></div>
+      <div class="stat"><div class="stat-label">Cost Base</div><div class="stat-value">${fmtAUD(s.totalCostBaseAud)}</div></div>
+      <div class="stat"><div class="stat-label">Raw Gain</div><div class="stat-value ${s.totalGainRawAud >= 0 ? 'up' : 'down'}">${fmtAUDSigned(s.totalGainRawAud)}</div></div>
+      <div class="stat"><div class="stat-label">Short-term Gain</div><div class="stat-value">${fmtAUDSigned(s.shortTermGainAud)}</div></div>
+      <div class="stat"><div class="stat-label">Long-term Gain (full)</div><div class="stat-value">${fmtAUDSigned(s.longTermGainAud)}</div></div>
+      <div class="stat"><div class="stat-label">After 50% Discount</div><div class="stat-value">${fmtAUDSigned(s.longTermDiscountedAud)}</div></div>
+      <div class="stat"><div class="stat-label">Total Taxable</div><div class="stat-value ${s.totalTaxableGainAud >= 0 ? 'up' : 'down'}">${fmtAUDSigned(s.totalTaxableGainAud)}</div></div>
+    </div>`;
+    if (data.events.length) {
+      html += `<div class="tp-section"><div class="tp-title">📋 Disposal Events (${data.events.length})</div><div class="tx-list" style="max-height:260px">`;
+      for (const e of data.events) {
+        const gain = Number(e.gainAud);
+        html += `<div class="tx-item"><div class="tx-left"><div class="tx-icon ${gain >= 0 ? 'buy' : 'sell'}">${e.symbol.slice(0,1)}</div>
+          <div><div class="tx-title">${escapeHtml(e.symbol)} · ${e.disposalDate}</div>
+          <div class="tx-meta">qty ${fmtNum(e.qty)} · proceeds A$${e.proceedsAud} · cost A$${e.costBaseAud}</div></div></div>
+          <div class="tx-amount"><div class="tx-amount-val ${gain >= 0 ? 'up' : 'down'}">${fmtAUDSigned(gain)}</div><div class="tx-amount-sym">taxable A$${e.taxableGain}</div></div></div>`;
+      }
+      html += `</div></div>`;
+    } else {
+      html += `<div class="empty">No disposals in this financial year.</div>`;
+    }
+    html += `<div class="modal-actions" style="margin-top:18px"><button class="btn" onclick="downloadCsv(\`${data.csv.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`, 'cgt-${data.financialYear}.csv')">📥 Download CSV</button></div>`;
+    document.getElementById('taxResult').innerHTML = html;
+  } catch (e) {
+    document.getElementById('taxResult').innerHTML = `<div class="empty">⚠ ${escapeHtml(e.message)}</div>`;
+  }
+}
+
+window.downloadCsv = function(content, filename) {
+  const blob = new Blob([content], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+};
+
+// DCA tracker
+async function openDcaModal() {
+  const url = getWorkerUrl();
+  if (!url) { alert('Add MEXC source first.'); return; }
+  document.getElementById('dcaModal').classList.add('active');
+  const list = document.getElementById('dcaList');
+  list.innerHTML = '<div class="empty">loading…</div>';
+  try {
+    const r = await fetch(`${url}/dca`); const data = await r.json();
+    const dca = data.dca || [];
+    if (!dca.length) list.innerHTML = '<div class="empty">No DCA targets yet. Add one below.</div>';
+    else {
+      list.innerHTML = dca.map(d => {
+        const next = computeNextDca(d);
+        return `<div class="alert-item">
+          <div class="alert-info">
+            <div class="coin-icon ${d.symbol.toLowerCase()}">${escapeHtml(d.symbol.slice(0, 4))}</div>
+            <div>
+              <div><strong>${escapeHtml(d.symbol)}</strong> · A$${d.amountAud} ${d.frequency}</div>
+              ${d.label ? `<div class="tx-meta">${escapeHtml(d.label)}</div>` : ''}
+              <div class="tx-meta">Next due: ${next}</div>
+            </div>
+          </div>
+          <button class="remove-btn" onclick="deleteDca('${d.id}')">×</button>
+        </div>`;
+      }).join('');
+    }
+  } catch (e) { list.innerHTML = `<div class="empty">⚠ ${escapeHtml(e.message)}</div>`; }
+  // Coin select
+  const snap = activeSnapshot();
+  const opts = Object.values(snap?.holdings || {}).filter(h => h.coingeckoId).sort((a,b) => a.symbol.localeCompare(b.symbol));
+  document.getElementById('newDcaCoin').innerHTML = opts.map(h => `<option value="${escapeHtml(h.symbol)}">${escapeHtml(h.symbol)}</option>`).join('');
+}
+
+function computeNextDca(d) {
+  const last = d.lastTriggered || d.startDate || Date.now();
+  const ms = d.frequency === 'weekly' ? 7 * 86400000 : d.frequency === 'biweekly' ? 14 * 86400000 : 30 * 86400000;
+  const next = last + ms;
+  if (next < Date.now()) return `⚠ overdue (${timeAgo(next)})`;
+  return new Date(next).toLocaleDateString('en-AU');
+}
+
+window.deleteDca = async function(id) {
+  const url = getWorkerUrl();
+  const r = await fetch(`${url}/dca`); const d = await r.json();
+  const dca = (d.dca || []).filter(x => x.id !== id);
+  await fetch(`${url}/dca`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dca }) });
+  openDcaModal();
+};
+
+async function saveNewDca() {
+  const url = getWorkerUrl();
+  const symbol = document.getElementById('newDcaCoin').value;
+  const amountAud = Number(document.getElementById('newDcaAmount').value);
+  const frequency = document.getElementById('newDcaFreq').value;
+  const label = document.getElementById('newDcaLabel').value.trim();
+  if (!symbol || !amountAud) { alert('Pick coin + enter amount'); return; }
+  const r = await fetch(`${url}/dca`); const d = await r.json();
+  const dca = d.dca || [];
+  dca.push({ id: 'd_' + Math.random().toString(36).slice(2, 9), symbol, amountAud, frequency, startDate: Date.now(), lastTriggered: null, label });
+  await fetch(`${url}/dca`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dca }) });
+  document.getElementById('newDcaAmount').value = ''; document.getElementById('newDcaLabel').value = '';
+  openDcaModal();
+}
+
+// Auto-refresh
+function setupAutoRefresh() {
+  if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+  const min = state.settings.autoRefreshMin;
+  if (min > 0) autoRefreshTimer = setInterval(() => { if (!document.hidden) refreshAll(); }, min * 60 * 1000);
+}
+
+// PWA service worker registration
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+// ============================================================
+// Events
+// ============================================================
+document.getElementById('addWalletBtn').addEventListener('click', openAddWalletModal);
+document.getElementById('cancelBtn').addEventListener('click', closeAddWalletModal);
 document.getElementById('saveWalletBtn').addEventListener('click', addWallet);
 document.getElementById('refreshBtn').addEventListener('click', refreshAll);
 document.getElementById('chainSelect').addEventListener('change', updateModalForChain);
-document.getElementById('addWalletModal').addEventListener('click', (e) => { if (e.target.id === 'addWalletModal') closeModal(); });
+document.getElementById('addWalletModal').addEventListener('click', (e) => { if (e.target.id === 'addWalletModal') closeAddWalletModal(); });
 document.getElementById('addressInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') addWallet(); });
+document.getElementById('coinModal').addEventListener('click', (e) => { if (e.target.id === 'coinModal') document.getElementById('coinModal').classList.remove('active'); });
+document.getElementById('closeCoinBtn').addEventListener('click', () => document.getElementById('coinModal').classList.remove('active'));
+document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); activityFilter = tab.dataset.filter; renderTxs(); }));
+document.getElementById('briefBtn').addEventListener('click', () => sendToAi('Quick brief on my portfolio.', true));
+document.getElementById('clearChatBtn').addEventListener('click', () => { if (!confirm('Clear chat?')) return; chatHistory = []; saveChatHistory(); renderChat(); });
+document.getElementById('sendChatBtn').addEventListener('click', () => { const i = document.getElementById('chatInput'); const m = i.value.trim(); if (!m) return; i.value = ''; sendToAi(m); });
+document.getElementById('chatInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('sendChatBtn').click(); });
+document.querySelectorAll('.suggestion').forEach(s => s.addEventListener('click', () => sendToAi(s.dataset.prompt)));
 
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    activityFilter = tab.dataset.filter;
-    renderTxs();
-  });
-});
+// Settings + alerts
+document.getElementById('settingsBtn').addEventListener('click', openSettingsModal);
+document.getElementById('closeSettingsBtn').addEventListener('click', () => document.getElementById('settingsModal').classList.remove('active'));
+document.getElementById('settingsModal').addEventListener('click', (e) => { if (e.target.id === 'settingsModal') document.getElementById('settingsModal').classList.remove('active'); });
+document.getElementById('autoRefreshSelect').addEventListener('change', (e) => { state.settings.autoRefreshMin = Number(e.target.value); saveState(); setupAutoRefresh(); });
+document.getElementById('exportBtn').addEventListener('click', exportData);
+document.getElementById('importBtn').addEventListener('click', () => document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change', (e) => { if (e.target.files[0]) importData(e.target.files[0]); });
+document.getElementById('setupTgBtn').addEventListener('click', setupTelegramWebhook);
 
-// AI controls
-document.getElementById('briefBtn').addEventListener('click', () => sendToAi('Give me a quick brief on my portfolio.', true));
-document.getElementById('clearChatBtn').addEventListener('click', () => {
-  if (!confirm('Clear chat history?')) return;
-  chatHistory = []; saveChatHistory(); renderChat();
-});
-document.getElementById('sendChatBtn').addEventListener('click', () => {
-  const input = document.getElementById('chatInput');
-  const msg = input.value.trim();
-  if (!msg) return;
-  input.value = '';
-  sendToAi(msg);
-});
-document.getElementById('chatInput').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') document.getElementById('sendChatBtn').click();
-});
-document.querySelectorAll('.suggestion').forEach(s => {
-  s.addEventListener('click', () => sendToAi(s.dataset.prompt));
+document.getElementById('alertsBtn').addEventListener('click', openAlertsModal);
+document.getElementById('closeAlertsBtn').addEventListener('click', () => document.getElementById('alertsModal').classList.remove('active'));
+document.getElementById('alertsModal').addEventListener('click', (e) => { if (e.target.id === 'alertsModal') document.getElementById('alertsModal').classList.remove('active'); });
+document.getElementById('saveAlertBtn').addEventListener('click', saveNewAlert);
+
+// Tax
+document.getElementById('taxBtn').addEventListener('click', openTaxModal);
+document.getElementById('closeTaxBtn').addEventListener('click', () => document.getElementById('taxModal').classList.remove('active'));
+document.getElementById('taxModal').addEventListener('click', (e) => { if (e.target.id === 'taxModal') document.getElementById('taxModal').classList.remove('active'); });
+document.getElementById('generateTaxBtn').addEventListener('click', generateTaxReport);
+
+// DCA
+document.getElementById('dcaBtn').addEventListener('click', openDcaModal);
+document.getElementById('closeDcaBtn').addEventListener('click', () => document.getElementById('dcaModal').classList.remove('active'));
+document.getElementById('dcaModal').addEventListener('click', (e) => { if (e.target.id === 'dcaModal') document.getElementById('dcaModal').classList.remove('active'); });
+document.getElementById('saveDcaBtn').addEventListener('click', saveNewDca);
+
+// Add portfolio
+document.getElementById('cancelNewPortBtn').addEventListener('click', () => document.getElementById('newPortModal').classList.remove('active'));
+document.getElementById('saveNewPortBtn').addEventListener('click', () => {
+  const name = document.getElementById('newPortName').value.trim();
+  if (!name) return;
+  const id = 'p_' + Math.random().toString(36).slice(2, 8);
+  state.portfolios.push({ id, name, wallets: [] });
+  state.activeId = id;
+  saveState();
+  document.getElementById('newPortModal').classList.remove('active');
+  document.getElementById('newPortName').value = '';
+  render();
 });
 
 render();
-if (state.wallets.length && (!state.snapshot || Date.now() - (state.lastRefresh || 0) > 2 * 60 * 1000)) setTimeout(refreshAll, 200);
+setupAutoRefresh();
+if (activePortfolio().wallets.length && (!activeSnapshot() || Date.now() - (activeSnapshot()?.lastRefresh || 0) > 2 * 60 * 1000)) setTimeout(refreshAll, 200);
 </script>
 </body>
 </html>
